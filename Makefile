@@ -59,13 +59,11 @@ $(CK): $(LIBNAME) $(CKO)
 
 clean:
 	rm -rf *.o
+	rm -rf $(LIBNAME)
 
 fclean: clean
-	rm -rf $(OBJ)
-	rm -rf $(PSO)
-	rm -rf $(CKO)
 	rm -rf $(PS)
 	rm -rf $(CK)
-	rm -rf $(LIBNAME)
+
 
 re: fclean all
