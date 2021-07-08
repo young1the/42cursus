@@ -60,10 +60,11 @@ $(CK): $(LIBNAME) $(CKO)
 clean:
 	rm -rf *.o
 	rm -rf $(LIBNAME)
+	rm -rf /libft/*.o
+	rm -rf /gnl/*.o
 
 fclean: clean
 	rm -rf $(PS)
 	rm -rf $(CK)
-
 
 re: fclean all
