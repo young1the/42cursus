@@ -3,7 +3,9 @@ This project is meant to create graphically beautiful fractals.
 
 # usage
 USAGE : ./fractol mandelbrot
+
 USAGE : ./fractol julia
+
 USAGE : ./fractol burningship
 
 # mandelbrot
