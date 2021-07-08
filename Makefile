@@ -23,7 +23,7 @@ OBJ  = $(SRC:.c=.o)
 
 FLAGS = -Wall -Werror -Wextra
 
-LIBFLAGS = -framework OpenGL -framework AppKit -lm -lmlx
+LIBFLAGS = -framework OpenGL -framework AppKit -Lmlx -lmlx
 
 all: $(NAME)
 
