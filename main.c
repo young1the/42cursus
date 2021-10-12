@@ -1,6 +1,6 @@
 #include "philosopher.h"
 
-static void	check_arg(int argc, char** argv)
+static void	check_args(int argc, char** argv)
 {
 	int		i;
 	int		j;
@@ -39,10 +39,13 @@ static void	fill_info(char** argv, t_info* info)
 
 int	main(int argc, char** argv)
 {
-	t_info		info;
+	t_info			info;
+	pthread_mutex_t	mutex_lock;
+	pthread_t		tid;
 
-	check_arg(argc, argv);
+	check_args(argc, argv);
 	fill_info(argv, &info);
-	printf("numberofphilo = %d\ntimetodie = %d\ntimeeat = %d\ntimesleep = %d\nmusteat = %d\n", info.number_of_philosophers, info.time_to_die, info.time_to_eat, info.time_to_sleep, info.number_of_times_each_philosopher_must_eat);
+	pthread_mutex_init(&mutex_lock, NULL);
+	pthread_create(&tid, NULL, philosopher, (void*)&i);
 	printf("done\n");
 }
