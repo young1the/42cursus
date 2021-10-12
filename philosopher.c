@@ -3,9 +3,9 @@ void	*philosopher(void *param)
 	while(42)
 	{
 		pickup
-		eat
+		eating
 		putdown
-		sleep
-		think
+		sleeping
+		thinking
 	}
 }
