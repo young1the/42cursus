@@ -143,11 +143,10 @@ void	print_state(t_philosopher *philosopher)
 		s = "is thinking";
 	if (philosopher->state == TAKEN)
 		s = "has taken a fork";
-	philosopher->watch = get_time();
 	if (*(philosopher->alram_p) == OFF)
 	{
 		pthread_mutex_lock(philosopher->microphone_p);
-		printf ("%llu ms ", philosopher->watch - philosopher->clock);
+		printf ("%llu ms ", get_time() - philosopher->clock);
 		printf ("%d ", philosopher->id);
 		printf ("%s\n", s);
 		pthread_mutex_unlock(philosopher->microphone_p);
@@ -156,14 +155,17 @@ void	print_state(t_philosopher *philosopher)
 
 void	looking_watch(t_philosopher *philosopher)
 {
+	unsigned long long	start;
 	unsigned long long	target;
 	char				*s;
 
+	start = get_time();
 	if (philosopher->state == EATING)
 		target = philosopher->menu->time_to_eat;
 	if (philosopher->state == SLEEPING)
 		target = philosopher->menu->time_to_sleep;
-	while(get_time() - philosopher->watch < target);
+	while(get_time() < target + start)
+		usleep(1000);
 }
 
 void	eating(t_philosopher *philosopher)
@@ -181,13 +183,38 @@ void	eating(t_philosopher *philosopher)
 	print_state(philosopher);
 	philosopher->state = EATING;
 	print_state(philosopher);
+	looking_watch(philosopher);
 	philosopher->empty_plate++;
 	philosopher->life = get_time();
-	looking_watch(philosopher);
-	// pthread_mutex_lock(&(philosopher->philo_mutex));
-	// pthread_mutex_unlock(&(philosopher->philo_mutex));
 	pthread_mutex_unlock(&(philosopher->fork));
 	pthread_mutex_unlock(&(next_philo->fork));
+	// pthread_mutex_lock(&(philosopher->philo_mutex));
+	// pthread_mutex_unlock(&(philosopher->philo_mutex));
+}
+
+void	odd_eating(t_philosopher *philosopher)
+{
+	t_philosopher	*next_philo;
+	int				id;
+	int				pop;
+
+	id = philosopher->id;
+	pop = philosopher->menu->number_of_philosophers;
+	next_philo = &(philosopher->list[id % pop]);
+	pthread_mutex_lock(&(next_philo->fork));
+	pthread_mutex_lock(&(philosopher->fork));
+	philosopher->state = TAKEN;
+	print_state(philosopher);
+	philosopher->state = EATING;
+	print_state(philosopher);
+	philosopher->empty_plate++;
+	looking_watch(philosopher);
+	philosopher->life = get_time();
+	pthread_mutex_unlock(&(next_philo->fork));
+	pthread_mutex_unlock(&(philosopher->fork));
+
+	// pthread_mutex_lock(&(philosopher->philo_mutex));
+	// pthread_mutex_unlock(&(philosopher->philo_mutex));
 }
 
 void	sleeping(t_philosopher *philosopher)
@@ -211,8 +238,9 @@ void	*philo_routine(void *param)
 	while (*(philosopher->alram_p) == OFF)
 	{
 		if (philosopher->id % 2 == 0)
-			usleep(42);
-		eating(philosopher);
+			eating(philosopher);
+		else
+			odd_eating(philosopher);
 		sleeping(philosopher);
 		thinking(philosopher);
 	}
@@ -227,7 +255,7 @@ void	*doctor_stop(t_philosopher* philosopher)
 	*(philosopher->alram_p) = ON;
 	s = "died";
 	pthread_mutex_lock(philosopher->microphone_p);
-	printf ("%llu ms ", philosopher->watch - philosopher->clock);
+	printf ("%llu ms ", get_time() - philosopher->clock);
 	printf ("%d ", philosopher->id);
 	printf ("%s\n", s);
 	pthread_mutex_unlock(philosopher->microphone_p);
@@ -238,12 +266,26 @@ void	*chef_stop(t_philosopher* philosopher)
 {
 	char	*s;
 
-	*(philosopher->alram_p) = ON;
-	s = "chef : you guys have ate enought.. now please leave here\n";
 	pthread_mutex_lock(philosopher->microphone_p);
+	*(philosopher->alram_p) = ON;
+	s = "chef : you guys have ate enought.. now please leave here";
 	printf ("%s\n", s);
 	pthread_mutex_unlock(philosopher->microphone_p);
 	return (NULL);
+}
+
+int		philo_is_full(t_philosopher *philosopher)
+{
+	static int	i;
+
+	if (philosopher->menu->number_of_times_each_philosopher_must_eat < 0)
+		return (0);
+	if (philosopher[i].empty_plate >= philosopher->menu->number_of_times_each_philosopher_must_eat)
+		i++;
+	if (i == philosopher->menu->number_of_philosophers)
+		return (1);
+	else
+		return (0);		
 }
 
 void	*moniter_routine(void *param)
@@ -255,64 +297,59 @@ void	*moniter_routine(void *param)
 	philosopher = (t_philosopher*)param;
 	i = 0;
 	pop = philosopher->menu->number_of_philosophers;
-	while (*(philosopher->alram_p) == OFF)
+	while (42)
 	{
-		if (get_time() - philosopher[i % pop].life < philosopher->menu->time_to_die)
+		if (philo_is_full(philosopher))
+			return (chef_stop(philosopher));
+		if (i % pop == 0)
+			i = 0;
+		if (get_time() < philosopher[i % pop].life + philosopher->menu->time_to_die)
 			i++;
 		else
-			return (doctor_stop(philosopher));
+			return (doctor_stop(philosopher + i));
+		usleep(100);
 	}
 	return (NULL);
 }
 
-void	*chef_routine(void *param)
+int	error_thread_create(t_philosopher *philosopher, int id)
 {
-	t_philosopher	*philosopher;
-	int				i;
-	int				pop;
+	int		i;
 
-	philosopher = (t_philosopher*)param;
 	i = 0;
-	pop = philosopher->menu->number_of_philosophers;
-	while (*(philosopher->alram_p) == OFF)
-	{
-		if (philosopher[i].empty_plate > philosopher->menu->number_of_times_each_philosopher_must_eat)
-			i++;
-		printf("%d : %d\n", philosopher[i].id, philosopher[i].empty_plate);
-		if (i == philosopher->menu->number_of_philosophers)
-			return (chef_stop(philosopher));
-	}
-	return (NULL);
+	while (i++ < id)
+		pthread_detach(philosopher[i].tid);
+	printf("ERROR! FAILED THREAD CREATE!\n");
+	return (1);
 }
 
 int	feed_philos(t_philosopher* philosopher)
 {
 	int			i;
+	int			result;
 	pthread_t	moniter_tid;
 	pthread_t	chef_tid;
 
 	i = 0;
 	while (i < philosopher->menu->number_of_philosophers)
 	{
-		philosopher[i].watch = get_time();
 		philosopher[i].clock = get_time();
 		philosopher[i].life = get_time();
-		pthread_create(&(philosopher[i].tid), NULL, philo_routine, (void*)&(philosopher[i]));
+		result = pthread_create
+		(&(philosopher[i].tid), NULL, philo_routine, (void*)&(philosopher[i]));
+		if (result != 0)
+			return(error_thread_create(philosopher, i));
 		i++;
 	}
-	pthread_create(&(moniter_tid), NULL, moniter_routine, (void*)philosopher);
+	result = pthread_create
+	(&(moniter_tid), NULL, moniter_routine, (void*)philosopher);
+	if (result != 0)
+		return(error_thread_create(philosopher, philosopher->menu->number_of_philosophers));
 	pthread_join(moniter_tid, NULL);
-	pthread_create(&(chef_tid), NULL, chef_routine, (void*)philosopher);
-	pthread_join(chef_tid, NULL);
-	// while (42)
-	// {
-	// 	if (get_time() - philosopher[i % philosopher->menu->number_of_philosophers].life < philosopher->menu->time_to_die)
-	// 		i++;
-	// 	else
-	// 	{
-	// 		return (doctor_stop(philosopher));
-	// 	}
-	// }
+
+	// for (int i = 0; i < philosopher->menu->number_of_philosophers; i++)
+	// 	pthread_join(philosopher[i].tid, NULL);
+	return (0);
 }
 
 int	main(int argc, char** argv)
