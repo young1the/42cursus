@@ -4,16 +4,20 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
-
+#include <sys/time.h>
 #include <stdio.h>
 
-enum			e_state
+#define OFF 0
+#define ON 1
+
+typedef enum			e_state
 {
 	DEAD,
 	EATING,
 	SLEEPING,
-	THINKING
-};
+	THINKING,
+	TAKEN
+}						t_state;
 
 typedef struct		s_menu
 {
@@ -24,23 +28,22 @@ typedef struct		s_menu
 	int		number_of_times_each_philosopher_must_eat;
 }					t_menu;
 
-typedef struct		s_philosopher
+typedef struct				s_philosopher
 {
-	int				philosopher_id;
-	pthread_t		thread_id;
-	unsigned int	last_eattime;
-}					t_philosopher;
+	pthread_t				tid;
+	int						id;
+	t_state					state;
+	t_menu					*menu;
+	unsigned long long		watch;
+	unsigned long long		clock;
+	unsigned long long		life;
+	int						empty_plate;
+	char					*alram_p;
+	pthread_mutex_t			*microphone_p;
+	pthread_mutex_t			fork;
+	struct s_philosopher	*list;
+}							t_philosopher;
 
-typedef struct		s_restaurant
-{
-	t_menu			*menu;
-	t_philosopher	*philosopher;
-	pthread_mutex_t	doctor;
-	pthread_mutex_t	owner;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*microphone;
-	int				empty_plate;
-}					t_restaurant;
 // utils
 int		ft_atoi(char *str);
 void	ft_error(char *s);

@@ -2,11 +2,8 @@ NAME		=	philosopher
 
 UTILS_SRC	=	utils/ft_atoi.c\
 				utils/ft_isdigit.c\
-				utils/ft_putchar_fd.c\
-				utils/ft_strlen.c\
-				utils/ft_error.c\
 				utils/ft_itoa.c\
-				utils/ft_putstr_fd.c
+				utils/ft_strlen.c
 UTILS_OBJ	=	$(UTILS_SRC:.c=.o)
 
 SRC	=	main.c
