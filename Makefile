@@ -1,24 +1,31 @@
 NAME		=	philosopher
 
-UTILS_SRC	=	utils/ft_atoi.c\
-				utils/ft_isdigit.c\
-				utils/ft_itoa.c\
-				utils/ft_strlen.c
-UTILS_OBJ	=	$(UTILS_SRC:.c=.o)
+LIBFT_SRC	=	libft/ft_atoi.c\
+				libft/ft_isdigit.c\
+				libft/ft_itoa.c\
+				libft/ft_strlen.c
+LIBFT_OBJ	=	$(LIBFT_SRC:.c=.o)
 
-SRC	=	main.c
+SRC	=	srcs/main.c\
+		srcs/error_handling.c\
+		srcs/main.c\
+		srcs/moniter.c\
+		srcs/philo_doing.c\
+		srcs/philosopher.c\
+		srcs/utils.c
 OBJ	=	$(SRC:.c=.o)
+INC =	inc
 
 FLAGS		=	-Wall -Werror -Wextra -lpthread
 
 all: $(NAME)
 
-$(NAME) :	$(OBJ) $(UTILS_OBJ)
-			gcc $(FLAGS) $(OBJ) $(UTILS_OBJ) -o $(NAME)
+$(NAME) :	$(OBJ) $(LIBFT_OBJ)
+			gcc -I $(INC) $(FLAGS) $(OBJ) $(LIBFT_OBJ) -o $(NAME)
 
 clean :
-		rm -rf *.o
-		rm -rf utils/*.o
+		rm -rf srcs/*.o
+		rm -rf libft/*.o
 
 fclean : clean
 		rm -rf $(NAME)
