@@ -7,7 +7,7 @@ void	*doctor_stop(t_philosopher* philosopher)
 	*(philosopher->alram_p) = ON;
 	s = "died";
 	pthread_mutex_lock(philosopher->microphone_p);
-	printf ("%llu ms ", get_time() - philosopher->start);
+	printf ("%llu ms ", get_time() - philosopher->start_time);
 	printf ("%d ", philosopher->id);
 	printf ("%s\n", s);
 	pthread_mutex_unlock(philosopher->microphone_p);
@@ -20,7 +20,7 @@ void	*chef_stop(t_philosopher* philosopher)
 
 	pthread_mutex_lock(philosopher->microphone_p);
 	*(philosopher->alram_p) = ON;
-	s = "chef : you guys have ate enought.. now please leave here";
+	s = "All philosophers are satisfied..!";
 	printf ("%s\n", s);
 	pthread_mutex_unlock(philosopher->microphone_p);
 	return (NULL);
@@ -55,7 +55,7 @@ void	*moniter_routine(void *param)
 			return (chef_stop(philosopher));
 		if (i % pop == 0)
 			i = 0;
-		if (get_time() < philosopher[i % pop].life + philosopher->menu->time_to_die)
+		if (get_time() < philosopher[i % pop].life_time + philosopher->menu->time_to_die)
 			i++;
 		else
 			return (doctor_stop(philosopher + i));

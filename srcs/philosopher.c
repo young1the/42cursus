@@ -51,8 +51,8 @@ int	feed_philos(t_philosopher* philosopher)
 	i = 0;
 	while (i < philosopher->menu->number_of_philosophers)
 	{
-		philosopher[i].start = get_time();
-		philosopher[i].life = get_time();
+		philosopher[i].start_time = get_time();
+		philosopher[i].life_time = get_time();
 		result = pthread_create
 		(&(philosopher[i].tid), NULL, philo_routine, (void*)&(philosopher[i]));
 		if (result != 0)

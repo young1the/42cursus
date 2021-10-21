@@ -9,6 +9,7 @@
 
 #define OFF 0
 #define ON 1
+#define SLEEPTIME 42
 
 typedef enum				e_state
 {
@@ -34,8 +35,8 @@ typedef struct				s_philosopher
 	int						id;
 	t_state					state;
 	t_menu					*menu;
-	unsigned long long		start;
-	unsigned long long		life;
+	unsigned long long		start_time;
+	unsigned long long		life_time;
 	int						empty_plate;
 	char					*alram_p;
 	pthread_mutex_t			*microphone_p;
@@ -53,8 +54,8 @@ void				*chef_stop(t_philosopher* philosopher);
 int					philo_is_full(t_philosopher *philosopher);
 void				*moniter_routine(void *param);
 //// philo_doing.c
-void				take_fork(t_philosopher *philosopher);
-void				release_fork(t_philosopher *philosopher);
+void				taking_fork(t_philosopher *philosopher);
+void				releasing_fork(t_philosopher *philosopher);
 void				eating(t_philosopher *philosopher);
 void				sleeping(t_philosopher *philosopher);
 void				thinking(t_philosopher *philosopher);
@@ -68,7 +69,8 @@ void				*philo_routine(void *param);
 //// utils.c
 unsigned long long	get_time(void);
 void				print_state(t_philosopher *philosopher);
-void				looking_watch(t_philosopher *philosopher);
+void				spend_time(t_philosopher *philosopher);
+
 // libft
 int					ft_atoi(char *str);
 void				ft_error(char *s);

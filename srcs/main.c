@@ -72,6 +72,10 @@ int	main(int argc, char** argv)
 		return (3);
 	if (feed_philos(leader))
 		return (4);
+	for (int i=0; i < menu.number_of_philosophers; i++)
+	{
+		printf("%d : eat %d\n", leader[i].id, leader[i].empty_plate);
+	}
 	farewell_philos(leader, &microphone);
 	printf ("done\n");
 	return (0);

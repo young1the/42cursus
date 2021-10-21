@@ -26,14 +26,14 @@ void	print_state(t_philosopher *philosopher)
 	if (*(philosopher->alram_p) == OFF)
 	{
 		pthread_mutex_lock(philosopher->microphone_p);
-		printf ("%llu ms ", get_time() - philosopher->start);
+		printf ("%llu ms ", get_time() - philosopher->start_time);
 		printf ("%d ", philosopher->id);
 		printf ("%s\n", s);
 		pthread_mutex_unlock(philosopher->microphone_p);
 	}
 }
 
-void	looking_watch(t_philosopher *philosopher)
+void	spend_time(t_philosopher *philosopher)
 {
 	unsigned long long	start;
 	unsigned long long	time;
@@ -45,6 +45,6 @@ void	looking_watch(t_philosopher *philosopher)
 	if (philosopher->state == SLEEPING)
 		time = philosopher->menu->time_to_sleep;
 	while(get_time() < start + time)
-		usleep(1000);
+		usleep(SLEEPTIME);
 }
 
