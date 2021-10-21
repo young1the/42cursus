@@ -8,7 +8,6 @@ LIBFT_OBJ	=	$(LIBFT_SRC:.c=.o)
 
 SRC	=	srcs/main.c\
 		srcs/error_handling.c\
-		srcs/main.c\
 		srcs/moniter.c\
 		srcs/philo_doing.c\
 		srcs/philosopher.c\

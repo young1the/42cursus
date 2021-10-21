@@ -1,4 +1,4 @@
-#include "../philosopher.h"
+#include "../inc/philosopher.h"
 
 size_t	ft_strlen(const char *str)
 {

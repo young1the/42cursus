@@ -1,4 +1,4 @@
-#include "../philosopher.h"
+#include "../inc/philosopher.h"
 
 static char	*put_num(char *ret, long n, size_t size)
 {
