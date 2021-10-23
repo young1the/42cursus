@@ -67,7 +67,7 @@ int	feed_philos(t_philosopher *philosopher)
 	pthread_join(moniter_tid, NULL);
 	i = 0;
 	while (i++ < philosopher->menu->number_of_philosophers)
-		pthread_detach (philosopher[i].tid);
+		pthread_join(philosopher[i].tid, NULL);
 	return (0);
 }
 
