@@ -11,7 +11,7 @@
 # define ON 1
 # define SLEEPTIME 42
 
-typedef enum	e_state
+typedef enum e_state
 {
 	DEAD,
 	EATING,
@@ -20,7 +20,7 @@ typedef enum	e_state
 	TAKEN
 }	t_state;
 
-typedef struct	s_menu
+typedef struct s_menu
 {
 	int						number_of_philosophers;
 	int						time_to_die;
@@ -29,7 +29,7 @@ typedef struct	s_menu
 	int						number_of_times_each_philosopher_must_eat;
 }	t_menu;
 
-typedef struct				s_philosopher
+typedef struct s_philosopher
 {
 	pthread_t				tid;
 	int						id;
