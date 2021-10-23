@@ -57,7 +57,7 @@ void	*moniter_routine(void *param)
 		if (i % pop == 0)
 			i = 0;
 		if (get_time() < philosopher[i % pop].life_time
-		+ philosopher->menu->time_to_die)
+			+ philosopher->menu->time_to_die)
 			i++;
 		else
 			return (doctor_stop(philosopher + i));

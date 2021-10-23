@@ -1,6 +1,6 @@
 #include "../inc/philosopher.h"
 
-static int	check_args(int argc, char** argv)
+static int	check_args(int argc, char **argv)
 {
 	int		i;
 	int		j;
@@ -28,7 +28,7 @@ static int	check_args(int argc, char** argv)
 	return (0);
 }
 
-static void	fill_menu(char** argv, t_menu* menu)
+static void	fill_menu(char **argv, t_menu *menu)
 {
 	menu->number_of_philosophers = ft_atoi(argv[1]);
 	menu->time_to_die = ft_atoi(argv[2]);
@@ -36,10 +36,10 @@ static void	fill_menu(char** argv, t_menu* menu)
 	menu->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
 		menu->number_of_times_each_philosopher_must_eat
-		= ft_atoi(argv[5]);
+			= ft_atoi(argv[5]);
 	else
 		menu->number_of_times_each_philosopher_must_eat
-		= -1;
+			= -1;
 }
 
 static int	set_table(char *alram, pthread_mutex_t *microphone)
@@ -53,7 +53,7 @@ static int	set_table(char *alram, pthread_mutex_t *microphone)
 	return (0);
 }
 
-int	main(int argc, char** argv)
+int	main(int argc, char **argv)
 {
 	t_menu			menu;
 	char			alram;
@@ -72,10 +72,6 @@ int	main(int argc, char** argv)
 		return (3);
 	if (feed_philos(leader))
 		return (4);
-	for (int i=0; i < menu.number_of_philosophers; i++)
-	{
-		printf("%d : eat %d\n", leader[i].id, leader[i].empty_plate);
-	}
 	farewell_philos(leader, &microphone);
 	printf ("done\n");
 	return (0);

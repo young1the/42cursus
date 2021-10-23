@@ -2,7 +2,7 @@
 
 unsigned long long	get_time(void)
 {
-	struct timeval	time;
+	struct timeval		time;
 	unsigned long long	result;
 
 	result = 0;
@@ -44,7 +44,6 @@ void	spend_time(t_philosopher *philosopher)
 		time = philosopher->menu->time_to_eat;
 	if (philosopher->state == SLEEPING)
 		time = philosopher->menu->time_to_sleep;
-	while(get_time() < start + time)
-		usleep(SLEEPTIME);
+	while (get_time() < start + time)
+		usleep (SLEEPTIME);
 }
-

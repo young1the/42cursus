@@ -62,10 +62,10 @@ void				thinking(t_philosopher *philosopher);
 //// philosopher.c
 t_philosopher		*invite_philos(t_menu *menu);
 int					set_philos(t_menu *menu, t_philosopher *philosopher,
-					char *alram, pthread_mutex_t *microphone);
+						char *alram, pthread_mutex_t *microphone);
 int					feed_philos(t_philosopher *philosopher);
 void				farewell_philos(t_philosopher *philosopher,
-					pthread_mutex_t *microphone);
+						pthread_mutex_t *microphone);
 void				*philo_routine(void *param);
 //// utils.c
 unsigned long long	get_time(void);

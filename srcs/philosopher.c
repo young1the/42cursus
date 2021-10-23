@@ -54,15 +54,15 @@ int	feed_philos(t_philosopher *philosopher)
 		philosopher[i].start_time = get_time();
 		philosopher[i].life_time = get_time();
 		result = pthread_create (&(philosopher[i].tid),
-			NULL, philo_routine, (void*)&(philosopher[i]));
+				NULL, philo_routine, (void*)&(philosopher[i]));
 		if (result != 0)
-			return(error_thread_create(philosopher, i));
+			return (error_thread_create(philosopher, i));
 		i++;
 	}
 	result = pthread_create (&(moniter_tid),
-		NULL, moniter_routine, (void*)philosopher);
+			NULL, moniter_routine, (void*)philosopher);
 	if (result != 0)
-		return(error_thread_create
+		return (error_thread_create
 			(philosopher, philosopher->menu->number_of_philosophers));
 	pthread_join(moniter_tid, NULL);
 	return (0);
