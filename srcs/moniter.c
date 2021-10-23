@@ -1,6 +1,6 @@
 #include "../inc/philosopher.h"
 
-void	*doctor_stop(t_philosopher* philosopher)
+void	*doctor_stop(t_philosopher *philosopher)
 {
 	char	*s;
 
@@ -14,7 +14,7 @@ void	*doctor_stop(t_philosopher* philosopher)
 	return (NULL);
 }
 
-void	*chef_stop(t_philosopher* philosopher)
+void	*chef_stop(t_philosopher *philosopher)
 {
 	char	*s;
 
@@ -26,13 +26,14 @@ void	*chef_stop(t_philosopher* philosopher)
 	return (NULL);
 }
 
-int		philo_is_full(t_philosopher *philosopher)
+int	philo_is_full(t_philosopher *philosopher)
 {
 	static int	i;
 
 	if (philosopher->menu->number_of_times_each_philosopher_must_eat < 0)
 		return (0);
-	if (philosopher[i].empty_plate >= philosopher->menu->number_of_times_each_philosopher_must_eat)
+	if (philosopher[i].empty_plate
+		>= philosopher->menu->number_of_times_each_philosopher_must_eat)
 		i++;
 	if (i == philosopher->menu->number_of_philosophers)
 		return (1);
@@ -46,7 +47,7 @@ void	*moniter_routine(void *param)
 	int				i;
 	int				pop;
 
-	philosopher = (t_philosopher*)param;
+	philosopher = (t_philosopher *)param;
 	i = 0;
 	pop = philosopher->menu->number_of_philosophers;
 	while (42)
@@ -55,11 +56,12 @@ void	*moniter_routine(void *param)
 			return (chef_stop(philosopher));
 		if (i % pop == 0)
 			i = 0;
-		if (get_time() < philosopher[i % pop].life_time + philosopher->menu->time_to_die)
+		if (get_time() < philosopher[i % pop].life_time
+		+ philosopher->menu->time_to_die)
 			i++;
 		else
 			return (doctor_stop(philosopher + i));
-		usleep(100);
+		usleep(SLEEPTIME);
 	}
 	return (NULL);
 }

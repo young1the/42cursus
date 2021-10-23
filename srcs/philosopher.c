@@ -6,7 +6,7 @@ t_philosopher	*invite_philos(t_menu *menu)
 	t_philosopher	*leader;
 
 	population = menu->number_of_philosophers;
-	leader = (t_philosopher*)malloc(sizeof(t_philosopher) * population);
+	leader = (t_philosopher *)malloc(sizeof(t_philosopher) * population);
 	if (leader == NULL)
 	{
 		printf("ERROR! CANT MALLOC!\n");
@@ -41,7 +41,7 @@ char *alram, pthread_mutex_t *microphone)
 	return (0);
 }
 
-int	feed_philos(t_philosopher* philosopher)
+int	feed_philos(t_philosopher *philosopher)
 {
 	int			i;
 	int			result;
@@ -53,16 +53,17 @@ int	feed_philos(t_philosopher* philosopher)
 	{
 		philosopher[i].start_time = get_time();
 		philosopher[i].life_time = get_time();
-		result = pthread_create
-		(&(philosopher[i].tid), NULL, philo_routine, (void*)&(philosopher[i]));
+		result = pthread_create (&(philosopher[i].tid),
+			NULL, philo_routine, (void*)&(philosopher[i]));
 		if (result != 0)
 			return(error_thread_create(philosopher, i));
 		i++;
 	}
-	result = pthread_create
-	(&(moniter_tid), NULL, moniter_routine, (void*)philosopher);
+	result = pthread_create (&(moniter_tid),
+		NULL, moniter_routine, (void*)philosopher);
 	if (result != 0)
-		return(error_thread_create(philosopher, philosopher->menu->number_of_philosophers));
+		return(error_thread_create
+			(philosopher, philosopher->menu->number_of_philosophers));
 	pthread_join(moniter_tid, NULL);
 	return (0);
 }
@@ -84,7 +85,7 @@ void	*philo_routine(void *param)
 {
 	t_philosopher	*philosopher;
 
-	philosopher = (t_philosopher*)param;
+	philosopher = (t_philosopher *)param;
 	while (*(philosopher->alram_p) == OFF)
 	{
 		eating(philosopher);

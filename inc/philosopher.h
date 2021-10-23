@@ -42,15 +42,15 @@ typedef struct s_philosopher
 	pthread_mutex_t			*microphone_p;
 	pthread_mutex_t			fork;
 	struct s_philosopher	*list;
-}							t_philosopher;
+}	t_philosopher;
 
 // srcs
 //// error_handling.c
 int					error_mutex_init(t_philosopher *philosopher, int id);
 int					error_thread_create(t_philosopher *philosopher, int id);
 //// moniter.c
-void				*doctor_stop(t_philosopher* philosopher);
-void				*chef_stop(t_philosopher* philosopher);
+void				*doctor_stop(t_philosopher *philosopher);
+void				*chef_stop(t_philosopher *philosopher);
 int					philo_is_full(t_philosopher *philosopher);
 void				*moniter_routine(void *param);
 //// philo_doing.c
@@ -62,9 +62,10 @@ void				thinking(t_philosopher *philosopher);
 //// philosopher.c
 t_philosopher		*invite_philos(t_menu *menu);
 int					set_philos(t_menu *menu, t_philosopher *philosopher,
-char *alram, pthread_mutex_t *microphone);
-int					feed_philos(t_philosopher* philosopher);
-void				farewell_philos(t_philosopher *philosopher, pthread_mutex_t *microphone);
+					char *alram, pthread_mutex_t *microphone);
+int					feed_philos(t_philosopher *philosopher);
+void				farewell_philos(t_philosopher *philosopher,
+					pthread_mutex_t *microphone);
 void				*philo_routine(void *param);
 //// utils.c
 unsigned long long	get_time(void);
