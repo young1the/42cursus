@@ -1,33 +1,33 @@
 #ifndef PHILOSOPHER_H
 # define PHILOSOPHER_H
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <stdio.h>
 
-#define OFF 0
-#define ON 1
-#define SLEEPTIME 42
+# define OFF 0
+# define ON 1
+# define SLEEPTIME 42
 
-typedef enum				e_state
+typedef enum	e_state
 {
 	DEAD,
 	EATING,
 	SLEEPING,
 	THINKING,
 	TAKEN
-}							t_state;
+}	t_state;
 
-typedef struct				s_menu
+typedef struct	s_menu
 {
 	int						number_of_philosophers;
 	int						time_to_die;
 	int						time_to_eat;
 	int						time_to_sleep;
 	int						number_of_times_each_philosopher_must_eat;
-}							t_menu;
+}	t_menu;
 
 typedef struct				s_philosopher
 {
