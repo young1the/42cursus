@@ -18,8 +18,8 @@ void	*chef_stop(t_philosopher *philosopher)
 {
 	char	*s;
 
-	pthread_mutex_lock(philosopher->microphone_p);
 	*(philosopher->alram_p) = ON;
+	pthread_mutex_lock(philosopher->microphone_p);
 	s = "All philosophers are satisfied..!";
 	printf ("%s\n", s);
 	pthread_mutex_unlock(philosopher->microphone_p);
