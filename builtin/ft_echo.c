@@ -15,7 +15,8 @@ int	ft_echo(char **cmd)
 		while (cmd[i] != NULL)
 		{
 			printf("%s", cmd[i]);
-			printf(" ");
+			if (cmd[i + 1] != NULL)
+				printf(" ");
 			i++;
 		}
 	}

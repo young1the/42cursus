@@ -1,0 +1,65 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/young/Desktop/temp'
+cc -Wall -Werror -Wextra   -c -o builtin/ft_cd.o builtin/ft_cd.c
+cc -Wall -Werror -Wextra   -c -o builtin/ft_echo.o builtin/ft_echo.c
+cc -Wall -Werror -Wextra   -c -o builtin/ft_env.o builtin/ft_env.c
+cc -Wall -Werror -Wextra   -c -o builtin/ft_exit.o builtin/ft_exit.c
+cc -Wall -Werror -Wextra   -c -o builtin/ft_export.o builtin/ft_export.c
+cc -Wall -Werror -Wextra   -c -o builtin/ft_export_utils.o builtin/ft_export_utils.c
+cc -Wall -Werror -Wextra   -c -o builtin/ft_pwd.o builtin/ft_pwd.c
+cc -Wall -Werror -Wextra   -c -o builtin/ft_unset.o builtin/ft_unset.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_argsjoin.o libft/ft_argsjoin.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_atoi.o libft/ft_atoi.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_envcmp.o libft/ft_envcmp.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_isalnum.o libft/ft_isalnum.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_itoa.o libft/ft_itoa.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_putstr_fd.o libft/ft_putstr_fd.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_split.o libft/ft_split.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strcmp.o libft/ft_strcmp.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strdup.o libft/ft_strdup.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strjoin.o libft/ft_strjoin.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strlcpy.o libft/ft_strlcpy.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strlen.o libft/ft_strlen.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strncmp.o libft/ft_strncmp.c
+ 
+cc -Wall -Werror -Wextra   -c -o libft/ft_strndup.o libft/ft_strndup.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_error.o libft/ft_error.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_fatal.o libft/ft_fatal.c
+cc -Wall -Werror -Wextra   -c -o parse/list/add_list.o parse/list/add_list.c
+cc -Wall -Werror -Wextra   -c -o parse/list/clear_list.o parse/list/clear_list.c
+cc -Wall -Werror -Wextra   -c -o parse/list/last_list.o parse/list/last_list.c
+cc -Wall -Werror -Wextra   -c -o parse/list/new_list.o parse/list/new_list.c
+cc -Wall -Werror -Wextra   -c -o parse/list/push_list.o parse/list/push_list.c
+cc -Wall -Werror -Wextra   -c -o parse/list/size_list.o parse/list/size_list.c
+cc -Wall -Werror -Wextra   -c -o parse/token/add_token.o parse/token/add_token.c
+cc -Wall -Werror -Wextra   -c -o parse/token/clear_token.o parse/token/clear_token.c
+cc -Wall -Werror -Wextra   -c -o parse/token/last_token.o parse/token/last_token.c
+cc -Wall -Werror -Wextra   -c -o parse/token/new_token.o parse/token/new_token.c
+cc -Wall -Werror -Wextra   -c -o parse/token/pop_token.o parse/token/pop_token.c
+cc -Wall -Werror -Wextra   -c -o parse/token/push_token.o parse/token/push_token.c
+cc -Wall -Werror -Wextra   -c -o parse/token/size_token.o parse/token/size_token.c
+cc -Wall -Werror -Wextra   -c -o parse/token/token_to_string.o parse/token/token_to_string.c
+ 
+cc -Wall -Werror -Wextra   -c -o parse/make_list.o parse/make_list.c
+cc -Wall -Werror -Wextra   -c -o redirect/heredocument.o redirect/heredocument.c
+cc -Wall -Werror -Wextra   -c -o redirect/redirect.o redirect/redirect.c
+ 
+cc -Wall -Werror -Wextra   -c -o redirect/redirecting.o redirect/redirecting.c
+cc -Wall -Werror -Wextra   -c -o signal/signal.o signal/signal.c
+cc -Wall -Werror -Wextra   -c -o utils/exec_command.o utils/exec_command.c
+cc -Wall -Werror -Wextra   -c -o utils/filename.o utils/filename.c
+cc -Wall -Werror -Wextra   -c -o utils/find_dollar.o utils/find_dollar.c
+cc -Wall -Werror -Wextra   -c -o utils/find_key.o utils/find_key.c
+cc -Wall -Werror -Wextra   -c -o utils/find_pipe.o utils/find_pipe.c
+ 
+cc -Wall -Werror -Wextra   -c -o utils/find_value.o utils/find_value.c
+cc -Wall -Werror -Wextra   -c -o utils/free_argv.o utils/free_argv.c
+cc -Wall -Werror -Wextra   -c -o utils/get_command.o utils/get_command.c
+cc -Wall -Werror -Wextra   -c -o utils/manage_dollar.o utils/manage_dollar.c
+cc -Wall -Werror -Wextra   -c -o utils/make_valid_datas.o utils/make_valid_datas.c
+cc -Wall -Werror -Wextra   -c -o utils/minishell.o utils/minishell.c
+cc -Wall -Werror -Wextra   -c -o utils/what_command.o utils/what_command.c
+cc -Wall -Werror -Wextra   -c -o main.o main.c
+gcc  -Wall -Werror -Wextra builtin/ft_cd.o builtin/ft_echo.o builtin/ft_env.o builtin/ft_exit.o builtin/ft_export.o builtin/ft_export_utils.o builtin/ft_pwd.o builtin/ft_unset.o libft/ft_argsjoin.o libft/ft_atoi.o libft/ft_envcmp.o libft/ft_isalnum.o libft/ft_itoa.o libft/ft_putstr_fd.o libft/ft_split.o libft/ft_strcmp.o libft/ft_strdup.o libft/ft_strjoin.o libft/ft_strlcpy.o libft/ft_strlen.o libft/ft_strncmp.o libft/ft_strndup.o libft/ft_error.o libft/ft_fatal.o parse/list/add_list.o parse/list/clear_list.o parse/list/last_list.o parse/list/new_list.o parse/list/push_list.o parse/list/size_list.o parse/token/add_token.o parse/token/clear_token.o parse/token/last_token.o parse/token/new_token.o parse/token/pop_token.o parse/token/push_token.o parse/token/size_token.o parse/token/token_to_string.o parse/make_list.o redirect/heredocument.o redirect/redirect.o redirect/redirecting.o signal/signal.o utils/exec_command.o utils/filename.o utils/find_dollar.o utils/find_key.o utils/find_pipe.o utils/find_value.o utils/free_argv.o utils/get_command.o utils/manage_dollar.o utils/make_valid_datas.o utils/minishell.o utils/what_command.o main.o -Iinclude   -lreadline -o minishell
+make: Leaving directory `/Users/young/Desktop/temp'
+ 

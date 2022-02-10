@@ -14,17 +14,31 @@ int	is_absolute_path(char **cmd)
 	return (0);
 }
 
+static int check_signal(int status)
+{
+	if (status == 2)
+		return (130);
+	else if (status == 3)
+	{
+		printf("Quit : 3\n");
+		return (131);
+	}
+	else
+		return (0);
+}
+
 static int	exec_bin(char **cmd)
 {
 	char	*filename;
 	pid_t	pid;
-	int		i;
+	int		status;
 
-	i = 0;
+	status = 0;
 	if (is_absolute_path(cmd))
 		filename = ft_strdup(cmd[0]);
 	else
 		filename = get_filename(cmd);
+	signal(SIGINT , SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -34,11 +48,13 @@ static int	exec_bin(char **cmd)
 	}
 	else
 	{
-		waitpid(pid, &i, 0);
-		i = i >> 8;
+		waitpid(pid, &status, 0);
+		signal(SIGINT , sig_handler);
 		free(filename);
+		if (WIFSIGNALED(status))
+			return (check_signal(status));
 	}
-	return (i);
+	return (status >> 8);
 }
 
 static int	exec_builtin(char **cmd)

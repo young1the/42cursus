@@ -78,7 +78,7 @@ int		ft_exit(char **cmd);
 int		ft_export(char **cmd);
 char	**get_new_valid_datas(char **valid_datas);
 char	**env_key(char *data);
-int		replace_env(char **key);
+int		replace_env(char *valid_data, char **key);
 int		ft_pwd(void);
 int		ft_unset(char **cmd);
 
@@ -122,7 +122,6 @@ int		redirecting(t_list **list, int in_fd);
 int		event(void);
 void	sig_child(int sig);
 void	sig_handler(int sig);
-void	sig_quit(int sig);
 
 //utils
 char	*get_filename(char **cmd);

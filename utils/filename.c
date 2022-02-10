@@ -18,6 +18,8 @@ char	*get_filename(char **cmd)
 	int		i;
 
 	value = find_value(g_mini.envs, "PATH");
+	if (!ft_strcmp(value, ""))
+		return (NULL);
 	paths = ft_split(value, ':');
 	free (value);
 	command = ft_strjoin("/", cmd[0]);

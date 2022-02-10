@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-int	replace_env(char **key)
+int	replace_env(char *valid_data, char **key)
 {
 	int		i;
 
@@ -10,7 +10,7 @@ int	replace_env(char **key)
 		if (ft_envcmp(key[0], g_mini.envs[i]) == 0)
 		{
 			free(g_mini.envs[i]);
-			g_mini.envs[i] = ft_strdup(key[0]);
+			g_mini.envs[i] = ft_strdup(valid_data);
 			return (1);
 		}
 		i++;
@@ -53,7 +53,7 @@ char	**get_new_valid_datas(char **valid_datas)
 	while (valid_datas[i] != NULL)
 	{
 		key = env_key(valid_datas[i]);
-		if (!replace_env(key))
+		if (!replace_env(valid_datas[i], key))
 		{
 			free(key[0]);
 			key[0] = ft_strdup(valid_datas[i]);
