@@ -44,7 +44,7 @@ SRC		=	builtin/ft_cd.c\
 			redirect/redirecting.c\
 			signal/signal.c\
 			utils/exec_command.c\
-			utils/filename.c\
+			utils/get_filename.c\
 			utils/find_dollar.c\
 			utils/find_key.c\
 			utils/find_pipe.c\
