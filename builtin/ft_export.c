@@ -38,9 +38,7 @@ static void	print_export(char **envs)
 
 int	ft_export(char **cmd)
 {
-	char	**new;
 	char	**valid_datas;
-	char	**new_valid_datas;
 
 	if (cmd[1] == NULL)
 	{
@@ -50,11 +48,7 @@ int	ft_export(char **cmd)
 	valid_datas = make_valid_datas(cmd);
 	if (valid_datas == NULL)
 		return (1);
-	new_valid_datas = get_new_valid_datas(valid_datas);
-	new = ft_argsjoin(g_mini.envs, new_valid_datas);
+	get_new_valid_datas(valid_datas);
 	free_argv(valid_datas);
-	free_argv(new_valid_datas);
-	free_argv(g_mini.envs);
-	g_mini.envs = new;
 	return (0);
 }

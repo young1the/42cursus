@@ -77,7 +77,7 @@ int		ft_echo(char **cmd);
 int		ft_env(void);
 int		ft_exit(char **cmd);
 int		ft_export(char **cmd);
-char	**get_new_valid_datas(char **valid_datas);
+void	get_new_valid_datas(char **valid_datas);
 char	**env_key(char *data);
 int		replace_env(char *valid_data, char **key);
 int		ft_pwd(void);

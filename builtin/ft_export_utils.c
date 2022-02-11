@@ -40,16 +40,13 @@ char	**env_key(char *data)
 	return (key);
 }
 
-char	**get_new_valid_datas(char **valid_datas)
+void	get_new_valid_datas(char **valid_datas)
 {
 	char	**key;
-	char	**new;
 	char	**temp;
 	int		i;
 
 	i = 0;
-	new = (char **)malloc(sizeof(char *));
-	new[0] = NULL;
 	while (valid_datas[i] != NULL)
 	{
 		key = env_key(valid_datas[i]);
@@ -57,12 +54,12 @@ char	**get_new_valid_datas(char **valid_datas)
 		{
 			free(key[0]);
 			key[0] = ft_strdup(valid_datas[i]);
-			temp = new;
-			new = ft_argsjoin(new, key);
+			temp = g_mini.envs;
+			g_mini.envs = ft_argsjoin(g_mini.envs, key);
 			free_argv(temp);
 		}
 		free_argv(key);
 		i++;
 	}
-	return (new);
+	return ;
 }
