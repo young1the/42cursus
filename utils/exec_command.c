@@ -15,22 +15,9 @@ static int	check_signal(int status)
 
 static char	*filename_abscheck(char **cmd)
 {
-	int		i;
-	int		abs;
 	char	*filename;
 
-	i = 0;
-	abs = 0;
-	while (cmd[0][i] != '\0')
-	{
-		if (cmd[0][i] == '/')
-		{
-			abs = 1;
-			break ;
-		}
-		i++;
-	}
-	if (abs == 1)
+	if (is_absolute_path(cmd))
 		filename = ft_strdup(cmd[0]);
 	else
 		filename = get_filename(cmd);

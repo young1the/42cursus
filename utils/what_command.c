@@ -1,5 +1,19 @@
 #include "../include/minishell.h"
 
+int	is_absolute_path(char **cmd)
+{
+	int		i;
+
+	i = 0;
+	while (cmd[0][i] != '\0')
+	{
+		if (cmd[0][i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	is_builtin(char **cmd)
 {
 	if (!ft_strcmp("cd", cmd[0]))
