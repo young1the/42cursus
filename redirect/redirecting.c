@@ -17,7 +17,7 @@ static int	redirecting_util(t_list *list, int flag, int in_fd)
 
 	if (flag == S_RIGHT)
 	{
-		open_fd = open(list->str, O_RDWR | O_CREAT, 0777);
+		open_fd = open(list->str, O_RDWR | O_CREAT | O_TRUNC, 0777);
 		redirect(open_fd, STDOUT_FILENO);
 	}
 	if (flag == D_RIGHT)
