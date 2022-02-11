@@ -13,7 +13,7 @@ static int	check_signal(int status)
 		return (0);
 }
 
-static char	filename_abscheck(char **cmd)
+static char	*filename_abscheck(char **cmd)
 {
 	int		i;
 	int		abs;
