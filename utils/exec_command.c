@@ -1,20 +1,6 @@
 #include "../include/minishell.h"
 
-int	is_absolute_path(char **cmd)
-{
-	int		i;
-
-	i = 0;
-	while (cmd[0][i] != '\0')
-	{
-		if (cmd[0][i] == '/')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-static int check_signal(int status)
+static int	check_signal(int status)
 {
 	if (status == 2)
 		return (130);
@@ -27,6 +13,30 @@ static int check_signal(int status)
 		return (0);
 }
 
+static char	filename_abscheck(char **cmd)
+{
+	int		i;
+	int		abs;
+	char	*filename;
+
+	i = 0;
+	abs = 0;
+	while (cmd[0][i] != '\0')
+	{
+		if (cmd[0][i] == '/')
+		{
+			abs = 1;
+			break ;
+		}
+		i++;
+	}
+	if (abs == 1)
+		filename = ft_strdup(cmd[0]);
+	else
+		filename = get_filename(cmd);
+	return (filename);
+}
+
 static int	exec_bin(char **cmd)
 {
 	char	*filename;
@@ -34,11 +44,8 @@ static int	exec_bin(char **cmd)
 	int		status;
 
 	status = 0;
-	if (is_absolute_path(cmd))
-		filename = ft_strdup(cmd[0]);
-	else
-		filename = get_filename(cmd);
-	signal(SIGINT , SIG_IGN);
+	filename = filename_abscheck(cmd);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -49,7 +56,7 @@ static int	exec_bin(char **cmd)
 	else
 	{
 		waitpid(pid, &status, 0);
-		signal(SIGINT , sig_handler);
+		signal(SIGINT, sig_handler);
 		free(filename);
 		if (WIFSIGNALED(status))
 			return (check_signal(status));
