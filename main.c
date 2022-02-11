@@ -70,8 +70,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*buf;
 
-	if (argc > 2 || argv == NULL)
-		return (0);
+	(void)argc;
+	(void)argv;
 	copy_envp(envp);
 	while (42)
 	{

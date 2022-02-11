@@ -1,24 +1,5 @@
 #include "../include/minishell.h"
 
-static void	change_oldpwd(char *str)
-{
-	char	*oldpwd;
-	char	*temp;
-	int		i;
-
-	oldpwd = ft_strjoin("OLDPWD=", str);
-	i = 0;
-	while (g_mini.envs[i] != NULL)
-	{
-		if (!ft_envcmp("OLDPWD", g_mini.envs[i]))
-			break ;
-		i++;
-	}
-	temp = g_mini.envs[i];
-	g_mini.envs[i] = oldpwd;
-	free (temp);
-}
-
 static char	*get_dollar_home(char *cmd1)
 {
 	char	*dollar_home;
@@ -48,9 +29,10 @@ static char	*get_target(char **cmd)
 {
 	char	*target;
 
+	target = NULL;
 	if (cmd[1] == NULL)
-		return (NULL);
-	if (cmd[1][0] == '~')
+		target = find_value(g_mini.envs, "HOME");
+	else if (cmd[1][0] == '~')
 		target = find_home(cmd[1]);
 	else
 		target = ft_strdup(cmd[1]);
@@ -64,23 +46,22 @@ int	ft_cd(char **cmd)
 	char	*oldpwd;
 
 	target = get_target(cmd);
-	if (target == NULL)
-		return (0);
 	oldpwd = getcwd(NULL, 1024);
 	exit_num = chdir(target);
-	free(target);
 	if (exit_num != 0)
 	{
+		free(target);
 		free(oldpwd);
-		ft_error("minishell : cd : no such file or directory : ");
-		ft_error(cmd[1]);
-		ft_error("\n");
+		ft_cd_err(cmd);
 		return (NO_FILE);
 	}
 	else
 	{
-		change_oldpwd(oldpwd);
-		free (oldpwd);
+		change_cdenv(oldpwd, 0);
+		oldpwd = getcwd(NULL, 1024);
+		change_cdenv(oldpwd, 1);
+		free(target);
+		free(oldpwd);
 		return (0);
 	}
 }

@@ -1,6 +1,7 @@
 NAME	=	minishell
 
 SRC		=	builtin/ft_cd.c\
+			builtin/ft_cd_utils.c\
 			builtin/ft_echo.c\
 			builtin/ft_env.c\
 			builtin/ft_exit.c\
@@ -8,8 +9,8 @@ SRC		=	builtin/ft_cd.c\
 			builtin/ft_export_utils.c\
 			builtin/ft_pwd.c\
 			builtin/ft_unset.c\
+			builtin/ft_unset_utils.c\
 			libft/ft_argsjoin.c\
-			libft/ft_atoi.c\
 			libft/ft_envcmp.c\
 			libft/ft_isalnum.c\
 			libft/ft_itoa.c\

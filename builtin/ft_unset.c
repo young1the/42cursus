@@ -81,7 +81,7 @@ int	ft_unset(char **cmd)
 	int		*del_nums;
 	int		count;
 
-	valid_datas = make_valid_datas(cmd);
+	valid_datas = make_unsetvalid_datas(cmd);
 	if (valid_datas == NULL)
 		return (1);
 	count = unset_count(valid_datas, g_mini.envs);

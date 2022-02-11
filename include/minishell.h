@@ -52,7 +52,6 @@ typedef struct s_heads
 
 // libft
 char	**ft_argsjoin(char **args1, char **args2);
-int		ft_atoi(const char *str);
 int		ft_envcmp(const char *str, const char *env_str);
 int		ft_isalpha(char c);
 int		ft_isdigit(char c);
@@ -72,6 +71,8 @@ void	ft_fatal(char *str);
 
 //builtin
 int		ft_cd(char **cmd);
+void	ft_cd_err(char **cmd);
+void	change_cdenv(char *str, int flag);
 int		ft_echo(char **cmd);
 int		ft_env(void);
 int		ft_exit(char **cmd);
@@ -136,7 +137,9 @@ void	do_pipe(char *buf, int in_fd);
 void	minishell_main(char *buf, int in_fd);
 void	minishell(char *buf, int in_fd);
 int		exec_command(char **cmd);
+void	valid_data_error(char **cmd, int index);
 char	**make_valid_datas(char **cmd);
+char	**make_unsetvalid_datas(char **cmd);
 int		is_absolute_path(char **cmd);
 int		is_builtin(char **cmd);
 int		is_binary(char **cmd);

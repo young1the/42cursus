@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static void	valid_data_error(char **cmd, int index)
+void	valid_data_error(char **cmd, int index)
 {
 	ft_error("minishell : ");
 	ft_error(cmd[0]);
