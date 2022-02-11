@@ -3,7 +3,10 @@
 static int	check_signal(int status)
 {
 	if (status == 2)
+	{
+		printf("\n");
 		return (130);
+	}
 	else if (status == 3)
 	{
 		printf("Quit : 3\n");
