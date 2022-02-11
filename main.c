@@ -87,6 +87,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (*buf != '\0')
 			exec_minishell(buf);
+		unlink("temp");
 		free(buf);
 		buf = NULL;
 	}

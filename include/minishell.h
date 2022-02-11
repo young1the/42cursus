@@ -115,7 +115,7 @@ int		make_list(t_list *list_head, char *buf);
 # define D_LEFT 4
 
 // redirect
-int		heredocument(char *tag);
+int		heredocument(char *tag, int in_fd);
 int		redirect(int oldfd, int newfd);
 int		redirecting(t_list **list, int in_fd);
 

@@ -33,8 +33,9 @@ static int	redirecting_util(t_list *list, int flag, int in_fd)
 	}
 	if (flag == D_LEFT)
 	{
-		open_fd = heredocument(list->str);
-		redirect(open_fd, in_fd);
+		open_fd = heredocument(list->str, in_fd);
+		open_fd = open("temp", O_RDONLY, 0777);
+		redirect(open_fd, STDIN_FILENO);
 	}
 	return (open_fd);
 }
