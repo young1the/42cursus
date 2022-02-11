@@ -7,6 +7,7 @@ static void	redirecting_check(int open_fd, char *path)
 		ft_error("minishell : ");
 		ft_error(path);
 		ft_error(" : No such file or directory\n");
+		g_mini.exit = 1;
 	}
 	return ;
 }

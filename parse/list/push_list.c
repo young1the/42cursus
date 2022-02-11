@@ -2,8 +2,13 @@
 
 int	choose_type(int *prev_type, char *string)
 {
+	if (*prev_type == FILENAME)
+		*prev_type = 0;
 	if (*prev_type == REDIRECTION)
-		return (FILENAME);
+	{
+		if (*string != '>' || *string != '<')
+			return (FILENAME);
+	}
 	else
 	{
 		if (*string == '>' || *string == '<')
@@ -11,6 +16,7 @@ int	choose_type(int *prev_type, char *string)
 		else
 			return (COMMAND);
 	}
+	return (0);
 }
 
 void	push_list(t_list *list_head, t_token *token_head,
