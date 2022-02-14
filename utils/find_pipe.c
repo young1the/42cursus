@@ -3,14 +3,16 @@
 int	find_pipe(char *buf)
 {
 	int		i;
+	char	quote;
 
 	i = 0;
 	while (buf[i] != '\0')
 	{
-		if (buf[i] == '\"')
+		if (buf[i] == '\"' || buf[i] == '\'')
 		{
+			quote = buf[i];
 			i++;
-			while (buf[i] != '\"' && buf[i] != '\0')
+			while (buf[i] != quote && buf[i] != '\0')
 				i++;
 		}
 		else if (buf[i] == '|')
