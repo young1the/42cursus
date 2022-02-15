@@ -69,6 +69,7 @@ int	ft_exit(char **cmd)
 			exit (255);
 		}
 		exit_num %= 256;
+		printf("exit\n");
 		exit ((int)exit_num);
 	}
 	return (1);
