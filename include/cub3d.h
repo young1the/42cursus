@@ -11,13 +11,15 @@
 # define NULL_SPACE 9
 
 // Define value of Key
-# define X_EVENT_KEY_PRESS		2
-# define X_EVENT_KEY_EXIT		17
+# define X_EVENT_KEY_PRESS	2
+# define X_EVENT_KEY_EXIT	17
 # define KEY_ESC			53
-# define KEY_W			13
-# define KEY_A			0
-# define KEY_S			1
-# define KEY_D			2
+# define KEY_W				13
+# define KEY_A				0
+# define KEY_S				1
+# define KEY_D				2
+# define KEY_LEFT_ARROW		123
+# define KEY_RIGHT_ARROW	124
 
 typedef struct s_size
 {
@@ -35,7 +37,7 @@ typedef struct s_cub
 }				t_cub;
 
 t_cub	*get_cub();
-int	rgb_to_hex(char *str);
+int		rgb_to_hex(char *str);
 
 # include "../libft/libft.h"
 # include "../parsing/parsing.h"
