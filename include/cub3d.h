@@ -10,6 +10,15 @@
 # define FAILURE 1
 # define NULL_SPACE 9
 
+// Define value of Key
+# define X_EVENT_KEY_PRESS		2
+# define X_EVENT_KEY_EXIT		17
+# define KEY_ESC			53
+# define KEY_W			13
+# define KEY_A			0
+# define KEY_S			1
+# define KEY_D			2
+
 typedef struct s_size
 {
 	int		x_size;
@@ -18,6 +27,8 @@ typedef struct s_size
 
 typedef struct s_cub
 {
+	void		*mlx;
+	void		*win;
 	int			**map;
 	char		*config[6];
 	t_size		*size;
@@ -27,5 +38,6 @@ t_cub	*get_cub();
 
 # include "../libft/libft.h"
 # include "../parsing/parsing.h"
+# include "../mlx/mlx.h"
 
 #endif

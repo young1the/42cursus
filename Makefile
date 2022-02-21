@@ -1,5 +1,9 @@
 NAME	=	cub3d
 
+MLX_PATH = ./mlx/
+MLX	     = $(MLX_PATH)libmlx.a
+MLX		+= -lm -Imlx -framework OpenGL -framework AppKit
+
 LIBFT_SRC		=	libft/ft_memset.c\
 					libft/ft_strcmp.c\
 					libft/ft_strdup.c\
@@ -37,9 +41,11 @@ CFLAGS	=	-Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME) :	$(OBJ)
-			gcc $(CFLAGS) $(OBJ) -I$(INC) -o $(NAME)
+			make -C ./mlx
+			gcc $(CFLAGS) $(MLX) $(OBJ) -I$(INC) -o $(NAME)
 
 clean :
+		make clean -C ./mlx
 		rm -rf $(OBJ)
 
 fclean : clean

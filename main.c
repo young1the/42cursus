@@ -17,8 +17,43 @@ int	arg_check(int argc, char **argv)
 	return (-1);
 }
 
+int	deal_key(int key_code, t_cub *game)
+{
+	(void)game;
+	if (key_code == KEY_ESC)
+	{
+		printf("KEY_PRESS");
+		exit(0);
+	}
+	return (0);
+}
+
+int				process_close(void)
+{
+	printf("KEY_EXIT");
+	exit(0);
+}
+
+int main_loop(t_cub *game)
+{
+	(void)game;
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
+	t_cub *game;
 	arg_check(argc, argv);
 	parsing(argv[1]);
+
+	// init
+	game = get_cub();
+	game->mlx = mlx_init();
+	game->win = mlx_new_window(game->mlx, 500, 500, "./cub3d");
+
+	// loop
+	mlx_hook(game->win, X_EVENT_KEY_PRESS, 0, &deal_key, &game);
+	mlx_hook(game->win, X_EVENT_KEY_EXIT, 0, &process_close, &game);
+	mlx_loop_hook(game->mlx, &main_loop, &game);
+	mlx_loop(game->mlx);
 }
