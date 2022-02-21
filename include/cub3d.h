@@ -9,6 +9,9 @@
 # define SUCCESS 0
 # define FAILURE 1
 # define NULL_SPACE 9
+# define W_HEIGHT 500
+# define W_WIDTH 500
+# define FOV 60
 
 // Define value of Key
 # define X_EVENT_KEY_PRESS	2

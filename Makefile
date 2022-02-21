@@ -1,4 +1,4 @@
-NAME	=	cub3d
+NAME	=	cub3D
 
 MLX_PATH = ./mlx/
 MLX		= $(MLX_PATH)libmlx.a

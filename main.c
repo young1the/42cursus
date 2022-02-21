@@ -61,7 +61,7 @@ int	main(int argc, char **argv)
 	// init
 	game = get_cub();
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 500, 500, "./cub3d");
+	game->win = mlx_new_window(game->mlx, W_HEIGHT, W_WIDTH, "./cub3D");
 
 	// loop
 	mlx_hook(game->win, X_EVENT_KEY_PRESS, 0, &deal_key, &game);
