@@ -27,16 +27,21 @@ PARSING_SRC		=	parsing/parsing.c\
 					parsing/lexer/config/fill_config.c\
 					parsing/lexer/map/init_map.c\
 					parsing/lexer/map/fill_map.c\
+					parsing/lexer/map/find_player.c\
 					parsing/lexer/map/check_ud.c\
 					parsing/lexer/map/check_lr.c
 PARSING_OBJ		=	$(PARSING_SRC:.c=.o)
+
+ENGINE_SRC		=	engine/math/mathutils.c
+ENGINE_OBJ		=	$(ENGINE_SRC:.c=.o)
+
 
 MAIN			=	main.c\
 					rgb_to_hex.c
 MAIN_OBJ		=	$(MAIN:.c=.o)
 
 INC				=	include
-OBJ				=	$(LIBFT_OBJ) $(PARSING_OBJ) $(MAIN_OBJ)
+OBJ				=	$(LIBFT_OBJ) $(PARSING_OBJ) $(ENGINE_OBJ) $(MAIN_OBJ)
 
 CFLAGS	=	-Wall -Werror -Wextra
 

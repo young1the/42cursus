@@ -5,10 +5,10 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <math.h>
 
 # define SUCCESS 0
 # define FAILURE 1
-# define NULL_SPACE 9
 # define W_HEIGHT 500
 # define W_WIDTH 500
 # define FOV 60
@@ -24,11 +24,27 @@
 # define KEY_LEFT_ARROW		123
 # define KEY_RIGHT_ARROW	124
 
+// map element
+# define NULL_SPACE -1
+# define EMPTY 0
+# define WALL 1
+# define N 2
+# define S 3
+# define W 4
+# define E 5
+
 typedef struct s_size
 {
 	int		x_size;
 	int		y_size;
 }			t_size;
+
+typedef struct player
+{
+	double	x;
+	double	y;
+	double	th;
+}			t_player;
 
 typedef struct s_cub
 {
@@ -37,6 +53,7 @@ typedef struct s_cub
 	int			**map;
 	char		*config[6];
 	t_size		*size;
+	t_player	*player;
 }				t_cub;
 
 t_cub	*get_cub();
@@ -45,5 +62,6 @@ int		rgb_to_hex(char *str);
 # include "../libft/libft.h"
 # include "../parsing/parsing.h"
 # include "../mlx/mlx.h"
+# include "../engine/engine.h"
 
 #endif

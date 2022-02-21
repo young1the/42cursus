@@ -9,13 +9,13 @@ static int		get_map_element(char c)
 	else if (c == '1')
 		return (1);
 	else if (c == 'N')
-		return (2);
+		return (N);
 	else if (c == 'S')
-		return (3);
+		return (S);
 	else if (c == 'W')
-		return (4);
+		return (W);
 	else if (c == 'E')
-		return (5);
+		return (E);
 	else
 		return (NULL_SPACE);
 }

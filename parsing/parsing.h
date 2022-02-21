@@ -45,6 +45,7 @@ void	fill_config(char *str, int *flag);
 /* map */
 int		init_map(t_list *list_ptr);
 void	fill_map(t_cub *cub, t_list *list_ptr);
+int		find_player(t_cub *cub);
 int		check_up(t_cub *cub);
 int		check_down(t_cub *cub);
 int		check_left(t_cub *cub);

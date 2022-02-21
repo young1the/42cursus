@@ -47,6 +47,8 @@ static int	check_validmap(t_cub *cub)
 		return (FAILURE);
 	else if (check_right(cub) == FAILURE)
 		return (FAILURE);
+	else if (find_player(cub) == FAILURE)
+		return (FAILURE);
 	else
 		return (SUCCESS);
 }
@@ -61,5 +63,5 @@ int	init_map(t_list *list_ptr)
 	fill_map(cub, list_ptr);
 	if (check_validmap(cub) == FAILURE)
 		return (FAILURE);
-	return (0);
+	return (SUCCESS);
 }
