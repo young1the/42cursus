@@ -40,6 +40,8 @@ int	size_list(t_list *list_head);
 int			get_next_line(int fd, char **line);
 /* lexer */
 int	lexer_list(t_list *list_head);
+/* config */
+void	fill_config(char *str, int *flag);
 /* map */
 int		init_map(t_list *list_ptr);
 void	fill_map(t_cub *cub, t_list *list_ptr);

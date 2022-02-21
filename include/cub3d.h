@@ -35,6 +35,7 @@ typedef struct s_cub
 }				t_cub;
 
 t_cub	*get_cub();
+int	rgb_to_hex(char *str);
 
 # include "../libft/libft.h"
 # include "../parsing/parsing.h"

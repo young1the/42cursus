@@ -27,5 +27,24 @@ int	parsing(char *filename)
 		add_new_list(&list_head, line);
 	check = lexer_list(&list_head);
 	clear_list(&list_head);
+
+	/* map test start */
+	int x = 0;
+	int y = 0;
+	t_cub *cub = get_cub();
+	while(y<cub->size->y_size)
+	{
+		x = 0;
+		while(x<cub->size->x_size)
+		{
+			printf("[%d]", cub->map[x][y]);
+			x++;
+		}
+		printf("\n");
+		y++;
+	}
+	printf("%X\n", rgb_to_hex(cub->config[F]));
+	/* map test end */
+
 	return (check);
 }

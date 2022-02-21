@@ -23,13 +23,13 @@ static int	allocate_map(t_cub *cub)
 {
 	int		i;
 
-	cub->map = (int **)malloc(sizeof(int *) * cub->size->y_size);
+	cub->map = (int **)malloc(sizeof(int *) * cub->size->x_size);
 	if (cub->map == NULL)
 		return (FAILURE);
 	i = 0;
-	while (i < cub->size->y_size)
+	while (i < cub->size->x_size)
 	{
-		cub->map[i] = (int *)malloc(sizeof(int) * cub->size->x_size);
+		cub->map[i] = (int *)malloc(sizeof(int) * cub->size->y_size);
 		if (cub->map == NULL)
 			return (FAILURE);
 		i++;

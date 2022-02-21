@@ -34,9 +34,9 @@ int	check_up(t_cub *cub)
 		x = 0;
 		while (x < cub->size->x_size)
 		{
-			if (cub->map[y][x] == 1)
+			if (cub->map[x][y] == 1)
 				close[x] = 1;
-			else if (cub->map[y][x] == NULL_SPACE)
+			else if (cub->map[x][y] == NULL_SPACE)
 				close[x] = 0;
 			else
 			{
@@ -63,9 +63,9 @@ int	check_down(t_cub *cub)
 		x = cub->size->x_size - 1;
 		while (x >= 0)
 		{
-			if (cub->map[y][x] == 1)
+			if (cub->map[x][y] == 1)
 				close[x] = 1;
-			else if (cub->map[y][x] == NULL_SPACE)
+			else if (cub->map[x][y] == NULL_SPACE)
 				close[x] = 0;
 			else
 			{

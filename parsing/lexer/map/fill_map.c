@@ -20,35 +20,35 @@ static int		get_map_element(char c)
 		return (NULL_SPACE);
 }
 
-static void	fill_x_map(t_cub *cub, int map_index, char *str)
+static void	fill_x_map(t_cub *cub, int y, char *str)
 {
-	int		i;
+	int		x;
 	int		map_element;
-	
-	i = 0;
-	while (str[i] != '\0')
+
+	x = 0;
+	while (str[x] != '\0')
 	{
-		map_element = get_map_element(str[i]);
-		cub->map[map_index][i] = map_element;
-		i++;
+		map_element = get_map_element(str[x]);
+		cub->map[x][y] = map_element;
+		x++;
 	}
-	while (i < cub->size->x_size)
+	while (x < cub->size->x_size)
 	{
-		cub->map[map_index][i] = NULL_SPACE;
-		i++;
+		cub->map[x][y] = NULL_SPACE;
+		x++;
 	}
 	return ;
 }
 
 void	fill_map(t_cub *cub, t_list *list_ptr)
 {
-	int		i;
+	int		y;
 
-	i = 0;
-	while (i < cub->size->y_size)
+	y = 0;
+	while (y < cub->size->y_size)
 	{
-		fill_x_map(cub, i, list_ptr->str);
-		i++;
+		fill_x_map(cub, y, list_ptr->str);
+		y++;
 		list_ptr = list_ptr->next;
 	}
 	return ;
