@@ -11,4 +11,6 @@ double	rad_to_deg(double rad);
 int	get_sign(double d);
 double	get_distance(double x0, double y0, double x1, double y1);
 
+void	ray_casting();
+
 #endif

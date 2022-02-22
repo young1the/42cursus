@@ -163,6 +163,12 @@ void	draw_wall(t_wall *wall, int i)
 
 	(void)i;
 	wh = get_wall_height(wall);
+	wh/=10;
+	while (wh > 0)
+	{
+		printf("*");
+		wh--;
+	}
 }
 
 
@@ -175,12 +181,8 @@ void	ray_casting()
 	while (i < W_WIDTH)
 	{
 		cast_single_ray(&wall, i);
-
-		/* test */
-		printf("iter[%d] wh : ", i);
-		/* test */
-
 		draw_wall(&wall, i);
+		printf("\n");
 		i++;
 	}
 }
