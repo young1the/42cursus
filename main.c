@@ -64,7 +64,11 @@ int	main(int argc, char **argv)
 	game = get_cub();
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, W_HEIGHT, W_WIDTH, "./cub3D");
+	game->img.img = mlx_new_image(game->mlx, W_HEIGHT, W_WIDTH);
+	game->img.data = mlx_get_data_addr(game->img.img,
+	&(game->img.bpp), &(game->img.line_size), &(game->img.endian));
 
+	ray_casting();
 	// loop
 	mlx_hook(game->win, X_EVENT_KEY_PRESS, 0, &deal_key, &game);
 	mlx_hook(game->win, X_EVENT_KEY_EXIT, 0, &process_close, &game);

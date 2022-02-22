@@ -9,8 +9,8 @@
 
 # define SUCCESS 0
 # define FAILURE 1
-# define W_HEIGHT 500
-# define W_WIDTH 500
+# define W_WIDTH 720
+# define W_HEIGHT 480
 # define FOV 60
 
 // Define value of Key
@@ -46,10 +46,20 @@ typedef struct player
 	double	th;
 }			t_player;
 
+typedef struct				s_img
+{
+	void					*img;
+	char					*data;
+	int						bpp;
+	int						line_size;
+	int						endian;
+}							t_img;
+
 typedef struct s_cub
 {
 	void		*mlx;
 	void		*win;
+	t_img		img;
 	int			**map;
 	char		*config[6];
 	t_size		*size;

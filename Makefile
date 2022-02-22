@@ -32,7 +32,9 @@ PARSING_SRC		=	parsing/parsing.c\
 					parsing/lexer/map/check_lr.c
 PARSING_OBJ		=	$(PARSING_SRC:.c=.o)
 
-ENGINE_SRC		=	engine/math/mathutils.c
+ENGINE_SRC		=	engine/math/mathutils.c\
+					engine/math/mathutils2.c\
+					engine/deg_to_rad.c
 ENGINE_OBJ		=	$(ENGINE_SRC:.c=.o)
 
 
