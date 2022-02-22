@@ -11,7 +11,7 @@
 # define FAILURE 1
 # define W_WIDTH 720
 # define W_HEIGHT 480
-# define FOV 60
+# define FOV_H 60
 
 // Define value of Key
 # define X_EVENT_KEY_PRESS	2
@@ -55,6 +55,16 @@ typedef struct				s_img
 	int						endian;
 }							t_img;
 
+typedef struct	s_texture
+{
+	void		*no;
+	void		*so;
+	void		*we;
+	void		*ea;
+	int			te_height;
+	int			te_width;
+}				t_texture;
+
 typedef struct s_cub
 {
 	void		*mlx;
@@ -64,10 +74,19 @@ typedef struct s_cub
 	char		*config[6];
 	t_size		*size;
 	t_player	*player;
+	t_texture	textures;
 }				t_cub;
 
 t_cub	*get_cub();
 int		rgb_to_hex(char *str);
+
+// init
+void	game_init(t_cub *game);
+
+// loop and hook
+int				process_close(void);
+int				deal_key(int key_code, t_cub *game);
+int 			main_loop(t_cub *game);
 
 # include "../libft/libft.h"
 # include "../parsing/parsing.h"

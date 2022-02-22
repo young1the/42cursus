@@ -39,7 +39,10 @@ ENGINE_OBJ		=	$(ENGINE_SRC:.c=.o)
 
 
 MAIN			=	main.c\
+					init.c\
+					hook_loop.c\
 					rgb_to_hex.c
+					
 MAIN_OBJ		=	$(MAIN:.c=.o)
 
 INC				=	include

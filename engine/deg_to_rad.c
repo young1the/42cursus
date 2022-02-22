@@ -9,24 +9,24 @@ void	my_mlx_pixel_put(t_cub *cub, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-// static int	map_get_cell(int x, int y)
-// {
-// 	t_cub	*cub;
+int	map_get_cell(int x, int y)
+{
+	t_cub	*cub;
 
-// 	cub = get_cub();
-// 	if (x >= 0 && x < cub->size->x_size && y >=0 && y < cub->size->y_size)
-// 		return (cub->map[x][y]);
-// 	else
-// 		return (-1);
-// }
+	cub = get_cub();
+	if (x >= 0 && x < cub->size->x_size && y >=0 && y < cub->size->y_size)
+		return (cub->map[x][y]);
+	else
+		return (-1);
+}
 
 static double	get_angle_per_pixel()
 {
 	double	ret;
-	double	fov_r;
+	double	fov_h;
 
-	fov_r = deg_to_rad(FOV);
-	ret = fov_r / (W_WIDTH - 1);
+	fov_h = deg_to_rad(FOV_H);
+	ret = fov_h / (W_WIDTH - 1);
 	return (ret);
 }
 
