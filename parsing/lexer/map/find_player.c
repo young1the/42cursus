@@ -5,11 +5,11 @@ static int	init_player(t_cub *cub, int px, int py)
 	cub->player->x = (double)px;
 	cub->player->y = (double)py;
 	if (cub->map[px][py] == N)
-		cub->player->th = deg_to_rad(90.);
+		cub->player->th = deg_to_rad(270.);
 	if (cub->map[px][py] == W)
 		cub->player->th = deg_to_rad(180.);
 	if (cub->map[px][py] == S)
-		cub->player->th = deg_to_rad(270.);
+		cub->player->th = deg_to_rad(90.);
 	if (cub->map[px][py] == E)
 		cub->player->th = deg_to_rad(0.);
 	return (1);
