@@ -5,11 +5,15 @@
 
 #define EPS (1e-06) // 'IEEE 754','machine epsilon'
 
-int	is_zero(double d);
+/* math */
+int		is_zero(double d);
 double	deg_to_rad(double deg);
 double	rad_to_deg(double rad);
-int	get_sign(double d);
+int		get_sign(double d);
 double	get_distance(double x0, double y0, double x1, double y1);
+int		min(int a, int b);
+int		max(int a, int b);
+/* math */
 
 void	ray_casting();
 
