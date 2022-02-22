@@ -1,5 +1,13 @@
 #include "include/cub3d.h"
 
+int	is_collision(t_cub *game, double nx, double ny)
+{
+	if (game->map[(int)nx][(int)ny] == 1)
+		return (1);
+	else
+		return (0);
+}
+
 void	move_ws(t_cub *game, int flag)
 {
 	double	x_move;
@@ -7,7 +15,8 @@ void	move_ws(t_cub *game, int flag)
 
 	x_move = cos(game->player->th) * flag * MOVE_DIST;
 	y_move = sin(game->player->th) * flag * MOVE_DIST;
-	// crrash check
+	if (is_collision(game, game->player->x + x_move, game->player->y + y_move))
+		return ;
 	game->player->x += x_move;
 	game->player->y += y_move;
 }
@@ -19,7 +28,8 @@ void	move_ad(t_cub *game, int flag)
 
 	x_move = sin(game->player->th) * flag * MOVE_DIST;
 	y_move = cos(game->player->th) * flag * MOVE_DIST;
-	// crrash check
+	if (is_collision(game, game->player->x + x_move, game->player->y + y_move))
+		return ;
 	game->player->x -= x_move;
 	game->player->y += y_move;
 }
