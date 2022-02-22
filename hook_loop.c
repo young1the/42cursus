@@ -4,17 +4,17 @@ int	deal_key(int key_code, t_cub *game)
 {
 	(void)game;
 	if (key_code == KEY_W)
-		printf("KEY W\n");
+		game->player->y -= 0.5;
 	else if (key_code == KEY_A)
-		printf("KEY A\n");
+		game->player->x += 0.5;
 	else if (key_code == KEY_S)
-		printf("KEY S\n");
+		game->player->y += 0.5;
 	else if (key_code == KEY_D)
-		printf("KEY D\n");
+		game->player->x -= 0.5;
 	else if (key_code == KEY_LEFT_ARROW)
-		printf("KEY LEFT\n");
+		game->player->th += deg_to_rad(15);
 	else if (key_code == KEY_RIGHT_ARROW)
-		printf("KEY RIGHT\n");
+		game->player->th -= deg_to_rad(15);
 	else if (key_code == KEY_ESC)
 	{
 		printf("KEY_PRESS");
@@ -32,5 +32,6 @@ int				process_close(void)
 int main_loop(t_cub *game)
 {
 	(void)game;
+	ray_casting();
 	return (0);
 }

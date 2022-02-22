@@ -22,16 +22,16 @@ int	arg_check(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_cub *game;
+
 	arg_check(argc, argv);
 	parsing(argv[1]);
 
 	// init
 	game = get_cub();
 	game_init(game);
-	ray_casting();
 	// loop
-	mlx_hook(game->win, X_EVENT_KEY_PRESS, 0, &deal_key, &game);
-	mlx_hook(game->win, X_EVENT_KEY_EXIT, 0, &process_close, &game);
-	mlx_loop_hook(game->mlx, &main_loop, &game);
+	mlx_hook(game->win, X_EVENT_KEY_PRESS, 0, &deal_key, game);
+	mlx_hook(game->win, X_EVENT_KEY_EXIT, 0, &process_close, game);
+	mlx_loop_hook(game->mlx, &main_loop, game);
 	mlx_loop(game->mlx);
 }

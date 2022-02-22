@@ -3,8 +3,8 @@
 void    game_init(t_cub *game)
 {
     game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, W_HEIGHT, W_WIDTH, "./cub3D");
-	game->img.img = mlx_new_image(game->mlx, W_HEIGHT, W_WIDTH);
+	game->win = mlx_new_window(game->mlx, W_WIDTH, W_HEIGHT, "./cub3D");
+	game->img.img = mlx_new_image(game->mlx, W_WIDTH, W_HEIGHT);
 	game->img.data = mlx_get_data_addr(game->img.img,
 	&(game->img.bpp), &(game->img.line_size), &(game->img.endian));
 
