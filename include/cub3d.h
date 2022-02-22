@@ -11,7 +11,7 @@
 # define FAILURE 1
 # define W_WIDTH 720
 # define W_HEIGHT 480
-# define FOV 60
+# define FOV_H 60
 
 // Define value of Key
 # define X_EVENT_KEY_PRESS	2
