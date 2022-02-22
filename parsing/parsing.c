@@ -44,6 +44,7 @@ int	parsing(char *filename)
 		y++;
 	}
 	printf("%X\n", rgb_to_hex(cub->config[F]));
+	printf("player (%f, %f) look %f\n", cub->player->x, cub->player->y, cub->player->th);
 	/* map test end */
 
 	return (check);

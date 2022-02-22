@@ -4,8 +4,10 @@ t_cub	*get_cub()
 {
 	static t_cub	cub;
 	static t_size	size;
+	static t_player	player;
 
 	cub.size = &size;
+	cub.player = &player;
 	return (&cub);
 }
 
