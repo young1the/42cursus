@@ -23,7 +23,7 @@
 # define KEY_D				2
 # define KEY_LEFT_ARROW		123
 # define KEY_RIGHT_ARROW	124
-
+# define MOVE_DIST 0.5
 // map element
 # define NULL_SPACE -1
 # define EMPTY 0

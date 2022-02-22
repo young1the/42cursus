@@ -211,6 +211,9 @@ void	ray_casting()
 
 	x = 0;
 	cub = get_cub();
+	cub->img.img = mlx_new_image(cub->mlx, W_WIDTH, W_HEIGHT);
+	cub->img.data = mlx_get_data_addr(cub->img.img,
+	&(cub->img.bpp), &(cub->img.line_size), &(cub->img.endian));
 	while (x < W_WIDTH)
 	{
 		sup = cast_single_ray(&wall, x);
