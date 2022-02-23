@@ -2,9 +2,10 @@
 
 int	is_collision(t_cub *game, double nx, double ny)
 {
-	if ((int)nx < 0 || (int)nx > game->size->x_size - 1)
+	printf("%f,%f\n",nx,ny);
+	if (nx <= 1. || (int)nx > game->size->x_size - 1)
 		return (1);
-	if ((int)ny < 0 || (int)ny > game->size->y_size - 1)
+	if (ny <= 1. || (int)ny > game->size->y_size - 1)
 		return (1);
 	if (game->map[(int)nx][(int)ny] == 1)
 		return (1);
