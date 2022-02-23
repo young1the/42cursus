@@ -40,8 +40,6 @@ void	move_ad(t_cub *game, int flag)
 
 int	deal_key(int key_code, t_cub *game)
 {
-	(void)game;
-	mlx_destroy_image(game->mlx, game->img.img);
 	if (key_code == KEY_W)
 		move_ws(game, 1);
 	else if (key_code == KEY_A)
@@ -70,7 +68,14 @@ int				process_close(void)
 
 int main_loop(t_cub *game)
 {
-	(void)game;
+	static int	image;
+
+	if (image != 0)
+	{
+		mlx_destroy_image(game->mlx, game->img.img);
+		image = 0;
+	}
 	ray_casting();
+	image++;
 	return (0);
 }
