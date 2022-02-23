@@ -202,6 +202,29 @@ void	draw_wall(t_wall *wall, int x)
 	}
 }
 
+void	draw_floorceil(t_cub *cub)
+{
+	int		color;
+	int		x;
+	int		y;
+
+	y = 0;
+	while (y < W_HEIGHT)
+	{
+		if (y < W_HEIGHT/2)
+			color = rgb_to_hex(cub->config[C]);
+		else
+			color = rgb_to_hex(cub->config[F]);
+		x = 0;
+		while (x < W_WIDTH)
+		{
+			my_mlx_pixel_put(cub, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
 void	ray_casting()
 {
 	int		x;
@@ -214,6 +237,7 @@ void	ray_casting()
 	cub->img.img = mlx_new_image(cub->mlx, W_WIDTH, W_HEIGHT);
 	cub->img.data = mlx_get_data_addr(cub->img.img,
 	&(cub->img.bpp), &(cub->img.line_size), &(cub->img.endian));
+	draw_floorceil(cub);
 	while (x < W_WIDTH)
 	{
 		sup = cast_single_ray(&wall, x);
