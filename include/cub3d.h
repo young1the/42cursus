@@ -57,10 +57,10 @@ typedef struct				s_img
 
 typedef struct	s_texture
 {
-	void		*no;
-	void		*so;
-	void		*we;
-	void		*ea;
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
 	int			te_height;
 	int			te_width;
 }				t_texture;
