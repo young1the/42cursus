@@ -20,9 +20,15 @@ void	move_ws(t_cub *game, int flag)
 	x_move = cos(game->player->th) * flag * MOVE_DIST;
 	y_move = sin(game->player->th) * flag * MOVE_DIST;
 	if (is_collision(game, game->player->x + x_move, game->player->y + y_move))
+	{
+		printf("Contact wall with move_ws \n");
 		return ;
-	game->player->x += x_move;
-	game->player->y += y_move;
+	}
+	else
+	{
+		game->player->x += x_move;
+		game->player->y += y_move;
+	}
 }
 
 void	move_ad(t_cub *game, int flag)
@@ -32,10 +38,16 @@ void	move_ad(t_cub *game, int flag)
 
 	x_move = sin(game->player->th) * flag * MOVE_DIST;
 	y_move = cos(game->player->th) * flag * MOVE_DIST;
-	if (is_collision(game, game->player->x + x_move, game->player->y + y_move))
+	if (is_collision(game, game->player->x - x_move, game->player->y + y_move))
+	{
+		printf("Contact wall with move_ad \n");
 		return ;
-	game->player->x -= x_move;
-	game->player->y += y_move;
+	}
+	else
+	{
+		game->player->y += y_move;
+		game->player->x -= x_move;
+	}
 }
 
 int	deal_key(int key_code, t_cub *game)
