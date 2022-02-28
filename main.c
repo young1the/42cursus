@@ -28,13 +28,13 @@ static int	main_loop(t_cub *game)
 static int	xpm_init(t_cub *game)
 {
 	game->textures.no = mlx_xpm_file_to_image(game->mlx, game->config[NO],
-		&game->textures.te_width, &game->textures.te_height);
+			&game->textures.te_width, &game->textures.te_height);
 	game->textures.so = mlx_xpm_file_to_image(game->mlx, game->config[SO],
-		&game->textures.te_width, &game->textures.te_height);
+			&game->textures.te_width, &game->textures.te_height);
 	game->textures.we = mlx_xpm_file_to_image(game->mlx, game->config[WE],
-		&game->textures.te_width, &game->textures.te_height);
+			&game->textures.te_width, &game->textures.te_height);
 	game->textures.ea = mlx_xpm_file_to_image(game->mlx, game->config[EA],
-		&game->textures.te_width, &game->textures.te_height);
+			&game->textures.te_width, &game->textures.te_height);
 	if (game->textures.no == NULL || game->textures.so == NULL
 		|| game->textures.we == NULL || game->textures.ea == NULL)
 	{
