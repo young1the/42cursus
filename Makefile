@@ -34,14 +34,17 @@ PARSING_OBJ		=	$(PARSING_SRC:.c=.o)
 
 ENGINE_SRC		=	engine/math/mathutils.c\
 					engine/math/mathutils2.c\
+					engine/rgb_to_hex.c\
+					engine/draw_utils.c\
+					engine/draw.c\
+					engine/ray_casting_utils.c\
 					engine/ray_casting.c
 ENGINE_OBJ		=	$(ENGINE_SRC:.c=.o)
 
 
 MAIN			=	main.c\
 					init.c\
-					hook_loop.c\
-					rgb_to_hex.c
+					hook_loop.c
 
 MAIN_OBJ		=	$(MAIN:.c=.o)
 

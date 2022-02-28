@@ -1,44 +1,6 @@
-#include "../include/cub3d.h"
+#include "engine.h"
 
-void	my_mlx_pixel_put(t_cub *cub, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = cub->img.data +
-	(y * cub->img.line_size + x * (cub->img.bpp / 8));
-	*(unsigned int*)dst = color;
-}
-
-int	map_get_cell(int x, int y)
-{
-	t_cub	*cub;
-
-	cub = get_cub();
-	if (x >= 0 && x < cub->size->x_size && y >=0 && y < cub->size->y_size)
-		return (cub->map[x][y]);
-	else
-		return (-1);
-}
-
-static double	get_angle_per_pixel()
-{
-	double	ret;
-	double	fov_h;
-
-	fov_h = deg_to_rad(FOV_H);
-	ret = fov_h / (W_WIDTH - 1);
-	return (ret);
-}
-
-typedef struct s_wall
-{
-	double	x;
-	double	y;
-	int		dir;
-	double	dist;
-}			t_wall;
-
-int	hit(t_wall *wall, double x, double y, int dir)
+static int	hit(t_wall *wall, double x, double y, int dir)
 {
 	t_cub	*cub;
 
@@ -50,7 +12,7 @@ int	hit(t_wall *wall, double x, double y, int dir)
 	return (SUCCESS);
 }
 
-int	cast_y(t_cub *cub, t_wall *wall, double ray)
+static int	cast_y(t_cub *cub, t_wall *wall, double ray)
 {
 	int		step;
 	double	slope;
@@ -84,7 +46,7 @@ int	cast_y(t_cub *cub, t_wall *wall, double ray)
 	return (FAILURE);
 }
 
-int	cast_x(t_cub *cub, t_wall *wall, double ray)
+static int	cast_x(t_cub *cub, t_wall *wall, double ray)
 {
 	int		step;
 	double	slope;
@@ -118,15 +80,7 @@ int	cast_x(t_cub *cub, t_wall *wall, double ray)
 	return (FAILURE);
 }
 
-void	copy_wall(t_wall *origin, t_wall *copy)
-{
-	copy->x = origin->x;
-	copy->y = origin->y;
-	copy->dir = origin->dir;
-	copy->dist = origin->dist;
-}
-
-double	cast_single_ray(t_wall *wall, int x)
+static double	cast_single_ray(t_wall *wall, int x)
 {
 	t_cub	*cub;
 	double	ray;
@@ -152,112 +106,6 @@ double	cast_single_ray(t_wall *wall, int x)
 	else
 		copy_wall(&wall_x, wall);
 	return (ray);
-}
-
-int	get_wall_height(t_wall *wall)
-{
-	double	fov_h;
-	double	fov_v;
-	double	fov;
-
-	fov_h = deg_to_rad(FOV_H);
-	fov_v = fov_h*(double)W_WIDTH/(double)W_HEIGHT;
-	fov = 2.0 * wall->dist * tan(fov_v/2.0);
-	return ((int)(W_HEIGHT * 1 / fov));
-}
-
-int		get_pixel_color(char *texture, int x, int y)
-{
-	t_img			img;
-	unsigned char	bit;
-	char			*dst;
-	unsigned int	color;
-
-	bit = 0b11111111;
-	img.img = texture;
-	img.data = mlx_get_data_addr(img.img, &(img.bpp), &(img.line_size), &(img.endian));
-	color = 0;
-	dst = (img.data + (y * img.line_size + x * (img.bpp / 8)));
-	color += *dst & bit;
-	dst++;
-	color += (*dst & bit) << 8;
-	dst++;
-	color += (*dst & bit) << 16;
-	return (color);
-}
-
-int		get_color(t_wall *wall, int wh, double y)
-{
-	t_cub	*cub;
-	int		pixel_x;
-	int		pixel_y;
-
-	if (wall->dir == W)
-		pixel_x = 64 * (wall->y - floor(wall->y));
-	else if (wall->dir == E)
-		pixel_x =  64 * (ceil(wall->y) - (wall->y));
-	else if (wall->dir == N)
-		pixel_x = 64 * (ceil(wall->x) - (wall->x));
-	else
-		pixel_x = 64 * (wall->x - floor(wall->x));
-	pixel_y = 64 * y / wh;
-	cub = get_cub();
-	if (wall->dir == N)
-		return (get_pixel_color(cub->textures.no, pixel_x, pixel_y));
-	else if (wall->dir == S)
-		return (get_pixel_color(cub->textures.so, pixel_x, pixel_y));
-	else if (wall->dir == E)
-		return (get_pixel_color(cub->textures.ea, pixel_x, pixel_y));
-	else if (wall->dir == W)
-		return (get_pixel_color(cub->textures.we, pixel_x, pixel_y));
-	else
-		return (0);
-}
-
-void	draw_wall(t_wall *wall, int x)
-{
-	int		wh;
-	t_cub	*cub;
-	int		color;
-
-	cub = get_cub();
-	wh = get_wall_height(wall);
-
-	int		y_start;
-	int		y_end;
-	y_start = (W_HEIGHT - wh) / 2;
-	y_end = y_start + wh;
-	y_start = max(0, y_start);
-	y_end = min(W_HEIGHT - 1, y_end);
-	while (y_end >= y_start)
-	{
-		color = get_color(wall, wh, (y_end - y_start));
-		my_mlx_pixel_put(cub, x, y_end, color);
-		y_end--;
-	}
-}
-
-void	draw_floorceil(t_cub *cub)
-{
-	int		color;
-	int		x;
-	int		y;
-
-	y = 0;
-	while (y < W_HEIGHT)
-	{
-		if (y < W_HEIGHT/2)
-			color = rgb_to_hex(cub->config[C]);
-		else
-			color = rgb_to_hex(cub->config[F]);
-		x = 0;
-		while (x < W_WIDTH)
-		{
-			my_mlx_pixel_put(cub, x, y, color);
-			x++;
-		}
-		y++;
-	}
 }
 
 void	ray_casting()
