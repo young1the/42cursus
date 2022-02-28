@@ -14,7 +14,7 @@ t_cub	*get_cub()
 int	arg_check(int argc, char **argv)
 {
 	if (argc < 2)
-		printf("error\n");
+		printf("Error!\n");
 	(void)argv;
 	return (-1);
 }

@@ -14,7 +14,7 @@ double	get_distance(double x0, double y0, double x1, double y1);
 int		min(int a, int b);
 int		max(int a, int b);
 /* math */
-
+int		map_get_cell(int x, int y);
 void	ray_casting();
 
 #endif
