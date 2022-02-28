@@ -1,0 +1,39 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/young/Desktop/cub3d'
+cc -Wall -Werror -Wextra   -c -o libft/ft_atoi.o libft/ft_atoi.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_memset.o libft/ft_memset.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_split.o libft/ft_split.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strcmp.o libft/ft_strcmp.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strdup.o libft/ft_strdup.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strjoin.o libft/ft_strjoin.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strlcpy.o libft/ft_strlcpy.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strlen.o libft/ft_strlen.c
+cc -Wall -Werror -Wextra   -c -o libft/ft_strndup.o libft/ft_strndup.c
+cc -Wall -Werror -Wextra   -c -o parsing/parsing.o parsing/parsing.c
+cc -Wall -Werror -Wextra   -c -o parsing/get_next_line.o parsing/get_next_line.c
+cc -Wall -Werror -Wextra   -c -o parsing/list/add_list.o parsing/list/add_list.c
+cc -Wall -Werror -Wextra   -c -o parsing/list/clear_list.o parsing/list/clear_list.c
+cc -Wall -Werror -Wextra   -c -o parsing/list/last_list.o parsing/list/last_list.c
+cc -Wall -Werror -Wextra   -c -o parsing/list/new_list.o parsing/list/new_list.c
+cc -Wall -Werror -Wextra   -c -o parsing/list/size_list.o parsing/list/size_list.c
+cc -Wall -Werror -Wextra   -c -o parsing/lexer/lexer_list.o parsing/lexer/lexer_list.c
+cc -Wall -Werror -Wextra   -c -o parsing/lexer/config/fill_config.o parsing/lexer/config/fill_config.c
+cc -Wall -Werror -Wextra   -c -o parsing/lexer/map/init_map.o parsing/lexer/map/init_map.c
+cc -Wall -Werror -Wextra   -c -o parsing/lexer/map/fill_map.o parsing/lexer/map/fill_map.c
+cc -Wall -Werror -Wextra   -c -o parsing/lexer/map/find_player.o parsing/lexer/map/find_player.c
+cc -Wall -Werror -Wextra   -c -o parsing/lexer/map/check_ud.o parsing/lexer/map/check_ud.c
+cc -Wall -Werror -Wextra   -c -o parsing/lexer/map/check_lr.o parsing/lexer/map/check_lr.c
+cc -Wall -Werror -Wextra   -c -o engine/math/mathutils.o engine/math/mathutils.c
+cc -Wall -Werror -Wextra   -c -o engine/math/mathutils2.o engine/math/mathutils2.c
+cc -Wall -Werror -Wextra   -c -o engine/rgb_to_hex.o engine/rgb_to_hex.c
+cc -Wall -Werror -Wextra   -c -o engine/draw_utils.o engine/draw_utils.c
+cc -Wall -Werror -Wextra   -c -o engine/hook_loop.o engine/hook_loop.c
+cc -Wall -Werror -Wextra   -c -o engine/draw.o engine/draw.c
+cc -Wall -Werror -Wextra   -c -o engine/ray_casting_utils.o engine/ray_casting_utils.c
+cc -Wall -Werror -Wextra   -c -o engine/ray_casting.o engine/ray_casting.c
+cc -Wall -Werror -Wextra   -c -o main.o main.c
+make -C ./mlx
+gcc -Wall -Werror -Wextra ./mlx/libmlx.a -lm -Imlx -framework OpenGL -framework AppKit libft/ft_atoi.o libft/ft_memset.o libft/ft_split.o libft/ft_strcmp.o libft/ft_strdup.o libft/ft_strjoin.o libft/ft_strlcpy.o libft/ft_strlen.o libft/ft_strndup.o parsing/parsing.o parsing/get_next_line.o parsing/list/add_list.o parsing/list/clear_list.o parsing/list/last_list.o parsing/list/new_list.o parsing/list/size_list.o parsing/lexer/lexer_list.o parsing/lexer/config/fill_config.o parsing/lexer/map/init_map.o parsing/lexer/map/fill_map.o parsing/lexer/map/find_player.o parsing/lexer/map/check_ud.o parsing/lexer/map/check_lr.o engine/math/mathutils.o engine/math/mathutils2.o engine/rgb_to_hex.o engine/draw_utils.o engine/hook_loop.o engine/draw.o engine/ray_casting_utils.o engine/ray_casting.o main.o -Iinclude -o cub3D
+ 
+make: Leaving directory `/Users/young/Desktop/cub3d'
+ 
