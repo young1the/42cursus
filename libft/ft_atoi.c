@@ -8,7 +8,7 @@ int	ft_atoi(const char *str)
 	ret = 0;
 	sign = 1;
 	while (*str == ' ' || *str == '\n' || *str == '\t'
-			|| *str == '\v' || *str == '\f' || *str == '\r')
+		|| *str == '\v' || *str == '\f' || *str == '\r')
 		str++;
 	if (*str == '-' || *str == '+')
 	{
