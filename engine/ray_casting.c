@@ -225,6 +225,27 @@ void	draw_floorceil(t_cub *cub)
 	}
 }
 
+int		get_pixel_color(t_cub *cub, int type, int x, int y)
+{
+	t_img			img;
+	char			*dst;
+	unsigned int	color;
+	unsigned char	bit;
+
+	(void)type;
+	bit = 0b11111111;
+	img.img = cub->textures.no;
+	img.data = mlx_get_data_addr(img.img, &(img.bpp), &(img.line_size), &(img.endian));
+	color = 0;
+	dst = (img.data + (y * img.line_size + x * (img.bpp / 8)));
+	color += *dst & bit;
+	dst++;
+	color += (*dst & bit) << 8;
+	dst++;
+	color += (*dst & bit) << 16;
+	return (color);
+}
+
 void	ray_casting()
 {
 	int		x;
@@ -246,5 +267,12 @@ void	ray_casting()
 		x++;
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img.img, 0, 0);
+	get_pixel_color(cub, 1, 0,0);
+	get_pixel_color(cub, 1, 0,1);
+	get_pixel_color(cub, 1, 0,2);
+	get_pixel_color(cub, 1, 0,3);
+	get_pixel_color(cub, 1, 0,4);
+
+
 	return ;
 }
