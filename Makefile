@@ -4,6 +4,8 @@ MLX_PATH = ./mlx/
 MLX		= $(MLX_PATH)libmlx.a
 MLX		+= -lm -Imlx -framework OpenGL -framework AppKit
 
+CFLAGS	=	-Wall -Werror -Wextra
+
 LIBFT_SRC		=	libft/ft_atoi.c\
 					libft/ft_memset.c\
 					libft/ft_split.c\
@@ -14,7 +16,6 @@ LIBFT_SRC		=	libft/ft_atoi.c\
 					libft/ft_strlen.c\
 					libft/ft_strndup.c
 LIBFT_OBJ		=	$(LIBFT_SRC:.c=.o)
-
 
 PARSING_SRC		=	parsing/parsing.c\
 					parsing/get_next_line.c\
@@ -42,15 +43,11 @@ ENGINE_SRC		=	engine/math/mathutils.c\
 					engine/ray_casting.c
 ENGINE_OBJ		=	$(ENGINE_SRC:.c=.o)
 
-
 MAIN			=	main.c
-
 MAIN_OBJ		=	$(MAIN:.c=.o)
 
 INC				=	include
 OBJ				=	$(LIBFT_OBJ) $(PARSING_OBJ) $(ENGINE_OBJ) $(MAIN_OBJ)
-
-CFLAGS	=	-Wall -Werror -Wextra
 
 all: $(NAME)
 

@@ -7,6 +7,12 @@
 # include <stdlib.h>
 # include <math.h>
 
+# include "./cubstruct.h"
+# include "../libft/libft.h"
+# include "../parsing/parsing.h"
+# include "../mlx/mlx.h"
+# include "../engine/engine.h"
+
 # define SUCCESS 0
 # define FAILURE 1
 # define W_WIDTH 720
@@ -32,56 +38,5 @@
 # define S 3
 # define W 4
 # define E 5
-
-typedef struct s_size
-{
-	int		x_size;
-	int		y_size;
-}			t_size;
-
-typedef struct player
-{
-	double	x;
-	double	y;
-	double	th;
-}			t_player;
-
-typedef struct s_img
-{
-	void	*img;
-	char	*data;
-	int		bpp;
-	int		line_size;
-	int		endian;
-}			t_img;
-
-typedef struct s_texture
-{
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	int		te_height;
-	int		te_width;
-}			t_texture;
-
-typedef struct s_cub
-{
-	void		*mlx;
-	void		*win;
-	t_img		img;
-	int			**map;
-	char		*config[6];
-	t_size		*size;
-	t_player	*player;
-	t_texture	textures;
-}				t_cub;
-
-t_cub	*get_cub(void);
-
-# include "../libft/libft.h"
-# include "../parsing/parsing.h"
-# include "../mlx/mlx.h"
-# include "../engine/engine.h"
 
 #endif
