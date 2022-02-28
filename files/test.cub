@@ -1,4 +1,4 @@
-NO ./texture/wall_n.xpm
+NO ./texture/wall_n.xm
 SO ./texture/wall_s.xpm
 WE ./texture/wall_w.xpm
 EA ./texture/wall_e.xpm

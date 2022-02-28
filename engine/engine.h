@@ -37,4 +37,8 @@ double	get_angle_per_pixel();
 void	copy_wall(t_wall *origin, t_wall *copy);
 void	ray_casting();
 
+/* mlx */
+int	process_close(void);
+int	deal_key(int key_code, t_cub *game);
+
 #endif

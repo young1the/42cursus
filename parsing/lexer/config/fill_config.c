@@ -22,7 +22,6 @@ void	fill_config(char *str, int *flag)
 {
 	t_cub	*cub;
 	char	*iden;
-	char	*path;
 	int		i;
 	t_type	type;
 
@@ -33,15 +32,11 @@ void	fill_config(char *str, int *flag)
 	iden = ft_strndup(str, i);
 	while (str[i] == ' ')
 		i++;
-	path = ft_strdup(str + i);
 	type = check_identifier(iden);
 	free (iden);
 	if (type < 0)
-	{
-		free(path);
 		return ;
-	}
-	cub->config[type] = path;
+	cub->config[type] = ft_strdup(str + i);
 	flag[type] = ON;
 	return ;
 }

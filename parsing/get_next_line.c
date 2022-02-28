@@ -71,8 +71,8 @@ int			get_next_line(int fd, char **line)
 			get_merge(&files, buffer);
 		if (get_index(files) != -1)
 			break ;
-		free (buffer);
 	}
+	free (buffer);
 	if (bytes < 0)
 		return (-1);
 	return (get_return(line, &files, bytes));

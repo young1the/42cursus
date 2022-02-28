@@ -41,12 +41,16 @@ int	check_right(t_cub *cub)
 			else
 			{
 				if (check_lrside(cub, x, y, close) == FAILURE)
+				{
+					free(close);
 					return (FAILURE);
+				}
 			}
 			y--;
 		}
 		x--;
 	}
+	free(close);
 	return (SUCCESS);
 }
 
@@ -70,11 +74,15 @@ int	check_left(t_cub *cub)
 			else
 			{
 				if (check_lrside(cub, x, y, close) == FAILURE)
+				{
+					free(close);
 					return (FAILURE);
+				}
 			}
 			y++;
 		}
 		x++;
 	}
+	free(close);
 	return (SUCCESS);
 }

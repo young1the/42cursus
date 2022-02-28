@@ -17,15 +17,22 @@ int	parsing(char *filename)
 	t_list	list_head;
 	int		open_fd;
 	char	*line;
-	int		check;
 
 	list_head.next = NULL;
 	open_fd = open(filename, O_RDONLY, 0777);
 	if (open_fd < 0)
-		printf("%s is not exist\n", filename);
+	{
+		printf("Error! %s is not exist\n", filename);
+		return (FAILURE);
+	}
 	while (get_next_line(open_fd, &line) > 0)
+	{
 		add_new_list(&list_head, line);
-	check = lexer_list(&list_head);
+		free(line);
+	}
+	free(line);
+	if (lexer_list(&list_head) == FAILURE)
+		return (FAILURE);
 	clear_list(&list_head);
-	return (check);
+	return (SUCCESS);
 }

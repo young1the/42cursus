@@ -1,6 +1,6 @@
-#include "include/cub3d.h"
+#include "engine.h"
 
-int	is_collision(t_cub *game, double nx, double ny)
+static int	is_collision(t_cub *game, double nx, double ny)
 {
 	if (nx <= 1. || (int)nx > game->size->x_size - 1)
 		return (1);
@@ -12,7 +12,7 @@ int	is_collision(t_cub *game, double nx, double ny)
 		return (0);
 }
 
-void	move_ws(t_cub *game, int flag)
+static void	move_ws(t_cub *game, int flag)
 {
 	double	x_move;
 	double	y_move;
@@ -25,7 +25,7 @@ void	move_ws(t_cub *game, int flag)
 	game->player->y += y_move;
 }
 
-void	move_ad(t_cub *game, int flag)
+static void	move_ad(t_cub *game, int flag)
 {
 	double	x_move;
 	double	y_move;
@@ -54,28 +54,14 @@ int	deal_key(int key_code, t_cub *game)
 		game->player->th -= deg_to_rad(15);
 	else if (key_code == KEY_ESC)
 	{
-		printf("KEY_PRESS");
+		printf("Exit\n");
 		exit(0);
 	}
 	return (0);
 }
 
-int				process_close(void)
+int	process_close(void)
 {
-	printf("KEY_EXIT");
+	printf("Exit\n");
 	exit(0);
-}
-
-int main_loop(t_cub *game)
-{
-	static int	image;
-
-	if (image != 0)
-	{
-		mlx_destroy_image(game->mlx, game->img.img);
-		image = 0;
-	}
-	ray_casting();
-	image++;
-	return (0);
 }

@@ -78,15 +78,6 @@ typedef struct s_cub
 }				t_cub;
 
 t_cub	*get_cub();
-int		rgb_to_hex(char *str);
-
-// init
-void	game_init(t_cub *game);
-
-// loop and hook
-int				process_close(void);
-int				deal_key(int key_code, t_cub *game);
-int 			main_loop(t_cub *game);
 
 # include "../libft/libft.h"
 # include "../parsing/parsing.h"

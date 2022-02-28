@@ -41,12 +41,16 @@ int	check_up(t_cub *cub)
 			else
 			{
 				if (check_udside(cub, x, y, close) == FAILURE)
+				{
+					free(close);
 					return (FAILURE);
+				}
 			}
 			x++;
 		}
 		y++;
 	}
+	free(close);
 	return (SUCCESS);
 }
 
@@ -70,11 +74,15 @@ int	check_down(t_cub *cub)
 			else
 			{
 				if (check_udside(cub, x, y, close) == FAILURE)
+				{
+					free(close);
 					return (FAILURE);
+				}
 			}
 			x--;
 		}
 		y--;
 	}
+	free(close);
 	return (SUCCESS);
 }

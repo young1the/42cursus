@@ -30,15 +30,15 @@ int	lexer_list(t_list *list_head)
 	{
 		if (check_flags(flag) == 1)
 		{
-			printf("can't find config resources\n");
+			printf("Error! can't find config resources\n");
 			return (FAILURE);
 		}
-		printf("can't find map resources\n");
+		printf("Error! can't find map resources\n");
 		return (FAILURE);
 	}
 	if (init_map(list_ptr) == FAILURE)
 	{
-		printf("invalid map\n");
+		printf("Error! invalid map\n");
 		return (FAILURE);
 	}
 	return (SUCCESS);
