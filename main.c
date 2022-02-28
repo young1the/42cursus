@@ -1,6 +1,6 @@
 #include "include/cub3d.h"
 
-t_cub	*get_cub()
+t_cub	*get_cub(void)
 {
 	static t_cub	cub;
 	static t_size	size;
@@ -11,7 +11,7 @@ t_cub	*get_cub()
 	return (&cub);
 }
 
-static int main_loop(t_cub *game)
+static int	main_loop(t_cub *game)
 {
 	static int	image;
 
@@ -27,12 +27,16 @@ static int main_loop(t_cub *game)
 
 static int	xpm_init(t_cub *game)
 {
-	game->textures.no = mlx_xpm_file_to_image(game->mlx, game->config[NO], &game->textures.te_width, &game->textures.te_height);
-	game->textures.so = mlx_xpm_file_to_image(game->mlx, game->config[SO], &game->textures.te_width, &game->textures.te_height);
-	game->textures.we = mlx_xpm_file_to_image(game->mlx, game->config[WE], &game->textures.te_width, &game->textures.te_height);
-	game->textures.ea = mlx_xpm_file_to_image(game->mlx, game->config[EA], &game->textures.te_width, &game->textures.te_height);
+	game->textures.no = mlx_xpm_file_to_image(game->mlx,
+	game->config[NO], &game->textures.te_width, &game->textures.te_height);
+	game->textures.so = mlx_xpm_file_to_image(game->mlx,
+	game->config[SO], &game->textures.te_width, &game->textures.te_height);
+	game->textures.we = mlx_xpm_file_to_image(game->mlx,
+	game->config[WE], &game->textures.te_width, &game->textures.te_height);
+	game->textures.ea = mlx_xpm_file_to_image(game->mlx,
+	game->config[EA], &game->textures.te_width, &game->textures.te_height);
 	if (game->textures.no == NULL || game->textures.so == NULL
-	|| game->textures.we == NULL || game->textures.ea == NULL)
+		|| game->textures.we == NULL || game->textures.ea == NULL)
 	{
 		printf("Error! invalid texture file!\n");
 		return (FAILURE);
@@ -40,7 +44,7 @@ static int	xpm_init(t_cub *game)
 	return (SUCCESS);
 }
 
-static int	game_init()
+static int	game_init(void)
 {
 	t_cub	*game;
 
