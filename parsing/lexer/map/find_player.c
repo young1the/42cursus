@@ -2,8 +2,8 @@
 
 static int	init_player(t_cub *cub, int px, int py)
 {
-	cub->player->x = (double)px;
-	cub->player->y = (double)py;
+	cub->player->x = (double)px + 0.5;
+	cub->player->y = (double)py + 0.5;
 	if (cub->map[px][py] == N)
 		cub->player->th = deg_to_rad(270.);
 	if (cub->map[px][py] == W)
