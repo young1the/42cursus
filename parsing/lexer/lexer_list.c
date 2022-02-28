@@ -1,6 +1,6 @@
 #include "../parsing.h"
 
-static int		check_flags(int *flag)
+static int	check_flags(int *flag)
 {
 	int		i;
 
@@ -29,11 +29,9 @@ int	lexer_list(t_list *list_head)
 	if (list_ptr == NULL)
 	{
 		if (check_flags(flag) == 1)
-		{
 			printf("Error! can't find config resources\n");
-			return (FAILURE);
-		}
-		printf("Error! can't find map resources\n");
+		else
+			printf("Error! can't find map resources\n");
 		return (FAILURE);
 	}
 	if (init_map(list_ptr) == FAILURE)

@@ -35,11 +35,11 @@ void	add_list(t_list *list_head, t_list *new);
 void	clear_list(t_list *list_head);
 t_list	*last_list(t_list *list_head);
 t_list	*new_list(char *string);
-int	size_list(t_list *list_head);
+int		size_list(t_list *list_head);
 /* get_next_line */
-int			get_next_line(int fd, char **line);
+int		get_next_line(int fd, char **line);
 /* lexer */
-int	lexer_list(t_list *list_head);
+int		lexer_list(t_list *list_head);
 /* config */
 void	fill_config(char *str, int *flag);
 /* map */
@@ -51,6 +51,6 @@ int		check_down(t_cub *cub);
 int		check_left(t_cub *cub);
 int		check_right(t_cub *cub);
 /* parsing */
-int	parsing(char *filename);
+int		parsing(char *filename);
 
 #endif

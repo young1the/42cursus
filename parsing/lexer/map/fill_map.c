@@ -1,6 +1,6 @@
 #include "../../parsing.h"
 
-static int		get_map_element(char c)
+static int	get_map_element(char c)
 {
 	if (c == ' ')
 		return (NULL_SPACE);

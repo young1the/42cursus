@@ -21,18 +21,16 @@ int	find_player(t_cub *cub)
 	int		y;
 	int		check;
 
-	x = 0;
+	x = -1;
 	check = 0;
-	while (x < cub->size->x_size)
+	while (++x < cub->size->x_size)
 	{
-		y = 0;
-		while (y < cub->size->y_size)
+		y = -1;
+		while (++y < cub->size->y_size)
 		{
 			if (cub->map[x][y] > 1)
-				check += init_player(cub, x , y);
-			y++;
+				check += init_player(cub, x, y);
 		}
-		x++;
 	}
 	if (check != 1)
 	{

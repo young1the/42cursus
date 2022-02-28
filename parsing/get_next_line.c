@@ -53,7 +53,7 @@ static void	get_merge(char **files, char *buffer)
 	free(temp);
 }
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	*files;
 	char		*buffer;
@@ -62,7 +62,8 @@ int			get_next_line(int fd, char **line)
 	if (fd < 0 || !line)
 		return (-1);
 	buffer = (char *)malloc(sizeof(char) * (42 + 1));
-	while ((bytes = read(fd, buffer, 42)) > 0)
+	bytes = read(fd, buffer, 42);
+	while (bytes > 0)
 	{
 		buffer[bytes] = '\0';
 		if (!files)
