@@ -43,7 +43,7 @@ int	rgb_to_hex(char *str)
 
 	split = ft_split(str, ',');
 	i = 0;
-	while(split[i] != NULL)
+	while (split[i] != NULL)
 		i++;
 	if (i != 3)
 	{

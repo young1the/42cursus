@@ -1,81 +1,79 @@
 #include "engine.h"
 
-static int	hit(t_wall *wall, double x, double y, int dir)
+static int	get_t_cast(t_cub *cub, t_wall *wall, t_cast *cast, char type)
 {
-	t_cub	*cub;
-
-	cub = get_cub();
-	wall->x = x;
-	wall->y = y;
-	wall->dir = dir;
-	wall->dist = get_distance(cub->player->x, cub->player->y, x, y);
+	wall->dist = 0;
+	if (type == 'y')
+	{
+		cast->step = get_sign(sin(cast->ray));
+		if (cast->step == 0)
+			return (FAILURE);
+		cast->slope = 1. / tan(cast->ray);
+		if (cast->step > 0)
+			cast->y = floor(cub->player->y + 1);
+		else
+			cast->y = ceil(cub->player->y - 1);
+	}
+	else
+	{
+		cast->step = get_sign(cos(cast->ray));
+		if (cast->step == 0)
+			return (FAILURE);
+		cast->slope = tan(cast->ray);
+		if (cast->step > 0)
+			cast->x = floor(cub->player->x + 1);
+		else
+			cast->x = ceil(cub->player->x - 1);
+	}
 	return (SUCCESS);
 }
 
 static int	cast_y(t_cub *cub, t_wall *wall, double ray)
 {
-	int		step;
-	double	slope;
-	double	x;
-	double	y;
+	t_cast	cast;
 
-	wall->dist = 0;
-	step = get_sign(sin(ray));
-	if (step == 0)
+	cast.ray = ray;
+	if (get_t_cast(cub, wall, &cast, 'y') == FAILURE)
 		return (FAILURE);
-	slope = 1./tan(ray);
-	if (step > 0)
-		y = floor(cub->player->y + 1);
-	else
-		y = ceil(cub->player->y - 1);
-	while (y >= 0 && y < cub->size->y_size)
+	while (cast.y >= 0 && cast.y < cub->size->y_size)
 	{
-		x = slope * (y- cub->player->y) + cub->player->x;
-		if (step > 0)
+		cast.x = cast.slope * (cast.y - cub->player->y) + cub->player->x;
+		if (cast.step > 0)
 		{
-			if (map_get_cell((int)x, (int)y) == 1)
-				return (hit(wall, x, y, S));
+			if (map_get_cell((int)cast.x, (int)cast.y) == 1)
+				return (hit(wall, cast.x, cast.y, S));
 		}
 		else
 		{
-			if (map_get_cell((int)x, (int)(y - 1)) == 1)
-				return (hit(wall, x, y, N));
+			if (map_get_cell((int)cast.x, (int)(cast.y - 1)) == 1)
+				return (hit(wall, cast.x, cast.y, N));
 		}
-		y += step;
+		cast.y += cast.step;
 	}
 	return (FAILURE);
 }
 
 static int	cast_x(t_cub *cub, t_wall *wall, double ray)
 {
-	int		step;
-	double	slope;
-	double	x;
-	double	y;
+	t_cast	cast;
 
-	wall->dist = 0;
-	step = get_sign(cos(ray));
-	if (step == 0)
+	cast.ray = ray;
+	if (get_t_cast(cub, wall, &cast, 'x') == FAILURE)
 		return (FAILURE);
-	slope = tan(ray);
-	if (step > 0)
-		x = floor(cub->player->x + 1);
-	else
-		x = ceil(cub->player->x - 1);
-	while (x >= 0 && x < cub->size->x_size)
+	while (cast.x >= 0 && cast.x < cub->size->x_size)
 	{
-		y = slope * (x - cub->player->x) + cub->player->y;
-		if (step > 0)
+		cast.y = cast.slope * (cast.x - cub->player->x) + cub->player->y;
+		if (cast.step > 0)
 		{
-			if (map_get_cell((int)x, (int)y) == 1)
-				return (hit(wall, x, y, E));
+			if (map_get_cell((int)cast.x, (int)cast.y) == 1)
+				return (hit(wall, cast.x, cast.y, E));
 		}
 		else
 		{
-			if (map_get_cell((int)(x - 1), (int)y) == 1)
-				return (hit(wall, x, y, W));
+			if (map_get_cell((int)(cast.x - 1), (int)cast.y) == 1)
+				return (hit(wall, cast.x, cast.y, W));
 		}
-		x += step;
+		cast.x += cast.step;
 	}
 	return (FAILURE);
 }
@@ -108,7 +106,7 @@ static double	cast_single_ray(t_wall *wall, int x)
 	return (ray);
 }
 
-void	ray_casting()
+void	ray_casting(void)
 {
 	int		x;
 	double	sup;
@@ -119,7 +117,7 @@ void	ray_casting()
 	cub = get_cub();
 	cub->img.img = mlx_new_image(cub->mlx, W_WIDTH, W_HEIGHT);
 	cub->img.data = mlx_get_data_addr(cub->img.img,
-	&(cub->img.bpp), &(cub->img.line_size), &(cub->img.endian));
+			&(cub->img.bpp), &(cub->img.line_size), &(cub->img.endian));
 	draw_floorceil(cub);
 	while (x < W_WIDTH)
 	{

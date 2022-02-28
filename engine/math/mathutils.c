@@ -12,7 +12,7 @@ double	deg_to_rad(double deg)
 {
 	double	rad;
 
-	rad = (deg)*M_PI/180.0;
+	rad = (deg) * M_PI / 180.0;
 	return (rad);
 }
 
@@ -20,7 +20,7 @@ double	rad_to_deg(double rad)
 {
 	double	deg;
 
-	deg = (rad)*180.0/M_PI;
+	deg = (rad) * 180.0 / M_PI;
 	return (deg);
 }
 
@@ -42,6 +42,6 @@ double	get_distance(double x0, double y0, double x1, double y1)
 
 	dx = x0 - x1;
 	dy = y0 - y1;
-	ret = sqrt(dx*dx + dy*dy);
+	ret = sqrt(dx * dx + dy * dy);
 	return (ret);
 }

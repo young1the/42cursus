@@ -7,8 +7,8 @@ static int	get_wall_height(t_wall *wall)
 	double	fov;
 
 	fov_h = deg_to_rad(FOV_H);
-	fov_v = fov_h*(double)W_WIDTH/(double)W_HEIGHT;
-	fov = 2.0 * wall->dist * tan(fov_v/2.0);
+	fov_v = fov_h * (double)W_WIDTH / (double)W_HEIGHT;
+	fov = 2.0 * wall->dist * tan(fov_v / 2.0);
 	return ((int)(W_HEIGHT * 1 / fov));
 }
 
@@ -43,7 +43,7 @@ void	draw_floorceil(t_cub *cub)
 	y = 0;
 	while (y < W_HEIGHT)
 	{
-		if (y < W_HEIGHT/2)
+		if (y < W_HEIGHT / 2)
 			color = rgb_to_hex(cub->config[C]);
 		else
 			color = rgb_to_hex(cub->config[F]);

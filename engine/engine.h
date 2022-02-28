@@ -3,7 +3,7 @@
 
 # include "../include/cub3d.h"
 
-#define EPS (1e-06) // 'IEEE 754','machine epsilon'
+# define EPS (1e-06) // 'IEEE 754','machine epsilon'
 
 typedef struct s_wall
 {
@@ -13,6 +13,15 @@ typedef struct s_wall
 	double	dist;
 }			t_wall;
 
+typedef struct s_cast
+{
+	int		step;
+	double	slope;
+	double	x;
+	double	y;
+	double	ray;
+}		t_cast;
+
 /* math */
 int		is_zero(double d);
 double	deg_to_rad(double deg);
@@ -21,7 +30,6 @@ int		get_sign(double d);
 double	get_distance(double x0, double y0, double x1, double y1);
 int		min(int a, int b);
 int		max(int a, int b);
-/* math */
 
 /* draw */
 int		rgb_to_hex(char *str);
@@ -32,13 +40,14 @@ void	draw_floorceil(t_cub *cub);
 void	draw_wall(t_wall *wall, int x);
 
 /* raycasting */
+int		hit(t_wall *wall, double x, double y, int dir);
 int		map_get_cell(int x, int y);
-double	get_angle_per_pixel();
+double	get_angle_per_pixel(void);
 void	copy_wall(t_wall *origin, t_wall *copy);
-void	ray_casting();
+void	ray_casting(void);
 
 /* mlx */
-int	process_close(void);
-int	deal_key(int key_code, t_cub *game);
+int		process_close(void);
+int		deal_key(int key_code, t_cub *game);
 
 #endif

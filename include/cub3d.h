@@ -46,24 +46,24 @@ typedef struct player
 	double	th;
 }			t_player;
 
-typedef struct				s_img
+typedef struct s_img
 {
-	void					*img;
-	char					*data;
-	int						bpp;
-	int						line_size;
-	int						endian;
-}							t_img;
+	void	*img;
+	char	*data;
+	int		bpp;
+	int		line_size;
+	int		endian;
+}			t_img;
 
-typedef struct	s_texture
+typedef struct s_texture
 {
-	char		*no;
-	char		*so;
-	char		*we;
-	char		*ea;
-	int			te_height;
-	int			te_width;
-}				t_texture;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	int		te_height;
+	int		te_width;
+}			t_texture;
 
 typedef struct s_cub
 {
@@ -77,7 +77,7 @@ typedef struct s_cub
 	t_texture	textures;
 }				t_cub;
 
-t_cub	*get_cub();
+t_cub	*get_cub(void);
 
 # include "../libft/libft.h"
 # include "../parsing/parsing.h"
