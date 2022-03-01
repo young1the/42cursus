@@ -36,7 +36,7 @@ int	find_player(t_cub *cub)
 	{
 		if (check < 1)
 			ft_error("ERROR! no player\n");
-		else if (check > 2)
+		else if (check > 1)
 			ft_error("ERROR! too many players\n");
 		return (FAILURE);
 	}
