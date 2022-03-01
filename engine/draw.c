@@ -24,9 +24,7 @@ void	draw_wall(t_wall *wall, int x)
 	wh = get_wall_height(wall);
 	y_start = (W_HEIGHT - wh) / 2;
 	y_end = y_start + wh;
-	y_start = max(0, y_start);
-	y_end = min(W_HEIGHT - 1, y_end);
-	while (y_end >= y_start)
+	while (y_end >= y_start && y_end >= 0)
 	{
 		color = get_color(wall, wh, (y_end - y_start));
 		my_mlx_pixel_put(cub, x, y_end, color);
