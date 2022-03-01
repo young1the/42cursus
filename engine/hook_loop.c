@@ -54,7 +54,7 @@ int	deal_key(int key_code, t_cub *game)
 		game->player->th -= deg_to_rad(15);
 	else if (key_code == KEY_ESC)
 	{
-		printf("Exit\n");
+		ft_error("Exit\n");
 		exit(0);
 	}
 	return (0);
@@ -62,6 +62,6 @@ int	deal_key(int key_code, t_cub *game)
 
 int	process_close(void)
 {
-	printf("Exit\n");
+	ft_error("Exit\n");
 	exit(0);
 }

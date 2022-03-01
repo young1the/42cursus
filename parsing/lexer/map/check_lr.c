@@ -3,22 +3,13 @@
 static int	check_lrside(t_cub *cub, int x, int y, int *close)
 {
 	if (x == 0 || x + 1 == cub->size->x_size)
-	{
-		printf ("lr [%d, %d] is invalid element\n", x, y);
 		return (FAILURE);
-	}
 	if (y == 0 || y + 1 == cub->size->y_size)
-	{
-		printf ("lr [%d, %d] is invalid element\n", x, y);
 		return (FAILURE);
-	}
 	if (close[y - 1] && close[y] && close[y + 1])
 		return (SUCCESS);
 	else
-	{
-		printf ("lr [%d, %d] is invalid element\n", x, y);
 		return (FAILURE);
-	}
 }
 
 static int	check_util_y(t_cub *cub, int *close, int x, int y)

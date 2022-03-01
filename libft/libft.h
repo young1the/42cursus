@@ -12,5 +12,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(const char *str);
 char	*ft_strndup(const char *s1, int n);
+void	ft_error(char *str);
 
 #endif

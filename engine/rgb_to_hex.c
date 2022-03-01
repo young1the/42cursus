@@ -28,7 +28,7 @@ static int	get_hex(char **split)
 	b = ft_atoi(split[2]);
 	if (r > 255 || g > 255 || b > 255 || r < 0 || g < 0 || b < 0)
 	{
-		printf("Error! R,G,B colors in range [0,255]\n");
+		ft_error("Error! R,G,B colors in range [0,255]\n");
 		return (-1);
 	}
 	hex = (r << 16 | g << 8 | b);
@@ -47,7 +47,7 @@ int	rgb_to_hex(char *str)
 		i++;
 	if (i != 3)
 	{
-		printf("ERROR! information must be [R,G,B]\n");
+		ft_error("Error! information must be [R,G,B]\n");
 		free_argv(split);
 		return (-1);
 	}

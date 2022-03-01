@@ -10,6 +10,7 @@ LIBFT_SRC		=	libft/ft_atoi.c\
 					libft/ft_memset.c\
 					libft/ft_split.c\
 					libft/ft_strcmp.c\
+					libft/ft_error.c\
 					libft/ft_strdup.c\
 					libft/ft_strjoin.c\
 					libft/ft_strlcpy.c\

@@ -12,6 +12,25 @@ static void	add_new_list(t_list *list_head, char *line)
 	add_list(list_head, new);
 }
 
+int	check_filename(char *filename)
+{
+	int		i;
+
+	i = 0;
+	while (filename[i] != '\0')
+	{
+		if (filename[i] == '.')
+			break ;
+		i++;
+	}
+	if (ft_strcmp(filename + i, ".cub") != 0)
+	{
+		ft_error("Error! Wrong file format\n");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
 int	parsing(char *filename)
 {
 	t_list	list_head;
@@ -19,10 +38,12 @@ int	parsing(char *filename)
 	char	*line;
 
 	list_head.next = NULL;
+	if (check_filename(filename) == FAILURE)
+		return (FAILURE);
 	open_fd = open(filename, O_RDONLY, 0777);
 	if (open_fd < 0)
 	{
-		printf("Error! %s is not exist\n", filename);
+		ft_error("Error! file is not exist\n");
 		return (FAILURE);
 	}
 	while (get_next_line(open_fd, &line) > 0)

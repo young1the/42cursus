@@ -38,7 +38,7 @@ static int	xpm_init(t_cub *game)
 	if (game->textures.no == NULL || game->textures.so == NULL
 		|| game->textures.we == NULL || game->textures.ea == NULL)
 	{
-		printf("Error! invalid texture file!\n");
+		ft_error("Error! invalid texture file!\n");
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -64,7 +64,7 @@ int	main(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		printf("Error!\n");
+		ft_error("Error!\n");
 		return (FAILURE);
 	}
 	if (parsing(argv[1]) == FAILURE)
