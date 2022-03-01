@@ -1,7 +1,7 @@
-NO ./texture/wall_n.xpm
-SO ./texture/wall_s.xpm
-WE ./texture/wall_w.xpm
-EA ./texture/wall_e.xpm
+NO ./texture/1.xpm
+SO ./texture/2.xpm
+WE ./texture/3.xpm
+EA ./texture/4.xpm
 
 F 68,164,12
 C 24,115,204
