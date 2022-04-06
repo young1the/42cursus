@@ -1,4 +1,5 @@
 SRCS			=	main.cpp\
+					Harl.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= g++ -std=c++98

@@ -2,10 +2,10 @@
 
 Harl::Harl()
 {
-	fptr[DEBUG] = debug;
-	fptr[INFO] = info;
-	fptr[WARNING] = warning;
-	fptr[ERROR] = error;
+	fptr[DEBUG] = &Harl::debug;
+	fptr[INFO] = &Harl::info;
+	fptr[WARNING] = &Harl::warning;
+	fptr[ERROR] = &Harl::error;
 	levels[DEBUG] = "DEBUG";
 	levels[INFO] = "INFO";
 	levels[WARNING] = "WARNING";

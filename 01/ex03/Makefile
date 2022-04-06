@@ -1,8 +1,13 @@
 SRCS			=	main.cpp\
+					HumanA.cpp\
+					HumanB.cpp\
+					Weapon.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= g++ -std=c++98
-CXXFLAGS		= -Wall -Wextra -Werror -I.
+CXXFLAGS		= -Wall -Wextra -Werror
+INC				= -I.
+
 RM				= rm -f
 
 NAME			= Unnecessary-violence
@@ -10,7 +15,7 @@ NAME			= Unnecessary-violence
 all:			$(NAME)
 
 $(NAME):		$(OBJS)
-				$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+				$(CXX) $(CXXFLAGS) $(INC) $(OBJS) -o $(NAME)
 
 clean:
 				$(RM) $(OBJS)

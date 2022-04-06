@@ -1,8 +1,11 @@
 SRCS			=	main.cpp\
+					Harl.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= g++ -std=c++98
-CXXFLAGS		= -Wall -Wextra -Werror -I.
+CXXFLAGS		= -Wall -Wextra -Werror
+INC				= -I.
+
 RM				= rm -f
 
 NAME			= Harl-v2
@@ -10,7 +13,7 @@ NAME			= Harl-v2
 all:			$(NAME)
 
 $(NAME):		$(OBJS)
-				$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+				$(CXX) $(CXXFLAGS) $(INC) $(OBJS) -o $(NAME)
 
 clean:
 				$(RM) $(OBJS)
