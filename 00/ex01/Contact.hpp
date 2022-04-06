@@ -29,7 +29,6 @@ public:
 
 	bool	flag;
 
-
 	Contact();
 	~Contact();
 	void			PrintBrief(int index);

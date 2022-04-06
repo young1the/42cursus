@@ -45,7 +45,7 @@ void	PhoneBook::SearchShow()
 	std::cout << std::setw(10) << "Nickname";
 	std::cout << '|';
 	std::cout << std::endl;
-	for (int i = 0; contact[i].flag != false && i < 8 ; i++)
+	for (int i = 0; contact[i].flag != false && i < 8; i++)
 	{
 		contact[i].PrintBrief(i);
 	}
