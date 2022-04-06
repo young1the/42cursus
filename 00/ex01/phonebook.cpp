@@ -23,13 +23,11 @@ void	PhoneBook::AddUtil(const char *prompt, std::string &field)
 
 void	PhoneBook::Add(int index)
 {
-	std::string input;
-
-	AddUtil("Enter your \"First Name\" : ", contact[index].field[Contact::FirstName]);
-	AddUtil("Enter your \"Last Name\" : ", contact[index].field[Contact::LastName]);
-	AddUtil("Enter your \"Nickname\" : ", contact[index].field[Contact::Nickname]);
-	AddUtil("Enter your \"Phone Number\" : ", contact[index].field[Contact::PhoneNumber]);
-	AddUtil("Enter your \"Darkest Secret\" : ", contact[index].field[Contact::DarkestSecret]);
+	AddUtil("Enter your \"First Name\" : ", contact[index].getField(FirstName));
+	AddUtil("Enter your \"Last Name\" : ", contact[index].getField(LastName));
+	AddUtil("Enter your \"Nickname\" : ", contact[index].getField(Nickname));
+	AddUtil("Enter your \"Phone Number\" : ", contact[index].getField(PhoneNumber));
+	AddUtil("Enter your \"Darkest Secret\" : ", contact[index].getField(DarkestSecret));
 	contact[index].flag = true;
 	std::cout << "# Added Contact" << std::endl;
 }
@@ -47,7 +45,7 @@ void	PhoneBook::SearchShow()
 	std::cout << std::setw(10) << "Nickname";
 	std::cout << '|';
 	std::cout << std::endl;
-	for (int i = 0; contact[i].flag != false ; i++)
+	for (int i = 0; contact[i].flag != false && i < 8 ; i++)
 	{
 		contact[i].PrintBrief(i);
 	}

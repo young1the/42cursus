@@ -45,3 +45,8 @@ void	Contact::PrintAll()
 	std::cout << "Phone Number : " << field[PhoneNumber] << std::endl;
 	std::cout << "Darkest Secret : " << field[DarkestSecret] << std::endl;
 }
+
+std::string&	Contact::getField(enum eField field_no)
+{
+	return (field[field_no]);
+}

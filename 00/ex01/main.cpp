@@ -4,7 +4,7 @@ int	main()
 {
 	PhoneBook	phonebook;
 
-	std::cout << "# 42 PHONEBOOK" << std::endl;
+	std::cout << "# 42 PHONEBOOK\n";
 	std::cout << "# Enter the Command (ADD, SEARCH, EXIT)" << std::endl;
 
 	int index = 0;
