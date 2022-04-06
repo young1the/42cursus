@@ -13,7 +13,6 @@ class PhoneBook
 {
 private:
 	Contact	contact[8];
-	int		amount;
 	void	AddUtil(const char *prompt, std::string &field);
 	void	SearchShow();
 	void	SerachFindIndex(int &index);

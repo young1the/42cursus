@@ -8,12 +8,15 @@
 
 # define COL_WIDTH 10
 
-class Contact
-{
+class Contact {
+
 private:
-	void PrintField(const std::string &field) const;
+
+	void	PrintField(const std::string &field) const;
 
 public:
+
+	bool	flag;
 	enum eField
 	{
 		FirstName = 0,
@@ -27,8 +30,9 @@ public:
 
 	Contact();
 	~Contact();
-	void PrintBrief(int index);
-	void PrintAll();
+	void	PrintBrief(int index);
+	void	PrintAll();
+
 };
 
 #endif

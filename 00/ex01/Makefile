@@ -4,7 +4,8 @@ SRCS			=	Contact.cpp\
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= g++ -std=c++98
-CXXFLAGS		= -Wall -Wextra -Werror -I.
+CXXFLAGS		= -Wall -Wextra -Werror
+INC				= -I.
 RM				= rm -f
 
 NAME			= phonebook
@@ -12,7 +13,7 @@ NAME			= phonebook
 all:			$(NAME)
 
 $(NAME):		$(OBJS)
-				$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+				$(CXX) $(CXXFLAGS) $(INC) $(OBJS) -o $(NAME)
 
 clean:
 				$(RM) $(OBJS)

@@ -2,7 +2,6 @@
 
 PhoneBook::PhoneBook()
 {
-	amount = 0;
 }
 
 PhoneBook::~PhoneBook()
@@ -31,8 +30,8 @@ void	PhoneBook::Add(int index)
 	AddUtil("Enter your \"Nickname\" : ", contact[index].field[Contact::Nickname]);
 	AddUtil("Enter your \"Phone Number\" : ", contact[index].field[Contact::PhoneNumber]);
 	AddUtil("Enter your \"Darkest Secret\" : ", contact[index].field[Contact::DarkestSecret]);
+	contact[index].flag = true;
 	std::cout << "# Added Contact" << std::endl;
-	amount++;
 }
 
 void	PhoneBook::SearchShow()
@@ -48,7 +47,7 @@ void	PhoneBook::SearchShow()
 	std::cout << std::setw(10) << "Nickname";
 	std::cout << '|';
 	std::cout << std::endl;
-	for (int i = 0; i < amount; i++)
+	for (int i = 0; contact[i].flag != false ; i++)
 	{
 		contact[i].PrintBrief(i);
 	}
@@ -58,7 +57,7 @@ void	PhoneBook::SerachFindIndex(int &index)
 {
 	while (42)
 	{
-		std::cout << "enter index number for more information. : ";
+		std::cout << "enter index number for more information : ";
 		std::cin >> index;
 		if (std::cin.fail())
 		{
@@ -70,6 +69,7 @@ void	PhoneBook::SerachFindIndex(int &index)
 			std::cin.ignore(INT32_MAX, '\n');
 			if (index >= 0 && index <= 7)
 				break ;
+			std::cin.clear();			
 		}
 		std::cout << "# ERROR : INDEX RANGE [0,7]" << std::endl;
 	}
@@ -87,6 +87,13 @@ void	PhoneBook::Search()
 	std::cout << line << std::endl;
 	SerachFindIndex(index);
 	std::cout << line << std::endl;
-	contact[index].PrintAll();
+	if (contact[index].flag == false)
+	{
+		std::cout <<"# [" << index << "] has no data" << std::endl;
+	}
+	else
+	{
+		contact[index].PrintAll();
+	}
 	std::cout << line << std::endl;
 }

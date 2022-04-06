@@ -2,6 +2,7 @@
 
 Contact::Contact()
 {
+	flag = false;
 }
 
 Contact::~Contact()
