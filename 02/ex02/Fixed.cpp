@@ -32,7 +32,7 @@ Fixed&	Fixed::operator = (const Fixed &new_f)
 
 std::ostream&	operator << (std::ostream& outstream, const Fixed &f)
 {
-	std::cout << f.toFloat();
+	outstream << f.toFloat();
 	return outstream;
 }
 
