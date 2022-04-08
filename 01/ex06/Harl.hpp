@@ -22,8 +22,8 @@ private:
 	void	warning(void);
 	void	error(void);
 
-	static void			(Harl::*fptr[END])(void);
-	static std::string	levels[END];
+	void		(Harl::*fptr[END])(void);
+	std::string	levels[END];
 
 public:
 
