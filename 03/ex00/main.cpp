@@ -8,12 +8,10 @@ int main()
 	ClapTrap ct03(ct01);
 
 	ct01.attack("mac");
+	std::cout << "# Stress test ct01" << std::endl;
 	for (int i = 0;i < 12; ++i)
 	{
 		ct01.takeDamage(5);
 		ct01.beRepaired(5);
 	}
-	ct01.attack("hello");
-	ct02.attack("hi");
-	ct03.attack("ohaio");
 }

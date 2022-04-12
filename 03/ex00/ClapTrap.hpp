@@ -10,7 +10,7 @@ protected:
 	int			_energy_points;
 	int			_attack_damage;
 
-	void		doNothing(void);
+	void		doNothing();
 
 public:
 
@@ -30,7 +30,7 @@ public:
 ClapTrap::ClapTrap()
 : _name("defalut"), _hit_points(10), _energy_points(10), _attack_damage(0)
 {
-	std::cout <<"# ClapTrap default constructor called" << std::endl;
+	std::cout << "# ClapTrap's default constructor called" << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string& name_in)
@@ -46,13 +46,13 @@ ClapTrap::~ClapTrap()
 
 ClapTrap::ClapTrap(const ClapTrap &other)
 {
-	std::cout <<"# Copy constructor called" << std::endl;
+	std::cout <<"# ClapTrap's copy constructor called" << std::endl;
 	*this = other;
 }
 
 ClapTrap&	ClapTrap::operator =(const ClapTrap& other)
 {
-	std::cout <<"# Copy assignment operator called" << std::endl;
+	std::cout <<"# ClapTrap's copy assignment operator called" << std::endl;
 	this->_name = other._name;
 	this->_hit_points = other._hit_points;
 	this->_energy_points = other._energy_points;
@@ -106,6 +106,5 @@ void ClapTrap::beRepaired(unsigned int amount)
 
 void ClapTrap::doNothing(void)
 {
-	std::cout << "ClapTrap [" << _name << "] can't do anything" << std::endl;
+	std::cout << "# [" << _name << "] can't do anything" << std::endl;
 }
-
