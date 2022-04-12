@@ -7,8 +7,6 @@ private:
 public:
 	ScavTrap();
 	ScavTrap(const std::string& name_in);
-	ScavTrap(const ScavTrap& other);
-	ScavTrap& operator =(const ScavTrap& other);
 	~ScavTrap();
 	void	attack(const std::string& target);
 	void	guardGate();
@@ -35,23 +33,6 @@ ScavTrap::ScavTrap(const std::string& name_in)
 ScavTrap::~ScavTrap()
 {
 	std::cout <<"# ScavTrap [" << _name << "] destructed" << std::endl;
-}
-
-ScavTrap::ScavTrap(const ScavTrap& other)
-: ClapTrap(other), _guard_mode(other._guard_mode)
-{
-	std::cout <<"# ScavTrap Copy constructor called" << std::endl;
-	*this = other;
-}
-
-ScavTrap& ScavTrap::operator =(const ScavTrap& other)
-{
-	std::cout <<"# Copy assignment operator called" << std::endl;
-	this->_name = other._name;
-	this->_hit_points = other._hit_points;
-	this->_energy_points = other._energy_points;
-	this->_attack_damage = other._attack_damage;
-	return *this;
 }
 
 void	ScavTrap::guardGate()
