@@ -1,14 +1,13 @@
-SRCS			=	main.cpp\
-					ClapTrap.cpp
+SRCS			=	main.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
-CXX				= c++ -std=c++98
+CXX				= g++ -std=c++98
 CXXFLAGS		= -Wall -Wextra -Werror
 INC				= -I.
 
 RM				= rm -f
 
-NAME			= claptrap
+NAME			= sed-is-for-losers
 
 all:			$(NAME)
 
