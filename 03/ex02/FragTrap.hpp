@@ -1,10 +1,11 @@
+#ifndef FRAGTRAP_HPP
+#define FRAGTRAP_HPP
+
 #include "ClapTrap.hpp"
 
 class FragTrap : public ClapTrap
 {
 private:
-
-	/* data */
 
 public:
 
@@ -18,19 +19,4 @@ public:
 
 };
 
-FragTrap::FragTrap()
-: ClapTrap(), 
-{
-}
-
-FragTrap::~FragTrap()
-{
-}
-
-FragTrap::FragTrap(const FragTrap& other)
-: ClapTrap(other), 
-{
-
-}
-FragTrap& FragTrap::operator = (const FragTrap& other);
-FragTrap::FragTrap(const std::string & name_in);
+#endif

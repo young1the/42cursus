@@ -2,15 +2,23 @@
 
 int main()
 {
-	ClapTrap ct01("ct01");
+	ScavTrap st01;
+	std::cout << "-----<ScavTrap's default con>-----" << '\n' << std::endl;
+	ScavTrap st02("scav-ch");
+	std::cout << "-----<ScavTrap's string con>-----" << '\n' << std::endl;
+	ScavTrap st03(st02);
+	std::cout << "-----<ScavTrap's copy con>-----" << '\n' << std::endl;
+	st01 = st03;
+	std::cout << "-----<ScavTrap's operator '='>-----" << '\n' << std::endl;
 
-	ct01.attack("mac");
-	ScavTrap st00;
-	ScavTrap st01("st01");
-	st01.attack("mac");
+	st02.showStatus();
+	std::cout << std::endl;
+
+	ClapTrap ct01("clap-ch");
+	ct01.attack("his mac");
+	st01.attack("his mac");
 	st01.beRepaired(10);
+	std::cout << "-----<ScavTrap's inherited function>-----" << '\n' << std::endl;
 	st01.guardGate();
-
-	ScavTrap *p_st = new ScavTrap("pointer");
-	delete p_st;
+	std::cout << "-----<ScavTrap's special capacity function>-----" << '\n' << std::endl;
 }

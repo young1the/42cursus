@@ -1,4 +1,5 @@
-SRCS			=	main.cpp
+SRCS			=	main.cpp\
+					ClapTrap.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= g++ -std=c++98

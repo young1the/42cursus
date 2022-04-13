@@ -1,16 +1,22 @@
-#include "ScavTrap.hpp"
+#include "FragTrap.hpp"
 
 int main()
 {
-	ClapTrap ct01("ct01");
+	FragTrap ft01;
+	std::cout << "-----<FragTrap's default con>-----" << '\n' << std::endl;
+	FragTrap ft02("frag-ch");
+	std::cout << "-----<FragTrap's string con>-----" << '\n' << std::endl;
+	FragTrap ft03(ft02);
+	std::cout << "-----<FragTrap's copy con>-----" << '\n' << std::endl;
+	ft01 = ft03;
+	std::cout << "-----<FragTrap's operator '='>-----" << '\n' << std::endl;
 
-	ct01.attack("mac");
-	ScavTrap st00;
-	ScavTrap st01("st01");
-	st01.attack("mac");
-	st01.beRepaired(10);
-	st01.guardGate();
+	ft02.showStatus();
+	std::cout << std::endl;
 
-	ScavTrap *p_st = new ScavTrap("pointer");
-	delete p_st;
+	ft01.attack("his mac");
+	ft01.beRepaired(10);
+	std::cout << "-----<FragTrap's inherited function>-----" << '\n' << std::endl;
+	ft01.highFivesGuys();
+	std::cout << "-----<FragTrap's special capacity function>-----" << '\n' << std::endl;
 }
