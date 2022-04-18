@@ -6,12 +6,14 @@
 
 class ClapTrap {
 
-protected:
+private:
 
 	std::string	_name;
 	int			_hit_points;
 	int			_energy_points;
 	int			_attack_damage;
+	int			_max_hp;
+	int			_max_ep;
 
 	void		doNothing();
 

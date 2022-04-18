@@ -1,15 +1,19 @@
 #include "ClapTrap.hpp"
 
 ClapTrap::ClapTrap()
-: _name("defalut"), _hit_points(10), _energy_points(10), _attack_damage(0)
+: _name("defalut"), _max_hp(10), _max_ep(10), _attack_damage(0)
 {
 	std::cout << "# ClapTrap's default constructor called" << std::endl;
+	_hit_points = _max_hp;
+	_energy_points = _max_ep;
 }
 
 ClapTrap::ClapTrap(const std::string& name_in)
-: _name(name_in), _hit_points(10), _energy_points(10), _attack_damage(0)
+: _name("defalut"), _max_hp(10), _max_ep(10), _attack_damage(0)
 {
-	std::cout <<"# ClapTrap's string constructor called -> " << _name << std::endl;
+	std::cout << "# ClapTrap's string constructor called -> " << _name << std::endl;
+	_hit_points = _max_hp;
+	_energy_points = _max_ep;
 }
 
 ClapTrap::~ClapTrap()
@@ -30,7 +34,9 @@ ClapTrap&	ClapTrap::operator =(const ClapTrap& other)
 	this->_hit_points = other._hit_points;
 	this->_energy_points = other._energy_points;
 	this->_attack_damage = other._attack_damage;
-	return *this;
+	this->_max_ep = other._max_ep;
+	this->_max_hp = other._max_hp;
+	return (*this);
 }
 
 void ClapTrap::attack(const std::string& target)
@@ -69,8 +75,8 @@ void ClapTrap::beRepaired(unsigned int amount)
 		std::cout << "[" << _name << "] repairs itself, ";
 		std::cout << amount << " hit points back." << std::endl;
 		_hit_points += amount;
-		if (_hit_points > 10)
-			_hit_points = 10;
+		if (_hit_points > _max_hp)
+			_hit_points = _max_hp;
 		_energy_points--;
 	}
 	else
