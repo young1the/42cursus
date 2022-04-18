@@ -15,7 +15,7 @@ public:
 	Dog& operator = (const Dog & other);
 	/* occf */
 
-	void makeSound() const;
+	virtual void makeSound() const;
 
 };
 

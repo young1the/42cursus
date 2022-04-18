@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include "Brain.hpp"
 
 class Animal {
 
@@ -11,6 +12,7 @@ private:
 protected:
 
 	std::string	type;
+	Brain		*brain;
 
 public:
 

@@ -14,9 +14,13 @@ int main()
 	{
 		FragTrap ft01("ft");
 		ScavTrap st01("sc");
+		std::cout << "--" << std::endl; 
 		ft01.showStatus();
+		std::cout << "--" << std::endl; 
 		st01.showStatus();
+		std::cout << "--" << std::endl; 
 		dt02.showStatus();
+		std::cout << "--" << std::endl; 
 		std::cout << std::endl;
 	}
 

@@ -2,8 +2,7 @@ SRCS			=	main.cpp\
 					Animal.cpp\
 					Cat.cpp\
 					Dog.cpp\
-					WrongAnimal.cpp\
-					WrongCat.cpp
+					Brain.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= g++ -std=c++98
@@ -12,7 +11,7 @@ INC				= -I.
 
 RM				= rm -f
 
-NAME			= polymorphism
+NAME			= abstract
 
 all:			$(NAME)
 
