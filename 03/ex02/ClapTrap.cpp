@@ -1,7 +1,7 @@
 #include "ClapTrap.hpp"
 
 ClapTrap::ClapTrap()
-: _name("defalut"), _max_hp(10), _max_ep(10), _attack_damage(0)
+: _name("defalut"), _attack_damage(0), _max_hp(10), _max_ep(10)
 {
 	std::cout << "# ClapTrap's default constructor called" << std::endl;
 	_hit_points = _max_hp;
@@ -9,7 +9,7 @@ ClapTrap::ClapTrap()
 }
 
 ClapTrap::ClapTrap(const std::string& name_in)
-: _name("defalut"), _max_hp(10), _max_ep(10), _attack_damage(0)
+: _name(name_in), _attack_damage(0), _max_hp(10), _max_ep(10)
 {
 	std::cout << "# ClapTrap's string constructor called -> " << _name << std::endl;
 	_hit_points = _max_hp;
@@ -85,7 +85,7 @@ void ClapTrap::beRepaired(unsigned int amount)
 
 void ClapTrap::doNothing(void)
 {
-	std::cout << "# [" << _name << "] can't do anything" << std::endl;
+	std::cout << "[" << _name << "] can't do anything" << std::endl;
 }
 
 void	ClapTrap::showStatus(void)

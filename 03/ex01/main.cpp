@@ -14,11 +14,14 @@ int main()
 	st02.showStatus();
 	std::cout << std::endl;
 
+	st01.beRepaired(10);
+	std::cout << "-----<ScavTrap's inherited function>-----" << '\n' << std::endl;
+
 	ClapTrap ct01("clap-ch");
 	ct01.attack("his mac");
 	st01.attack("his mac");
-	st01.beRepaired(10);
-	std::cout << "-----<ScavTrap's inherited function>-----" << '\n' << std::endl;
+	std::cout << "-----<ScavTrap's override function>-----" << '\n' << std::endl;
+
 	st01.guardGate();
 	std::cout << "-----<ScavTrap's special capacity function>-----" << '\n' << std::endl;
 }

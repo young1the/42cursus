@@ -4,9 +4,11 @@ FragTrap::FragTrap()
 : ClapTrap()
 {
 	std::cout <<"# FragTrap's default constructor called" << std::endl;
-	_hit_points = 100;
-	_energy_points = 100;
+	_max_hp = 100;
+	_max_ep = 100;
 	_attack_damage = 30;
+	_hit_points = _max_hp;
+	_energy_points = _max_ep;
 }
 
 FragTrap::~FragTrap()
@@ -25,9 +27,11 @@ FragTrap& FragTrap::operator = (const FragTrap& other)
 {
 	std::cout << "# FragTrap's copy assignment operator called" << std::endl;
 	this->_name = other._name;
-	_hit_points = other._hit_points;
-	_energy_points = other._hit_points;
-	_attack_damage = other._attack_damage;
+	this->_max_hp = other._max_hp;
+	this->_max_ep = other._max_ep;
+	this->_hit_points = other._hit_points;
+	this->_energy_points = other._hit_points;
+	this->_attack_damage = other._attack_damage;
 	return (*this);
 }
 
@@ -35,9 +39,11 @@ FragTrap::FragTrap(const std::string & name_in)
 : ClapTrap(name_in)
 {
 	std::cout <<"# FragTrap's string constructor called -> " << _name << std::endl;
-	_hit_points = 100;
-	_energy_points = 100;
+	_max_hp = 100;
+	_max_ep = 100;
 	_attack_damage = 30;
+	_hit_points = _max_hp;
+	_energy_points = _max_ep;
 }
 
 void	FragTrap::highFivesGuys(void)

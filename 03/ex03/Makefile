@@ -1,6 +1,8 @@
 SRCS			=	main.cpp\
 					ClapTrap.cpp\
-					FragTrap.cpp
+					FragTrap.cpp\
+					ScavTrap.cpp\
+					DiamondTrap.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= c++ -std=c++98
@@ -9,7 +11,7 @@ INC				= -I.
 
 RM				= rm -f
 
-NAME			= fragtrap
+NAME			= diamondtrap
 
 all:			$(NAME)
 

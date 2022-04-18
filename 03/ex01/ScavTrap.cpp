@@ -3,18 +3,22 @@
 ScavTrap::ScavTrap()
 : ClapTrap(), _guard_mode(false)
 {
-	_hit_points = 100;
-	_energy_points = 50;
+	_max_hp = 100;
+	_max_ep = 50;
 	_attack_damage = 20;
+	_hit_points = _max_hp;
+	_energy_points = _max_ep;
 	std::cout <<"# ScavTrap's default constructor called" << std::endl;
 }
 
 ScavTrap::ScavTrap(const std::string& name_in)
 : ClapTrap(name_in), _guard_mode(false)
 {
-	_hit_points = 100;
-	_energy_points = 50;
+	_max_hp = 100;
+	_max_ep = 50;
 	_attack_damage = 20;
+	_hit_points = _max_hp;
+	_energy_points = _max_ep;
 	std::cout <<"# ScavTrap's string constructor called -> " << _name << std::endl;
 }
 
@@ -34,6 +38,8 @@ ScavTrap& ScavTrap::operator =(const ScavTrap& other)
 {
 	std::cout << "# ScavTrap's copy assignment operator called" << std::endl;
 	this->_name = other._name;
+	this->_max_hp = other._max_hp;
+	this->_max_ep = other._max_ep;
 	this->_hit_points = other._hit_points;
 	this->_energy_points = other._energy_points;
 	this->_attack_damage = other._attack_damage;
