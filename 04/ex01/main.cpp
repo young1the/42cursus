@@ -35,6 +35,12 @@ int main()
 
 	std::cout << "\n----------------------" << std::endl;
 
-	while(42);
+	while(42)
+	{
+		std::string in;
+		getline(std::cin, in);
+		if (in == "EXIT")
+			break ;
+	}
 	return 0;
 }
