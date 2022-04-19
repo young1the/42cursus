@@ -1,7 +1,7 @@
 SRCS			=	main.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
-CXX				= g++ -std=c++98
+CXX				= c++ -std=c++98
 CXXFLAGS		= -Wall -Wextra -Werror
 INC				= -I.
 
