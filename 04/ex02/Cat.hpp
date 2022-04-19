@@ -15,7 +15,7 @@ public:
 	Cat& operator = (const Cat & other);
 	/* occf */
 
-	virtual void makeSound() const;
+	void makeSound() const;
 
 };
 
