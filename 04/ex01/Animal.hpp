@@ -25,6 +25,8 @@ public:
 	const std::string &	getType() const;
 
 	virtual void	makeSound() const;
+	void			setIdeas(std::string idea_in);
+	const std::string &	getIdea() const;
 
 };
 

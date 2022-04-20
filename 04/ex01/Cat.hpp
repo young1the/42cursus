@@ -7,6 +7,8 @@ class Cat : public Animal {
 
 private:
 
+	using Animal::brain;
+
 public:
 
 	Cat();
@@ -18,5 +20,15 @@ public:
 	void makeSound() const;
 
 };
+
+/*							private test
+class CatKid : public Cat
+{
+	CatKid()
+	{
+		brain;
+	}
+};
+							end */
 
 #endif

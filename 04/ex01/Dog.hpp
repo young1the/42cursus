@@ -7,6 +7,8 @@ class Dog : public Animal {
 
 private:
 
+	using Animal::brain;
+
 public:
 
 	Dog();

@@ -20,21 +20,20 @@ int main()
 
 	std::cout << "\n----------------------\n" << std::endl;
 
-	Animal *animal_array[3];
-	animal_array[0] = new Dog();
-	animal_array[1] = new Cat();
-	animal_array[2] = new Animal();
-	for (int i = 0; i < 3; ++i)
-	{
-		animal_array[i]->makeSound();
-	}
-	for (int i = 0; i < 3; ++i)
-	{
-		delete animal_array[i];
-	}
+	Cat *cat = new Cat();
+	cat->setIdeas("Fish");
+	Cat copy_cat = *cat;
+	delete cat;
+	std::cout << copy_cat.getIdea() << std::endl;
 
 	std::cout << "\n----------------------" << std::endl;
 
-	while(42);
+	while(42)
+	{
+		std::string in;
+		getline(std::cin, in);
+		if (in == "EXIT")
+			break ;
+	}
 	return 0;
 }

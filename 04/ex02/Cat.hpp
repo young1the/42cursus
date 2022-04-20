@@ -7,6 +7,8 @@ class Cat : public Animal {
 
 private:
 
+	using Animal::brain;
+
 public:
 
 	Cat();
@@ -15,8 +17,18 @@ public:
 	Cat& operator = (const Cat & other);
 	/* occf */
 
-	virtual void makeSound() const;
+	void makeSound() const;
 
 };
+
+/*							private test
+class CatKid : public Cat
+{
+	CatKid()
+	{
+		brain;
+	}
+};
+							end */
 
 #endif

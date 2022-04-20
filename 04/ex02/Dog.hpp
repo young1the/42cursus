@@ -7,6 +7,8 @@ class Dog : public Animal {
 
 private:
 
+	using Animal::brain;
+
 public:
 
 	Dog();
@@ -15,7 +17,7 @@ public:
 	Dog& operator = (const Dog & other);
 	/* occf */
 
-	virtual void makeSound() const;
+	void makeSound() const;
 
 };
 

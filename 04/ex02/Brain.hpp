@@ -21,6 +21,8 @@ public:
 	Brain(const Brain & other);
 	Brain& operator = (const Brain & other);
 	/* occf */
+	void setIdeas(std::string idea_in);
+	const std::string &	getIdea() const;
 
 };
 
