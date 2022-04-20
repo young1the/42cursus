@@ -1,49 +1,60 @@
 #include "Dog.hpp"
 #include "Cat.hpp"
+#include "Fox.hpp"
 #include "WrongCat.hpp"
+#include "WrongDog.hpp"
 
 int main() 
 {
 	std::cout << "----------------------\n" << std::endl;
 
+	std::cout << "<1>\n" << std::endl;
+	const Animal* meta = new Animal();
+	const Animal* dog = new Dog();
+	const Animal* cat = new Cat();
+	const Animal* fox = new Fox();
+
+	std::cout << "\n<2>\n" << std::endl;
+	std::cout << dog->getType() << " " << std::endl;
+	std::cout << cat->getType() << " " << std::endl;
+	std::cout << fox->getType() << " " << std::endl;
+
+	std::cout << "\n<3>\n" << std::endl;
+	meta->makeSound();
+	dog->makeSound();
+	cat->makeSound();
+	fox->makeSound();
+
+	std::cout << "\n<4>\n" << std::endl;
+	delete meta;
+	delete dog;
+	delete cat;
+	delete fox;
+
+	std::cout << "\n----------------------\n" << std::endl;
+
+	std::cout << "<1>\n" << std::endl;
 	const WrongAnimal* wrmeta = new WrongAnimal();
 	const WrongAnimal* wrcat = new WrongCat();
+	const WrongAnimal* wrdog = new WrongDog();
+	const WrongCat* wrcat2 = new WrongCat();
 
+	std::cout << "\n<2>\n" << std::endl;
 	std::cout << wrcat->getType() << " " << std::endl;
+	std::cout << wrcat2->getType() << " " << std::endl;
+	std::cout << wrdog->getType() << " " << std::endl;
+
+	std::cout << "\n<3>\n" << std::endl;
 	wrmeta->makeSound();
 	wrcat->makeSound();
+	wrcat2->makeSound();
+	wrdog->makeSound();
+
+	std::cout << "\n<4>\n" << std::endl;
 	delete wrmeta;
 	delete wrcat;
-
-	std::cout << "\n----------------------\n" << std::endl;
-
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
-
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	meta->makeSound();
-	j->makeSound();
-	i->makeSound();
-	delete meta;
-	delete j;
-	delete i;
-
-	std::cout << "\n----------------------\n" << std::endl;
-
-	Animal *animal_array[3];
-	animal_array[0] = new Dog();
-	animal_array[1] = new Cat();
-	animal_array[2] = new Animal();
-	for (int i = 0; i < 3; ++i)
-	{
-		animal_array[i]->makeSound();
-	}
-	for (int i = 0; i < 3; ++i)
-	{
-		delete animal_array[i];
-	}
+	delete wrcat2;
+	delete wrdog;
 
 	std::cout << "\n----------------------" << std::endl;
 

@@ -1,7 +1,7 @@
 #include "WrongAnimal.hpp"
 
 WrongAnimal::WrongAnimal()
-: type("default")
+: type("WrongAnimal")
 {
 	std::cout << "# WrongAnimal's default constructor called" << std::endl;
 }

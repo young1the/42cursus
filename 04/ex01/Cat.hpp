@@ -2,12 +2,13 @@
 #define CAT_HPP
 
 #include "Animal.hpp"
+#include "Brain.hpp"
 
 class Cat : public Animal {
 
 private:
 
-	using Animal::brain;
+	Brain *brain;
 
 public:
 
@@ -18,17 +19,9 @@ public:
 	/* occf */
 
 	void makeSound() const;
+	void speak() const;
+	void eatChur();
 
 };
-
-/*							private test
-class CatKid : public Cat
-{
-	CatKid()
-	{
-		brain;
-	}
-};
-							end */
 
 #endif

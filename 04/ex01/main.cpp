@@ -1,30 +1,33 @@
 #include "Dog.hpp"
 #include "Cat.hpp"
+#include "Brain.hpp"
 
 int main() 
 {
 	std::cout << "----------------------\n" << std::endl;
 
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
+	std::cout << "<1>\n" << std::endl;
+	Cat *original_cat = new Cat;
+	{
+		Cat copy_cat = *original_cat;
+		original_cat->speak();
+		copy_cat.speak();
+		std::cout << "original cat learn Chur" << std::endl;
+	}
 
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	meta->makeSound();
-	j->makeSound();
-	i->makeSound();
-	delete meta;
-	delete j;
-	delete i;
+	std::cout << "\n<2>\n" << std::endl;
+
+
+	std::cout << "\n<3>\n" << std::endl;
+
+
+	std::cout << "\n<4>\n" << std::endl;
+
+	
 
 	std::cout << "\n----------------------\n" << std::endl;
 
-	Cat *cat = new Cat();
-	cat->setIdeas("Fish");
-	Cat copy_cat = *cat;
-	delete cat;
-	std::cout << copy_cat.getIdea() << std::endl;
+
 
 	std::cout << "\n----------------------" << std::endl;
 
@@ -35,5 +38,6 @@ int main()
 		if (in == "EXIT")
 			break ;
 	}
+
 	return 0;
 }

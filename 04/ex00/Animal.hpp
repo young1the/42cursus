@@ -18,6 +18,8 @@ public:
 	virtual ~Animal();
 	Animal(const Animal & other);
 	Animal& operator = (const Animal & other);
+
+	Animal(const std::string & type_in);
 	/* occf */
 
 	const std::string &	getType() const;

@@ -2,8 +2,10 @@ SRCS			=	main.cpp\
 					Animal.cpp\
 					Cat.cpp\
 					Dog.cpp\
+					Fox.cpp\
 					WrongAnimal.cpp\
-					WrongCat.cpp
+					WrongCat.cpp\
+					WrongDog.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= c++ -std=c++98

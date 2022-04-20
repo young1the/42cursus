@@ -11,7 +11,7 @@ INC				= -I.
 
 RM				= rm -f
 
-NAME			= 
+NAME			= brain
 
 all:			$(NAME)
 
