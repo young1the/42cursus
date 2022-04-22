@@ -3,7 +3,6 @@
 
 #include <string>
 #include <iostream>
-#include "Brain.hpp"
 
 class Animal {
 
@@ -12,7 +11,6 @@ private:
 protected:
 
 	std::string	type;
-	Brain		*brain;
 
 public:
 
@@ -20,13 +18,13 @@ public:
 	virtual ~Animal();
 	Animal(const Animal & other);
 	Animal& operator = (const Animal & other);
+
+	Animal(const std::string & type_in);
 	/* occf */
 
 	const std::string &	getType() const;
 
 	virtual void	makeSound() const = 0;
-	void			setIdeas(std::string idea_in);
-	const std::string &	getIdea() const;
 
 };
 

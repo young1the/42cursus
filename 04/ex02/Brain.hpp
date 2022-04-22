@@ -10,8 +10,6 @@ class Brain {
 
 private:
 
-protected:
-
 	std::string	ideas[MAX_IDEAS];
 
 public:
@@ -20,10 +18,12 @@ public:
 	~Brain();
 	Brain(const Brain & other);
 	Brain& operator = (const Brain & other);
+	Brain(const std::string & idea_in);
 	/* occf */
-	void setIdeas(std::string idea_in);
-	const std::string &	getIdea() const;
 
+	void setIdeas(const std::string & idea_set);
+	std::string *getIdeas();
+	
 };
 
 #endif

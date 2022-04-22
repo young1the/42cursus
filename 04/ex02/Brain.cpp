@@ -3,10 +3,7 @@
 Brain::Brain()
 {
 	std::cout << "# Brain's default constructor called" << std::endl;
-	for (int i = 0; i < MAX_IDEAS; ++i)
-	{
-		ideas[i] = "Empty";
-	}
+	setIdeas("Empty");
 }
 
 Brain::~Brain()
@@ -30,9 +27,7 @@ Brain& Brain::operator = (const Brain & other)
 	return *this;
 }
 
-/* occf end */
-
-void Brain::setIdeas(std::string idea_in)
+Brain::Brain(const std::string & idea_in)
 {
 	for (int i = 0; i < MAX_IDEAS; ++i)
 	{
@@ -40,7 +35,17 @@ void Brain::setIdeas(std::string idea_in)
 	}
 }
 
-const std::string &	Brain::getIdea() const
+/* occf end */
+
+void Brain::setIdeas(const std::string & idea_set)
 {
-	return (ideas[0]);
+	for (int i = 0; i < MAX_IDEAS; ++i)
+	{
+		ideas[i] = idea_set;
+	}
+}
+
+std::string *Brain::getIdeas()
+{
+	return ideas;
 }
