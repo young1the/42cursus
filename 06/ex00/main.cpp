@@ -1,22 +1,8 @@
 #include <string>
 #include <iostream>
-
-enum PseudoLiterals
-{
-	Inf,
-	Nan,
-	END
-};
-
-std::string _PseudoLiterals[2] = {"inf", "nan"};
-
-void parse(const std::string & str, int & type)
-{
-	for (int i(0); i < str.size(); ++i)
-	{
-		if (str.find(_PseudoLiterals[0]));
-	}
-}
+#include <iomanip>
+#include <cmath>
+#include <cstdlib>
 
 int main(int argc, char **argv)
 {
@@ -25,5 +11,14 @@ int main(int argc, char **argv)
 		std::cout << "! ARGUMENT ERROR !" << std::endl;
 		return 1;
 	}
-	std::string str = argv[1];
+
+	char *endptr;
+	double value = std::strtod(argv[1], &endptr);
+	std::cout << value << std::endl;
+	if(std::isnan(value) || std::isinf(value))
+		std::cout << "isnan" << std::endl;
+	std::cout << endptr << std::endl;
+	std::string str = endptr;
+	std::cout << str.size() << std::endl;
 }
+
