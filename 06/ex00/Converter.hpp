@@ -5,6 +5,7 @@
 #include <iostream>
 #include <exception>
 #include <climits>
+#include <cerrno>
 
 enum PseudoLiterals
 {
@@ -54,7 +55,7 @@ public:
 };
 
 Converter::Converter()
-: _input("Converter"), _valid(-1), _value_i(0), _value_d(0)
+: _input("Converter"), _valid(5), _value_i(0), _value_d(0)
 {
 	std::cout << "# Converter's default constructor called" << std::endl;
 }
@@ -93,13 +94,13 @@ Converter::Converter(const char *arg)
 		char *endptr = NULL;
 		_value_d = std::strtod(_input.c_str(), &endptr);
 		std::string str = endptr;
-		if (str.length == 1 && str.back() == 'f')
+		if (str.length() == 1 && str.back() == 'f')
 			_valid = VALID;
-		else if (str.length == 0)
+		else if (str.length() == 0)
 			_valid = VALID;
 		else
 			_valid = IMPOSSIBLE;
-		_value_i = std::strtoi(_input.c_str(), NULL, 10);
+		_value_i = std::strtol(_input.c_str(), NULL, 10);
 }
 
 /* occf */
@@ -135,6 +136,10 @@ int		Converter::getInt() const
 {
 	if (_valid >= IMPOSSIBLE)
 		throw Impossible();
+	errno = 0;
+	_value_i = std::strtol(_input.c_str(), NULL, 10);
+	if (errno == ERANGE)
+		throw Impossible();
 	return (static_cast<int>(_value_i));
 }
 
@@ -142,13 +147,21 @@ float	Converter::getFloat() const
 {
 	if (_valid >= IMPOSSIBLE)
 		throw IMPOSSIBLE();
+	errno = 0;
+	_value_d = std::strtof(_input.c_str(), NULL, 10);
+	if (errno == ERANGE)
+		throw Impossible();
 	return (static_cast<float>(_value_d));
 }
 
 double	Converter::getDouble() const
 {
 	if (_valid >= IMPOSSIBLE)
-		throw IMPOSSIBLE();
+		throw Impossible();
+	errno = 0;
+	_value_d = std::strtod(_input.c_str(), NULL, 10);
+	if (errno == ERANGE)
+		throw Impossible();
 	return (static_cast<double>(_value_d));
 }
 
