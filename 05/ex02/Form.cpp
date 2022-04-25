@@ -37,7 +37,7 @@ Form::~Form()
 
 Form& Form::operator = (const Form & other)
 {
-	std::cout << "# Bureaucrat's copy assignment operator called" << std::endl;
+	std::cout << "# Form's copy assignment operator called" << std::endl;
 	this->_is_signed = other._is_signed;
 	return *this;
 }
@@ -78,6 +78,13 @@ void Form::beSigned(const Bureaucrat & bu)
 	}
 }
 
+void Form::execute(const Bureaucrat & executor) const
+{
+	if (_excute_grade < executor.getGrade())
+		throw GradeTooLowException();
+	std::cout <<executor.getName() << ", excuted "  << _name << "." << std::endl;
+}
+
 std::ostream & operator << (std::ostream & out, const Form & fo)
 {
 	char c('X');
@@ -97,3 +104,9 @@ const char * Form::GradeTooLowException::what() const throw()
 {
 	return "Grade is Too Low!";
 }
+
+const char * Form::FormUnsignedException::what() const throw()
+{
+	return "Form is Unsigned!";
+}
+

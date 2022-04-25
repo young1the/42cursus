@@ -12,9 +12,16 @@ int main()
 	}
 	catch (std::exception & e)
 	{
-		std::cout << "! Wrong Form, because " << e.what() << std::endl;
+		std::cout << "! " << e.what() << std::endl;
 	}
+	std::cout << "\n<.....Signing Form.....>" << std::endl;
 	Bureaucrat young("young-ch", 42);
-	Form study3("Study3", 150, 150);
-	study3.beSigned(young);
+	Form study("Study", 42, 42);
+	std::cout << young << std::endl;
+	std::cout << study << std::endl;
+	young.signForm(study);
+	std::cout << study << std::endl;
+	Form vacation("Vacation", 1, 1);
+	vacation.beSigned(young);
+	std::cout << vacation << std::endl;
 }
