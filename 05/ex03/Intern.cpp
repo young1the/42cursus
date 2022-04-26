@@ -23,6 +23,20 @@ Intern& Intern::operator = (const Intern & other)
 	return *this;
 }
 
+Form * Intern::makePresidentialPardonForm(const std::string & target)
+{
+	return new PresidentialPardonForm(target);
+}
+Form * Intern::makeRobotomyRequestForm(const std::string & target)
+{
+	return new RobotomyRequestForm(target);
+}
+Form * Intern::makeShrubberyCreationForm(const std::string & target)
+{
+	return new ShrubberyCreationForm(target);
+}
+
+
 Form * Intern::makeForm(const std::string & form_name, const std::string & target)
 {
 	std::string str;
@@ -31,34 +45,19 @@ Form * Intern::makeForm(const std::string & form_name, const std::string & targe
 		if (!std::isspace(form_name[i]))
 			str.push_back(tolower(form_name[i]));
 	}
-	
-	std::string forms[3] = {"presidentialpardon", "robotomyrequest", "shrubberycreation"};
-	int i(0);
-	while (i < 3)
+	std::string forms_name[3] = {"presidentialpardon",
+								"robotomyrequest",
+								"shrubberycreation"};
+	Form *(Intern::*forms_ft[3])(const std::string &) =
+	{&Intern::makePresidentialPardonForm,
+	&Intern::makeRobotomyRequestForm,
+	&Intern::makeShrubberyCreationForm};
+	for (int i = 0; i < 3; ++i)
 	{
-		if (str == forms[i])
-			break ;
-		++i;
+		if (str == forms_name[i])
+			return (this->*(forms_ft[i]))(target);
 	}
-
-	Form *ret;
-	switch (i)
-	{
-	case 0:
-		ret = new PresidentialPardonForm(target);
-		break;
-	case 1:
-		ret = new RobotomyRequestForm(target);
-		break;
-	case 2:
-		ret = new ShrubberyCreationForm(target);
-		break;
-	default:
-		throw DoesntExistForm();
-		break;
-	}
-
-	return (ret);
+	throw DoesntExistForm();
 }
 
 const char * Intern::DoesntExistForm::what() const throw()

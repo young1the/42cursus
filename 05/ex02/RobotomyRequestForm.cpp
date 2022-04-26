@@ -40,7 +40,6 @@ void RobotomyRequestForm::execute(Bureaucrat const & executor) const
 	if (getExcuteGrade() < executor.getGrade())
 		throw GradeTooLowException();
 	std::cout <<executor.getName() << ", excuted "  << getName() << "." << std::endl;
-		std::cout << _target << " has been pardoned by Zaphod Beeblebrox." << std::endl;
 		std::cout << "... some drilling noises ..." << std::endl;
 		std::srand(static_cast<unsigned int>(std::time(0)));
 		if (std::rand() % 2 == 0)

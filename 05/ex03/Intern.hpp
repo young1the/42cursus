@@ -25,6 +25,10 @@ public:
 
 	/* occf */
 
+	Form * makePresidentialPardonForm(const std::string & target);
+	Form * makeRobotomyRequestForm(const std::string & target);
+	Form * makeShrubberyCreationForm(const std::string & target);
+
 	Form * makeForm(const std::string & form_name, const std::string & target);
 	
 	class DoesntExistForm : public std::exception

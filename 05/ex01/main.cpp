@@ -12,7 +12,7 @@ int main()
 	}
 	catch (std::exception & e)
 	{
-		std::cout << "! " << e.what() << std::endl;
+		std::cout << "! Constructing failed" << e.what() << std::endl;
 	}
 	std::cout << "\n<.....Signing Form.....>" << std::endl;
 	Bureaucrat young("young-ch", 43);

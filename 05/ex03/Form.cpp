@@ -78,13 +78,6 @@ void Form::beSigned(const Bureaucrat & bu)
 	}
 }
 
-void Form::execute(const Bureaucrat & executor) const
-{
-	if (_excute_grade < executor.getGrade())
-		throw GradeTooLowException();
-	std::cout <<executor.getName() << ", excuted "  << _name << "." << std::endl;
-}
-
 std::ostream & operator << (std::ostream & out, const Form & fo)
 {
 	char c('X');
