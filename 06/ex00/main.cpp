@@ -1,8 +1,5 @@
-#include <string>
-#include <iostream>
-#include <iomanip>
-#include <cmath>
-#include <cstdlib>
+
+#include "Converter.hpp"
 
 int main(int argc, char **argv)
 {
@@ -12,13 +9,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	char *endptr;
-	double value = std::strtod(argv[1], &endptr);
-	std::cout << value << std::endl;
-	if(std::isnan(value) || std::isinf(value))
-		std::cout << "isnan" << std::endl;
-	std::cout << endptr << std::endl;
-	std::string str = endptr;
-	std::cout << str.size() << std::endl;
+	Converter c(argv[1]);
+	std::cout << c << std::endl;
 }
 

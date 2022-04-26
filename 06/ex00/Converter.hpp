@@ -12,8 +12,8 @@ enum PseudoLiterals
 	VALID,
 	NONDISPLAYABLE,
 	IMPOSSIBLE,
-	INFINITY,
-	NAN,
+	INFINI,
+	NOTANUM,
 	END
 };
 
@@ -55,7 +55,7 @@ public:
 };
 
 Converter::Converter()
-: _input("Converter"), _valid(5), _value_i(0), _value_d(0)
+: _input("Converter"), _valid(END), _value_i(0), _value_d(0)
 {
 	std::cout << "# Converter's default constructor called" << std::endl;
 }
@@ -84,9 +84,9 @@ Converter::Converter(const char *arg)
 {
 	std::cout << "# Converter's constructor called" << std::endl;
 	if (_input == "nan")
-		_valid = NAN;
+		_valid = NOTANUM;
 	else if (_input == "+inf" || _input == "-inf" || _input == "+inff" || _input == "-inff")
-		_valid = INFINITY;
+		_valid = INFINI;
 	else if (!std::isdigit(_input[0]) && _input[0] != '+' && _input[0] != '-')
 		_valid = IMPOSSIBLE;
 	else
@@ -101,6 +101,7 @@ Converter::Converter(const char *arg)
 		else
 			_valid = IMPOSSIBLE;
 		_value_i = std::strtol(_input.c_str(), NULL, 10);
+	}
 }
 
 /* occf */
@@ -123,12 +124,17 @@ int		Converter::getValid() const
 char	Converter::getChar() const
 {
 	if (_valid >= IMPOSSIBLE)
-		throw Impossible;
+		throw Impossible();
+	errno = 0;
+	int i;
+	i = std::strtol(_input.c_str(), NULL, 10);
+	if (errno == ERANGE)
+		throw Impossible();
 	if (_value_i > CHAR_MAX
 	|| _value_i < CHAR_MIN)
-		throw Impossible;
+		throw Impossible();
 	if (!std::isprint(_value_i))
-		throw NonDisplayable;
+		throw NonDisplayable();
 	return (static_cast<char>(_value_i));
 }
 
@@ -137,7 +143,8 @@ int		Converter::getInt() const
 	if (_valid >= IMPOSSIBLE)
 		throw Impossible();
 	errno = 0;
-	_value_i = std::strtol(_input.c_str(), NULL, 10);
+	int i;
+	i = std::strtol(_input.c_str(), NULL, 10);
 	if (errno == ERANGE)
 		throw Impossible();
 	return (static_cast<int>(_value_i));
@@ -146,9 +153,10 @@ int		Converter::getInt() const
 float	Converter::getFloat() const
 {
 	if (_valid >= IMPOSSIBLE)
-		throw IMPOSSIBLE();
+		throw Impossible();
 	errno = 0;
-	_value_d = std::strtof(_input.c_str(), NULL, 10);
+	float f;
+	f = std::strtof(_input.c_str(), NULL);
 	if (errno == ERANGE)
 		throw Impossible();
 	return (static_cast<float>(_value_d));
@@ -159,13 +167,14 @@ double	Converter::getDouble() const
 	if (_valid >= IMPOSSIBLE)
 		throw Impossible();
 	errno = 0;
-	_value_d = std::strtod(_input.c_str(), NULL, 10);
+	double d;
+	d = std::strtod(_input.c_str(), NULL);
 	if (errno == ERANGE)
 		throw Impossible();
 	return (static_cast<double>(_value_d));
 }
 
-const std::string & getInput() const
+const std::string & Converter::getInput() const
 {
 	return _input;
 }
@@ -176,63 +185,67 @@ std::ostream & operator << (std::ostream & out, const Converter & c)
 	out << "char : ";
 	try
 	{
-		out << getChar();
-		out << endl;
-	}
-	catch (std::exception & e)
-	{
-		out << e.what << std::endl;
-	}
-	// char
-
-	out << "int : ";
-	try
-	{
-		out << getInt();
-		out << endl;
-	}
-	catch (std::exception & e)
-	{
-		out << e.what << std::endl;
-	}
-	// int
-
-	out << "float : ";
-	try
-	{
-		out << getfloat();
-	}
-	catch (std::exception & e)
-	{
-		switch (c.getValid())
-		{
-		case IMPOSSIBLE:
-			out << e.what() << std::endl;
-		default:
-			out << _input;
-			break;
-		}
-	}
-	out << "f" << endl;
-	// float
-
-	out << "double : ";
-	try
-	{
-		out << getDouble()
+		std::string str = "'";
+		str += c.getChar();
+		str += "'";
 		out << std::endl;
 	}
 	catch (std::exception & e)
 	{
+		out << e.what() << std::endl;
+	}
+	// ##### char
+
+	out << "int : ";
+	try
+	{
+		out << c.getInt();
+		out << std::endl;
+	}
+	catch (std::exception & e)
+	{
+		out << e.what() << std::endl;
+	}
+	// ##### int
+
+	out << "float : ";
+	try
+	{
+		out << c.getFloat();
+	}
+	catch (std::exception & e)
+	{
 		switch (c.getValid())
 		{
 		case IMPOSSIBLE:
-			out << e.what() << std::endl;
+			out << e.what();
+			break;
 		default:
-			out << _input << std::endl;;
+			out << c.getInput();
 			break;
 		}
 	}
+	out << "f" << std::endl;
+	// ##### float
+
+	out << "double : ";
+	try
+	{
+		out << c.getDouble();
+	}
+	catch (std::exception & e)
+	{
+		switch (c.getValid())
+		{
+		case IMPOSSIBLE:
+			out << e.what();
+			break;
+		default:
+			out << c.getInput();
+			break;
+		}
+	}
+	return out;
 }
 
 #endif
