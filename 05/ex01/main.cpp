@@ -15,13 +15,16 @@ int main()
 		std::cout << "! " << e.what() << std::endl;
 	}
 	std::cout << "\n<.....Signing Form.....>" << std::endl;
-	Bureaucrat young("young-ch", 42);
+	Bureaucrat young("young-ch", 43);
 	Form study("Study", 42, 42);
+	std::cout << "<.....>" << std::endl;
+	std::cout << study << std::endl;
 	std::cout << young << std::endl;
-	std::cout << study << std::endl;
 	young.signForm(study);
+	std::cout << "<.....>" << std::endl;
 	std::cout << study << std::endl;
-	Form vacation("Vacation", 1, 1);
-	vacation.beSigned(young);
-	std::cout << vacation << std::endl;
+	young.incrementGrade();
+	std::cout << young << std::endl;
+	study.beSigned(young);
+	std::cout << study << std::endl;
 }

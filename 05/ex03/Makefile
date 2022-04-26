@@ -3,7 +3,8 @@ SRCS			=	main.cpp\
 					Form.cpp\
 					PresidentialPardonForm.cpp\
 					RobotomyRequestForm.cpp\
-					ShrubberyCreationForm.cpp
+					ShrubberyCreationForm.cpp\
+					Intern.cpp
 
 OBJS			= $(SRCS:.cpp=.o)
 
@@ -13,7 +14,7 @@ INC				= -I.
 
 RM				= rm -f
 
-NAME			= form
+NAME			= intern
 
 all:			$(NAME)
 

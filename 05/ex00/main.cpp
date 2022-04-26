@@ -43,6 +43,6 @@ int main()
 	}
 	catch (std::exception & e)
 	{
-		std::cout << "! Increment failed, " << e.what() << std::endl;
+		std::cout << "! decrement failed, " << e.what() << std::endl;
 	}
 }
