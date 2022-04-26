@@ -1,5 +1,5 @@
 SRCS			=	main.cpp\
-					Converter.cpp
+					Base.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= c++ -std=c++98
@@ -8,7 +8,7 @@ INC				= -I.
 
 RM				= rm -f
 
-NAME			= conversion
+NAME			= iden
 
 all:			$(NAME)
 

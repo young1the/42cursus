@@ -1,4 +1,4 @@
-
+#include <iomanip>
 #include "Converter.hpp"
 
 int main(int argc, char **argv)
@@ -10,6 +10,8 @@ int main(int argc, char **argv)
 	}
 
 	Converter c(argv[1]);
+	std::cout << std::fixed;
+	std::cout.precision(1);
 	std::cout << c << std::endl;
 }
 
