@@ -12,7 +12,8 @@ Converter::~Converter()
 }
 
 Converter::Converter(const Converter & other)
-: _input(other._input), _valid(other._valid)
+: _input(other._input), _valid(other._valid),
+_value_i(other._value_i), _value_d(other._value_d)
 {
 	std::cout << "# Converter's copy constructor called" << std::endl;
 }
@@ -22,6 +23,8 @@ Converter& Converter::operator = (const Converter & other)
 	std::cout << "# Converter's copy assignment operator called" << std::endl;
 	this->_input = other._input;
 	this->_valid = other._valid;
+	this->_value_d = other._value_d;
+	this->_value_i = other._value_i;
 	return *this;
 }
 
@@ -93,7 +96,7 @@ int		Converter::getInt() const
 	i = std::strtol(_input.c_str(), NULL, 10);
 	if (errno == ERANGE)
 		throw Impossible();
-	return (static_cast<int>(_value_i));
+	return (_value_i);
 }
 
 float	Converter::getFloat() const
@@ -117,7 +120,7 @@ double	Converter::getDouble() const
 	d = std::strtod(_input.c_str(), NULL);
 	if (errno == ERANGE)
 		throw Impossible();
-	return (static_cast<double>(_value_d));
+	return (_value_d);
 }
 
 const std::string & Converter::getInput() const

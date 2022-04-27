@@ -82,7 +82,10 @@ int main()
 {
 	Base *ptr;
 	ptr = generate();
+	std::cout << "# ptr, randomly instanciated A, B or C" << std::endl;
 	Base &ref = *ptr;
+	std::cout << "# identify by pointer : ";
 	identify(ptr);
+	std::cout << "# identify by reference : ";
 	identify(ref);
 }
