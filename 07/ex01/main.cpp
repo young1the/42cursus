@@ -4,7 +4,7 @@
 #include "Iter.hpp"
 
 template<typename T>
-void print(T a)
+void print(const T & a)
 {
 	std::cout << a << " ";
 }
@@ -26,7 +26,7 @@ int main()
 	char c[7] = {'4','2','S','e','O','u','L'};
 	Iter<char>(c, 7, print);
 	std::cout << std::endl;
-	
+
 	Iter<char>(c, 7, toLower);
 	Iter<char>(c, 7, print);
 	std::cout << std::endl;

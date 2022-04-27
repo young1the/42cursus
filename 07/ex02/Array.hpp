@@ -31,12 +31,15 @@ public:
 	}
 	Array& operator = (const Array & other)
 	{
+		if (this == &other)
+			return *this;
 		reset();
 		_len = other._len;
 		data = new T[_len];
 		for (int i = 0; i < _len; ++i)
 			data[i] = other.data[i];
 		std::cout << "# copied array" << std::endl;
+		return *this;
 	}
 /* occf end */
 
