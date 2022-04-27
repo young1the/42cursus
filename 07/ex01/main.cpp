@@ -1,52 +1,33 @@
 #include <iostream>
-#include <Array.hpp>
+#include <cstdlib>
 
-#define MAX_VAL 750
+#include "Iter.hpp"
 
-int main(int, char**)
+template<typename T>
+void print(T a)
 {
-	Array<int> numbers(MAX_VAL);
-	int* mirror = new int[MAX_VAL];
-	srand(time(NULL));
-	for (int i = 0; i < MAX_VAL; i++)
+	std::cout << a << " ";
+}
+
+void toLower(char &c)
+{
+	if (c >= 'A' && c <= 'Z')
 	{
-		const int value = rand();
-		numbers[i] = value;
-		mirror[i] = value;
+		c += 'a' - 'A';
 	}
-	//SCOPE
-	{
-		Array<int> tmp = numbers;
-		Array<int> test(tmp);
-	}
-	for (int i = 0; i < MAX_VAL; i++)
-	{
-		if (mirror[i] != numbers[i])
-		{
-			std::cerr << "didn't save the same value!!" << std::endl;
-			return 1;
-		}
-	}
-	try
-	{
-		numbers[-2] = 0;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	try
-	{
-		numbers[MAX_VAL] = 0;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	for (int i = 0; i < MAX_VAL; i++)
-	{
-		numbers[i] = rand();
-	}
-	delete [] mirror;//
-	return 0;
+}
+
+int main()
+{
+	int i[3] = {2, 7, 42};
+	Iter<int>(i, 3, print);
+	std::cout << std::endl;
+
+	char c[7] = {'4','2','S','e','O','u','L'};
+	Iter<char>(c, 7, print);
+	std::cout << std::endl;
+	
+	Iter<char>(c, 7, toLower);
+	Iter<char>(c, 7, print);
+	std::cout << std::endl;
 }
