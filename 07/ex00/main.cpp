@@ -1,4 +1,7 @@
 #include <iostream>
+#include "MyTemplate.hpp"
+
+using namespace MyTemplate;
 
 int main( void )
 {
