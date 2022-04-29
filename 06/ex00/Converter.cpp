@@ -210,8 +210,9 @@ float	Converter::getFloat() const
 			{
 				double d = getDouble();
 				if (d > std::numeric_limits<float>::max()
-					|| d < -std::numeric_limits<float>::max()
-					|| fabs(d) < fabs(std::numeric_limits<float>::min()))
+					|| d < -std::numeric_limits<float>::max())
+					throw Impossible();
+				if (fabs(d) < fabs(std::numeric_limits<float>::min() && d != 0))
 					throw Impossible();
 				return (static_cast<float>(d));
 			}
