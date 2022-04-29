@@ -15,14 +15,14 @@ public:
 	Array(int len) : _len(len)
 	{
 		data = new T [_len];
-		std::cout << "# constructed new array" << std::endl;
+		std::cout << "# constructed new Array" << std::endl;
 	}
 	Array(const Array & other) : _len(other._len)
 	{
 		data = new T[_len];
 		for (int i = 0; i < _len; ++i)
 			data[i] = other.data[i];
-		std::cout << "# copy constructed new array" << std::endl;		
+		std::cout << "# copy constructed new Array" << std::endl;		
 	}
 	~Array()
 	{
@@ -38,7 +38,7 @@ public:
 		data = new T[_len];
 		for (int i = 0; i < _len; ++i)
 			data[i] = other.data[i];
-		std::cout << "# copied array" << std::endl;
+		std::cout << "# copied Array" << std::endl;
 		return *this;
 	}
 /* occf end */
@@ -54,7 +54,7 @@ public:
 	{
 		delete [] data;
 		data = NULL;
-		std::cout << "# delete array's data" << std::endl;
+		std::cout << "# delete Array's data" << std::endl;
 	}
 
 	class OutOfArrayException : public std::exception
