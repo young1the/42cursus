@@ -212,8 +212,11 @@ float	Converter::getFloat() const
 				if (d > std::numeric_limits<float>::max()
 					|| d < -std::numeric_limits<float>::max())
 					throw Impossible();
-				if (fabs(d) < fabs(std::numeric_limits<float>::min() && d != 0))
-					throw Impossible();
+				if (d != 0)
+				{
+					if (fabs(d) < fabs(std::numeric_limits<float>::min()))
+						throw Impossible();
+				}
 				return (static_cast<float>(d));
 			}
 			case PSEUDO :
