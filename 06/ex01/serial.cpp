@@ -1,11 +1,5 @@
 #include "serial.hpp"
 
-typedef struct s_data
-{
-	std::string	name;
-	int			id;
-}Data;
-
 uintptr_t serialize(Data *ptr)
 {
 	std::cout << "serialize Data" << std::endl;
