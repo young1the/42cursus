@@ -3,28 +3,25 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 #include <exception>
-#include <climits>
-#include <cerrno>
+#include <limits>
 
-enum PseudoLiterals
+enum TypeStr
 {
-	VALID,
-	NONDISPLAYABLE,
-	IMPOSSIBLE,
-	INFINI,
-	NOTANUM,
-	END
+	INT,
+	FLOAT,
+	DOUBLE,
+	PSEUDO,
+	NONE,
 };
 
 class Converter {
 
 private:
 
-	std::string			_input;
-	enum PseudoLiterals	_valid;
-	int					_value_i;
-	double				_value_d;
+	std::string		_input;
+	enum TypeStr	_type;
 
 public:
 
@@ -36,11 +33,15 @@ public:
 	Converter(const char *arg);
 	/* occf */
 
-	class Impossible : public std::exception
+	class NonDisplayable : public std::exception
 	{
 		const char * what() const throw();
 	};
-	class NonDisplayable : public std::exception
+	class PseudoLiteral : public std::exception
+	{
+		const char * what() const throw();
+	};
+	class Impossible : public std::exception
 	{
 		const char * what() const throw();
 	};
@@ -51,6 +52,9 @@ public:
 	double	getDouble() const;
 	int		getValid() const;
 	const std::string & getInput() const;
+
+	TypeStr detectType();
+	bool	isPseudo();
 
 };
 

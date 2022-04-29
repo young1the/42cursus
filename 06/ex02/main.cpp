@@ -22,11 +22,13 @@ Base *	generate(void)
 void	identify(Base* p)
 {
 	if (dynamic_cast<A*>(p))
-		std::cout << "this is A" << std::endl;
+		std::cout << "ptr identify : This is A" << std::endl;
 	else if (dynamic_cast<B*>(p))
-		std::cout << "this is B" << std::endl;
+		std::cout << "ptr identify : This is B" << std::endl;
 	else if (dynamic_cast<C*>(p))
-		std::cout << "this is C" << std::endl;
+		std::cout << "ptr identify : This is C" << std::endl;
+	else
+		std::cout << "ptr identify : Can't identify" << std::endl;
 }
 
 bool castRefA(Base& p)
@@ -71,11 +73,13 @@ bool castRefC(Base& p)
 void	identify(Base& p)
 {
 	if (castRefA(p))
-		std::cout << "this is A" << std::endl;
+		std::cout << "ref identify : This is A" << std::endl;
 	else if (castRefB(p))
-		std::cout << "this is B" << std::endl;
+		std::cout << "ref identify : This is B" << std::endl;
 	else if (castRefC(p))
-		std::cout << "this is C" << std::endl;
+		std::cout << "ref identify : This is C" << std::endl;
+	else
+		std::cout << "ref identify : Can't identify" << std::endl;
 }
 
 int main()
@@ -84,8 +88,6 @@ int main()
 	ptr = generate();
 	std::cout << "# ptr, randomly instanciated A, B or C" << std::endl;
 	Base &ref = *ptr;
-	std::cout << "# identify by pointer : ";
 	identify(ptr);
-	std::cout << "# identify by reference : ";
 	identify(ref);
 }
