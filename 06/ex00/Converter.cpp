@@ -80,11 +80,11 @@ TypeStr Converter::detectType()
 	}
 	if (i == _input.size())
 	{
-		if (dot == false)
+		if (dot == false && f == false)
 			return INT;
 		else if (dot == true && f == true)
 			return FLOAT;
-		else
+		else if (dot == true && f == false)
 			return DOUBLE;
 	}
 	return NONE;
@@ -119,7 +119,7 @@ char	Converter::getChar() const
 
 int		Converter::getInt() const
 {
-	if (_type > DOUBLE)
+	if (_type >= PSEUDO)
 		throw Impossible();
 	else if (_type > INT)
 	{
@@ -152,8 +152,9 @@ float	Converter::getFloat() const
 	try
 	{
 		double d = getDouble();
-		if (d > std::numeric_limits<float>::max() 
-		|| d < -std::numeric_limits<float>::max())
+		if (d > std::numeric_limits<float>::max()
+		|| d < -std::numeric_limits<float>::max()
+		|| fabs(d) < fabs(std::numeric_limits<float>::min()))
 			throw Impossible();
 		return (static_cast<float>(d));
 	}
