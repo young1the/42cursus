@@ -217,6 +217,8 @@ std::ostream & operator << (std::ostream & out, const Converter & c)
 	}
 	catch (Converter::PseudoLiteral & e)
 	{
+		if (c.getInput() == "inf")
+			out << '+';
 		out << c.getInput() << "f";
 	}
 	catch (std::exception & e)
@@ -232,6 +234,8 @@ std::ostream & operator << (std::ostream & out, const Converter & c)
 	}
 	catch (Converter::PseudoLiteral & e)
 	{
+		if (c.getInput() == "inf")
+			out << '+';
 		out << c.getInput();
 	}
 	catch (std::exception & e)
