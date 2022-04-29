@@ -103,13 +103,41 @@ char	Converter::getChar() const
 {
 	try
 	{
-		int i = getInt();
-		if (i > std::numeric_limits<char>::max()
-			|| i < std::numeric_limits<char>::min())
-			throw Impossible();
-		if (std::isprint(i) == false)
-			throw NonDisplayable();
-		return (static_cast<char>(i));
+		switch (_type)
+		{
+			case INT :
+			{
+				int i = getInt();
+				if (i > std::numeric_limits<char>::max()
+					|| i < std::numeric_limits<char>::min())
+					throw Impossible();
+				if (std::isprint(i) == false)
+					throw NonDisplayable();
+				return (static_cast<char>(i));
+			}
+			case FLOAT :
+			{
+				float f = getFloat();
+				if (f > std::numeric_limits<char>::max()
+					|| f < std::numeric_limits<char>::min())
+					throw Impossible();
+				if (std::isprint(f) == false)
+					throw NonDisplayable();
+				return (static_cast<char>(f));
+			}
+			case DOUBLE :
+			{
+				double d = getDouble();
+				if (d > std::numeric_limits<char>::max()
+					|| d < std::numeric_limits<char>::min())
+					throw Impossible();
+				if (std::isprint(d) == false)
+					throw NonDisplayable();
+				return (static_cast<char>(d));
+			}
+			default :
+				throw Impossible();
+		}
 	}
 	catch (std::exception & e)
 	{
@@ -119,31 +147,42 @@ char	Converter::getChar() const
 
 int		Converter::getInt() const
 {
-	if (_type >= PSEUDO)
-		throw Impossible();
-	else if (_type > INT)
+	try
 	{
-		try
+		switch (_type)
 		{
-			double d = getDouble();
-			if (d > std::numeric_limits<int>::max()
-				|| d < std::numeric_limits<int>::min())
+			case INT :
+			{
+				std::stringstream ss(_input);
+				int ret;
+				ss >> ret;
+				if (ss.fail())
+					throw Impossible();
+				return (ret);
+			}
+			case FLOAT :
+			{
+				float f = getFloat();
+				if (f > std::numeric_limits<int>::max()
+					|| f < std::numeric_limits<int>::min())
+					throw Impossible();
+				return (static_cast<int>(f));
+			}
+			case DOUBLE :
+			{
+				double d = getDouble();
+				if (d > std::numeric_limits<int>::max()
+					|| d < std::numeric_limits<int>::min())
+					throw Impossible();
+				return (static_cast<int>(d));
+			}
+			default :
 				throw Impossible();
-			return (static_cast<int>(d));
-		}
-		catch (std::exception & e)
-		{
-			throw ;
 		}
 	}
-	else
+	catch (std::exception & e)
 	{
-		std::stringstream ss(_input);
-		int ret;
-		ss >> ret;
-		if (ss.fail())
-			throw Impossible();
-		return (ret);
+		throw ;
 	}
 }
 
@@ -151,12 +190,37 @@ float	Converter::getFloat() const
 {
 	try
 	{
-		double d = getDouble();
-		if (d > std::numeric_limits<float>::max()
-		|| d < -std::numeric_limits<float>::max()
-		|| fabs(d) < fabs(std::numeric_limits<float>::min()))
-			throw Impossible();
-		return (static_cast<float>(d));
+		switch (_type)
+		{
+			case INT :
+			{
+				int i = getInt();
+				return (static_cast<float>(i));
+			}
+			case FLOAT :
+			{
+				std::stringstream ss(_input);
+				float ret;
+				ss >> ret;
+				if (ss.fail())
+					throw Impossible();
+				return (ret);
+			}
+			case DOUBLE :
+			{
+				double d = getDouble();
+				if (d > std::numeric_limits<float>::max()
+					|| d < -std::numeric_limits<float>::max()
+					|| fabs(d) < fabs(std::numeric_limits<float>::min()))
+					throw Impossible();
+				return (static_cast<float>(d));
+			}
+			case PSEUDO :
+				if (_type == PSEUDO)
+					throw PseudoLiteral();
+			default :
+				throw Impossible();
+		}
 	}
 	catch (std::exception & e)
 	{
@@ -166,16 +230,40 @@ float	Converter::getFloat() const
 
 double	Converter::getDouble() const
 {
-	if (_type == PSEUDO)
-		throw PseudoLiteral();
-	if (_type == NONE)
-		throw Impossible();
-	std::stringstream ss(_input);
-	double ret;
-	ss >> ret;
-	if (ss.fail())
-		throw Impossible();
-	return (ret);
+	try
+	{
+		switch (_type)
+		{
+			case INT :
+			{
+				int i = getInt();
+				return (static_cast<double>(i));
+			}
+			case FLOAT :
+			{
+				float f = getFloat();
+				return (static_cast<double>(f));
+			}
+			case DOUBLE :
+			{
+				std::stringstream ss(_input);
+				double ret;
+				ss >> ret;
+				if (ss.fail())
+					throw Impossible();
+				return (ret);
+			}
+			case PSEUDO :
+				if (_type == PSEUDO)
+					throw PseudoLiteral();
+			default :
+				throw Impossible();
+		}
+	}
+	catch (std::exception & e)
+	{
+		throw ;
+	}
 }
 
 const std::string & Converter::getInput() const
