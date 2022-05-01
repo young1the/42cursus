@@ -1,33 +1,19 @@
 #include <iostream>
-#include <cstdlib>
 
 #include "Iter.hpp"
-
-template<typename T>
-void print(const T & a)
-{
-	std::cout << a << " ";
-}
-
-void toLower(char &c)
-{
-	if (c >= 'A' && c <= 'Z')
-	{
-		c += 'a' - 'A';
-	}
-}
+#include "print.hpp"
+#include "toLower.hpp"
 
 int main()
 {
-	int i[3] = {2, 7, 42};
-	Iter<int>(i, 3, print);
+	int is[3] = {2, 7, 42};
+	Iter<int>(is, 3, print);
 	std::cout << std::endl;
 
-	char c[7] = {'4','2','S','e','O','u','L'};
-	Iter<char>(c, 7, print);
+	char cs[7] = {'4','2','S','E','O','u','L'};
+	Iter<char>(cs, 7, print);
 	std::cout << std::endl;
-
-	Iter<char>(c, 7, toLower);
-	Iter<char>(c, 7, print);
+	Iter<char>(cs, 7, toLower);
+	Iter<char>(cs, 7, print);
 	std::cout << std::endl;
 }

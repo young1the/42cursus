@@ -14,13 +14,13 @@ int main(int, char**)
 		numbers[i] = value;
 		mirror[i] = value;
 	}
-	std::cout << ">> Array be made" << std::endl;
+	std::cout << ">> Array [numbers] constructed" << std::endl;
 	//SCOPE
 	{
 		Array<int> tmp = numbers;
 		Array<int> test(tmp);
 	}
-	std::cout << ">> Array tmp, test destructed, out of scope" << std::endl;
+	std::cout << ">> Array [tmp], [test] destructed (out of scope)." << std::endl;
 	for (int i = 0; i < MAX_VAL; i++)
 	{
 		if (i % 75 == 0)

@@ -1,4 +1,5 @@
-SRCS			=	main.cpp
+SRCS			=	main.cpp\
+					toLower.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= c++ -std=c++98
