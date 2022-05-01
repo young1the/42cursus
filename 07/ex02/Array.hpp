@@ -7,12 +7,17 @@
 template<typename T> class Array
 {
 private :
-	int	_len;
-	T	*data;
+	unsigned int	_len;
+	T				*data;
 public:
 
 /* occf */
-	Array(int len) : _len(len)
+	Array() : _len(0)
+	{
+		data = new T[0];
+		std::cout << "# constructed new empty Array" << std::endl;
+	}
+	Array(unsigned int len) : _len(len)
 	{
 		data = new T [_len];
 		std::cout << "# constructed new Array" << std::endl;
@@ -20,7 +25,7 @@ public:
 	Array(const Array & other) : _len(other._len)
 	{
 		data = new T[_len];
-		for (int i = 0; i < _len; ++i)
+		for (unsigned int i = 0; i < _len; ++i)
 			data[i] = other.data[i];
 		std::cout << "# copy constructed new Array" << std::endl;		
 	}
@@ -36,16 +41,16 @@ public:
 		reset();
 		_len = other._len;
 		data = new T[_len];
-		for (int i = 0; i < _len; ++i)
+		for (unsigned int i = 0; i < _len; ++i)
 			data[i] = other.data[i];
 		std::cout << "# copied Array" << std::endl;
 		return *this;
 	}
 /* occf end */
 
-	T & operator[] (int i)
+	T & operator[] (unsigned int i)
 	{
-		if (i >= _len || i < 0)
+		if (i >= _len)
 			throw OutOfArrayException();
 		return data[i];
 	}
@@ -55,6 +60,11 @@ public:
 		delete [] data;
 		data = NULL;
 		std::cout << "# delete Array's data" << std::endl;
+	}
+
+	const unsigned int & size() const
+	{
+		return (_len);
 	}
 
 	class OutOfArrayException : public std::exception

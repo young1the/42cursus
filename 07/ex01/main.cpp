@@ -4,16 +4,19 @@
 #include "print.hpp"
 #include "toLower.hpp"
 
+#include <vector>
+
 int main()
 {
-	int is[3] = {2, 7, 42};
-	Iter<int>(is, 3, print);
+	int ia[3] = {2, 7, 42};
+	Iter<int>(ia, 3, print);
 	std::cout << std::endl;
 
-	char cs[7] = {'4','2','S','E','O','u','L'};
-	Iter<char>(cs, 7, print);
+	char ca[7] = {'4','2','S','E','O','u','L'};
+	Iter<char>(ca, 7, print);
 	std::cout << std::endl;
-	Iter<char>(cs, 7, toLower);
-	Iter<char>(cs, 7, print);
+	Iter<char>(ca, 7, toLower);
+	Iter<char>(ca, 7, print);
 	std::cout << std::endl;
+
 }

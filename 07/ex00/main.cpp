@@ -1,4 +1,5 @@
 #include "whatever.hpp"
+#include "Bureaucrat.hpp"
 #include <iostream>
 
 int main( void )
@@ -15,6 +16,15 @@ int main( void )
 	std::cout << "c = " << c << ", d = " << d << std::endl;
 	std::cout << "min( c, d ) = " << whatever::min( c, d ) << std::endl;
 	std::cout << "max( c, d ) = " << whatever::max( c, d ) << std::endl;
+
+
+	Bureaucrat young("Young", 42);
+	Bureaucrat il("Il", 1);
+	Bureaucrat cho("Cho", 1);
+	std::cout << whatever::min(young, il) << std::endl;
+	std::cout << whatever::min(cho, il) << std::endl;
+	std::cout << whatever::max(il, cho) << std::endl;
+
 	return 0;
 }
 
