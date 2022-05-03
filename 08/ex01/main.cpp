@@ -43,6 +43,20 @@ int main()
 	{
 		std::cout << "! " << e.what() << std::endl;
 	}
-
+	try
+	{
+		Span sp = Span(10000);
+		srand(time(NULL));
+		for (int i = 0; i < 10000; ++i)
+		{
+			int input = rand();
+			sp.addNumber(input);
+		}
+		std::cout << sp.shortestSpan() << " " << sp.longestSpan() << std::endl;
+	}
+	catch (std::exception & e)
+	{
+		std::cout << "! " << e.what() << std::endl;
+	}
 	return 0;
 }

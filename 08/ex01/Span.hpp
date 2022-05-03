@@ -3,21 +3,25 @@
 
 #include <set>
 #include <exception>
+#include <algorithm>
 
 class Span
 {
 	private:
 	
-	std::set<int>	_st;
+	std::multiset<int>	_st;
 	unsigned int	_max_size;
-	unsigned int	_stored;
 
 	public :
 
+	Span();
 	Span(unsigned int N);
+	Span(const Span & other);
+	Span & operator = (const Span & other);
+
 	void addNumber(int in);
-	int shortestSpan() const;
-	int longestSpan() const;
+	size_t shortestSpan() const;
+	size_t longestSpan() const;
 	
 	class TheSpanIsFull : public std::exception
 	{

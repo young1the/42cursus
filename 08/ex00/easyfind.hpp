@@ -2,19 +2,19 @@
 #define EASYFIND_HPP
 
 #include <algorithm>
-#include <exception>
+#include "NoOccur.hpp"
 
 template <typename T>
 typename T::iterator easyfind(T & t, int value)
 {
 	typename T::iterator first = t.begin();
-	typename T::iterator last = t.end();
-	for (; first != last; ++first)
+	typename T::iterator end = t.end();
+	for (; first != end; ++first)
 	{
 		if (*first == value)
 			return (first);
 	}
-	return last;
+	throw NoOccur();
 }
 
 #endif

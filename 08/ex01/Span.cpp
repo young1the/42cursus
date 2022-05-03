@@ -1,38 +1,52 @@
 #include "Span.hpp"
 
+Span::Span()
+: _max_size(0){}
+
 Span::Span(unsigned int N)
-: _max_size(N), _stored(0)
+: _max_size(N){}
+
+Span::Span(const Span & other)
 {
+	*this = other;
+}
+
+Span & Span::operator = (const Span & other)
+{
+	this->_st = other._st;
+	this->_max_size = other._max_size;
+	return *this;
 }
 
 void Span::addNumber(int in)
 {
-	if (_stored == _max_size)
+	if (_st.size() == _max_size)
 		throw TheSpanIsFull();
 	_st.insert(in);
-	_stored++;
 }
 
-int Span::shortestSpan() const
+size_t Span::shortestSpan() const
 {
-	if (_stored < 2)
+	if (_st.size() < 2)
 		throw NoSpanCanBeFound();
-	int ret = longestSpan();
-	for (std::set<int>::iterator sit = _st.begin(); sit != --_st.end(); ++sit)
+	size_t ret = longestSpan();
+	std::set<int>::iterator first = _st.begin();
+	std::set<int>::iterator next = first;
+	while (++next != _st.end())
 	{
-		std::set<int>::iterator bigger_sit = sit;
-		++bigger_sit;
-		if (((*bigger_sit - *sit) < ret))
-			ret = *bigger_sit - *sit;
+		size_t diff = abs(*next - *first);
+		if (diff < ret)
+			ret = diff;
+		++first;
 	}
 	return ret;
 }
 
-int Span::longestSpan() const
+size_t Span::longestSpan() const
 {
-	if (_stored < 2)
+	if (_st.size() < 2)
 		throw NoSpanCanBeFound();
-	return *(--_st.end()) - *(_st.begin());
+	return abs(*(--_st.end()) - *(_st.begin()));
 }
 
 const char * Span::TheSpanIsFull::what() const throw()

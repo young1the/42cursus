@@ -1,5 +1,4 @@
-SRCS			=	main.cpp\
-					NoOccur.cpp
+SRCS			=	main.cpp
 OBJS			= $(SRCS:.cpp=.o)
 
 CXX				= c++ -std=c++98
@@ -8,7 +7,7 @@ INC				= -I.
 
 RM				= rm -f
 
-NAME			= easyfind
+NAME			= mutant
 
 all:			$(NAME)
 
