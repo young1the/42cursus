@@ -7,14 +7,11 @@
 template <typename T>
 typename T::iterator easyfind(T & t, int value)
 {
-	typename T::iterator first = t.begin();
-	typename T::iterator end = t.end();
-	for (; first != end; ++first)
-	{
-		if (*first == value)
-			return (first);
-	}
-	throw NoOccur();
+	typename T::iterator ret = std::find(t.begin(), t.end(), value);
+	if (ret == t.end())
+		throw NoOccur();
+	else
+		return ret;
 }
 
 #endif
