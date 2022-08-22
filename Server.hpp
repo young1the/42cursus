@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/22 16:21:33 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/22 17:52:47 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <exception>
 #include <vector>
 #include <poll.h>
+#include <unistd.h>
 
 #include "Client.hpp"
 
@@ -70,7 +71,7 @@ public:
 		{
 			int pret;
 			struct pollfd *fds = getfds(_ssocket, _c);
-			pret = poll(fds, _c.size() + 1, 5000);
+			pret = poll(fds, _c.size() + 1, -1);
 
 			if (pret == -1)
 			{
@@ -78,10 +79,10 @@ public:
 			}
 			else if (pret == 0)
 			{
-				for (int i=0;i<_c.size();i++)
-				{
-					_c[i].clientout();
-				}
+				// for (int i=0;i<_c.size();i++)
+				// {
+				// 	_c[i].clientout();
+				// }
 				std::cout << "timeout" << std::endl;
 			}
 			else
@@ -103,20 +104,29 @@ public:
 					if (fds[i].revents & (POLLIN | POLLPRI))
 					{
 						char buf[1024];
+						int rret;
+
 						memset(buf, 0,1024);
-						recv(fds[i].fd, buf, 1024, 0);
-						std::cout << fds[i].fd << " : " << buf << std::endl;
-						for (int j=0;j<_c.size();j++)
+						rret = recv(fds[i].fd, buf, 1024, 0);
+						if (rret == 0)
 						{
-							std::stringstream ss;
-							ss << _c[i - 1].getfd();
-							std::string num;
-							ss >> num;
-							std::string temp(num + ": " + buf + "\n");
-							
-							if (i - 1 != j)
-								send(_c[j].getfd(), temp.c_str(), temp.length(), 0);
+							std::cout << "disconnected!\n";
+							close(_c[i - 1].getfd());
+							_c.erase(_c.begin() + i - 1);
+							break;
 						}
+						std::cout << fds[i].fd << " : " << buf;
+						// for (int j=0;j<_c.size();j++)
+						// {
+						// 	std::stringstream ss;
+						// 	ss << _c[i - 1].getfd();
+						// 	std::string num;
+						// 	ss >> num;
+						// 	std::string temp(num + ": " + buf + "\n");
+							
+						// 	if (i - 1 != j)
+						// 		send(_c[j].getfd(), temp.c_str(), temp.length(), 0);
+						// }
 					}
 				}
 			}
@@ -124,16 +134,19 @@ public:
 		}
 	}
 
+
 	struct pollfd *getfds(int s, std::vector<Client> c)
 	{
 		struct pollfd *temp = new struct pollfd[c.size() + 1];
 		temp[0].fd = s;
 		temp[0].events = POLLIN | POLLPRI;
+		temp[0].revents = 0;
 
 		for (int i=1;i<c.size() + 1;i++)
 		{
 			temp[i].fd = c[i-1].getfd();
 			temp[i].events = POLLIN | POLLPRI;
+			temp[i].revents = 0;
 		}
 		return temp;
 	}

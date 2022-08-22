@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 16:29:31 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/22 17:06:23 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/22 17:08:04 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ public:
 	}
 	~Channel();
 
-	void send_to_other_client(int fd, std::string msg);
+	void send_to_other_client(Client sender, std::string msg);
 	void kick(Client oper, Client usr)
 	{
 		// if (is_op(oper))
