@@ -15,6 +15,7 @@
 class Client
 {
 private:
+	/** nickname having a maximum length of nine (9) characters */
 	std::string	_name;
 	int			_fd;
 	

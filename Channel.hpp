@@ -16,9 +16,12 @@
 class Channel
 {
 private:
+	/** Channels names are strings (beginning with a '&' or '#' character) of length up to 200 characters.
+	the only restriction on a channel name is that it may not contain any spaces (' '), a control G (^G or ASCII 7), 
+	or a comma (',' which is used as a list item separator by the protocol). */
 	std::string _name;
 	std::vector<Client> _c;
-	std::vector<Client> _op;
+	std::vector<Client> _op; // chop, chanop : KICK, MODE, INVITE, TOPIC
 	std::pair<Client, std::string> message;
 	int _type;
 
