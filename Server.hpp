@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/24 15:27:04 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:27:52 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ private:
 	void send_to_socket(int fd, std::string str)
 	{
 		send(fd, str.c_str(), str.length(), 0);
+		send(fd, "\n", 1, 0);
 	}
 	
 public:
@@ -131,12 +132,6 @@ public:
 						throw std::logic_error("connection failed");
 					}
 					_c.push_back(Client(csocket));
-
-					send_to_socket(csocket, "localhost 001 chanhuil :Welcome to the Internet Relay Network chanhuil!chanhuil@localhost");
-					send_to_socket(csocket, "localhost 002 chanhuil :Your host is servername, running version working-in-progress");
-					send_to_socket(csocket, "localhost 003 chanhuil :This server was created Christmas");
-					send_to_socket(csocket, "localhost 004 chanhuil :localhost working-in-progress o o");
-					send_to_socket(csocket, ":chanhuil!chanhuil@localhost NICK chanhuil");
 				}
 				for (unsigned long i=1;i<_c.size() + 1;i++)
 				{
@@ -146,21 +141,31 @@ public:
 						*/
 						char buf[1024];
 						int rret;
+						int csocket = fds[i].fd;
 
 						memset(buf, 0,1024);
-						rret = recv(fds[i].fd, buf, 1024, 0);
+						rret = recv(csocket, buf, 1024, 0);
 						if (rret == 0)
 						{
-							std::cout << fds[i].fd << " - disconnected!\n";
+							std::cout << csocket << " - disconnected!\n";
 							close(_c[i - 1].get_fd());
 							_c.erase(_c.begin() + i - 1);
 							break;
 						}
-						std::cout << fds[i].fd << " :\n" << buf;
+						std::cout << csocket << " :\n" << buf;
 
+						std::string msg(buf);
 
+						if (msg.substr(0, 6) == "CAP LS")
+						{
+							send_to_socket(csocket, "CAP * LS :");
+							send_to_socket(csocket, ":irc.example.com 001 chanhuil :Welcome to the Internet Relay Network, chanhuil");
+							send_to_socket(csocket, ":irc.example.com 002 chanhuil :Your host is irc.example.com, running version working-in-progress");
+							send_to_socket(csocket, ":irc.example.com 003 chanhuil :This server was created in Christmas");
+							send_to_socket(csocket, ":irc.example.com 004 chanhuil :irc.example.com working-in-progress o o");
+							send_to_socket(csocket, ":irc.example.com 372 chanhuil :- Welcome!");
 
-
+						}
 
 						// for (int j=0;j<_c.size();j++)
 						// {
