@@ -166,6 +166,10 @@ public:
 							send_to_socket(csocket, ":irc.example.com 372 chanhuil :- Welcome!");
 
 						}
+						else if (!strstr(split(msg," ")[0]),"PING")
+						{
+							send_to_socket(csocket, "PONG " + split(msg," ")[1]);
+						}
 
 						// for (int j=0;j<_c.size();j++)
 						// {
