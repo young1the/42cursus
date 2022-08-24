@@ -142,6 +142,8 @@ public:
 				{
 					if (fds[i].revents & (POLLIN | POLLPRI))
 					{
+						/** 512 = 510 + '\r''\n'
+						*/
 						char buf[1024];
 						int rret;
 
