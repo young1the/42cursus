@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:13:00 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/22 16:10:00 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:12:21 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 {
 	if (argc != 3)
 	{
-		std::cout << "usage: ./ft_irc [port] [password]";
+		std::cout << "usage: ./ft_irc [port] [password]\n";
 		return (1);
 	}
 	Server s(argv[1], argv[2]);

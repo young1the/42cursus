@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/22 17:52:47 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:25:34 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,40 @@ private:
 
 	std::vector<Client> _c;
 
+
+	Client& GetClientByFd(int fd)
+	{
+		for (std::vector<Client>::iterator it = _c.begin();it != _c.end(); it++)
+		{
+			if (it->get_fd() == fd)
+			{
+				return (*it);
+			}
+		}
+		throw std::logic_error("Couldn't find a Client");
+	}
+
+	struct pollfd *getfds(int s, std::vector<Client> c)
+	{
+		struct pollfd *temp = new struct pollfd[c.size() + 1];
+		temp[0].fd = s;
+		temp[0].events = POLLIN | POLLPRI;
+		temp[0].revents = 0;
+
+		for (unsigned long i=1;i<c.size() + 1;i++)
+		{
+			temp[i].fd = c[i-1].get_fd();
+			temp[i].events = POLLIN | POLLPRI;
+			temp[i].revents = 0;
+		}
+		return temp;
+	}
+
+	void send_to_socket(int fd, std::string str)
+	{
+		send(fd, str.c_str(), str.length(), 0);
+	}
+	
 public:
 	Server(const std::string & port, const std::string & password)
 	: _password(password)
@@ -97,9 +131,14 @@ public:
 						throw std::logic_error("connection failed");
 					}
 					_c.push_back(Client(csocket));
-					send(csocket, "Hello World!\n", 13, 0);
+
+					send_to_socket(csocket, "localhost 001 chanhuil :Welcome to the Internet Relay Network chanhuil!chanhuil@localhost");
+					send_to_socket(csocket, "localhost 002 chanhuil :Your host is servername, running version working-in-progress");
+					send_to_socket(csocket, "localhost 003 chanhuil :This server was created Christmas");
+					send_to_socket(csocket, "localhost 004 chanhuil :localhost working-in-progress o o");
+					send_to_socket(csocket, ":chanhuil!chanhuil@localhost NICK chanhuil");
 				}
-				for (int i=1;i<_c.size() + 1;i++)
+				for (unsigned long i=1;i<_c.size() + 1;i++)
 				{
 					if (fds[i].revents & (POLLIN | POLLPRI))
 					{
@@ -110,44 +149,33 @@ public:
 						rret = recv(fds[i].fd, buf, 1024, 0);
 						if (rret == 0)
 						{
-							std::cout << "disconnected!\n";
-							close(_c[i - 1].getfd());
+							std::cout << fds[i].fd << " - disconnected!\n";
+							close(_c[i - 1].get_fd());
 							_c.erase(_c.begin() + i - 1);
 							break;
 						}
-						std::cout << fds[i].fd << " : " << buf;
+						std::cout << fds[i].fd << " :\n" << buf;
+
+						
+
+
+
+
 						// for (int j=0;j<_c.size();j++)
 						// {
 						// 	std::stringstream ss;
-						// 	ss << _c[i - 1].getfd();
+						// 	ss << _c[i - 1].get_fd();
 						// 	std::string num;
 						// 	ss >> num;
 						// 	std::string temp(num + ": " + buf + "\n");
 							
 						// 	if (i - 1 != j)
-						// 		send(_c[j].getfd(), temp.c_str(), temp.length(), 0);
+						// 		send(_c[j].get_fd(), temp.c_str(), temp.length(), 0);
 						// }
 					}
 				}
 			}
 			delete[] fds;
 		}
-	}
-
-
-	struct pollfd *getfds(int s, std::vector<Client> c)
-	{
-		struct pollfd *temp = new struct pollfd[c.size() + 1];
-		temp[0].fd = s;
-		temp[0].events = POLLIN | POLLPRI;
-		temp[0].revents = 0;
-
-		for (int i=1;i<c.size() + 1;i++)
-		{
-			temp[i].fd = c[i-1].getfd();
-			temp[i].events = POLLIN | POLLPRI;
-			temp[i].revents = 0;
-		}
-		return temp;
 	}
 };

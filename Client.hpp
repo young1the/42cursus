@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:52:12 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/22 17:01:19 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:26:23 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,18 @@ public:
 		: _name("Anonymous"), _fd(fd)
 	{}
 
-	void clientout(){
+	void clientout()
+	{
 		std::cout << _fd << ": Welcome!" << std::endl;
 	}
-	int getfd()
+
+	int get_fd()
 	{
 		return _fd;
 	}
+
+	
+	
 
 	bool operator==(const Client& c)
 	{
