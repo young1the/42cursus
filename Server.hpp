@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/25 15:26:12 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/25 16:08:41 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,26 @@ private:
 	{
 		send(fd, str.c_str(), str.length(), 0);
 		send(fd, "\n", 1, 0);
+	}
+
+	std::vector<std::string> GetMSG(std::vector<std::pair<std::string,int> > v)
+	{
+		std::vector<std::string> temp;
+		for (size_t i=0;i<v.size();i++)
+		{
+			temp.push_back(v.at(i).first);
+		}
+		return temp;
+	}
+
+	void printParser(Parser p)
+	{
+							std::cout << "Command was : <" << p.getCommand() << ">\n";
+							for (size_t i=0;i<p.getParams().size();i++)
+							{
+								std::cout << "Param " << i << " was : <" << p.getParams()[i] << ">\n";
+							}
+							std::cout << "Trail was : <" << p.getTrail() << ">\n";
 	}
 	
 public:
@@ -157,51 +177,48 @@ public:
 
 						GetClientByFd(csocket)._temp += std::string(buf);
 						
-						if (!strchr(GetClientByFd(csocket)._temp.c_str(), '\n'))
+						if (!strstr(GetClientByFd(csocket)._temp.c_str(), "\n"))
 						{
 							continue;
 						}
 
-						std::string msg = GetClientByFd(csocket)._temp.erase(GetClientByFd(csocket)._temp.length() - 1);
+						std::vector<std::string> msgs = GetMSG(Parser(GetClientByFd(csocket)._temp, "\r\n").getVector());
 						GetClientByFd(csocket)._temp = "";
-						Parser par(msg);
 						
-						std::cout << "Command was : |" << par.getCommand() << "|\n";
-						std::cout << "Param 1 was : |" << par.getParams()[0] << "|\n";
-
-						if (par.getCommand() == "CAP" && par.getParams()[0].substr(0, 2) == "LS")
+						for (size_t i=0;i<msgs.size();i++)
 						{
-							send_to_socket(csocket, "CAP * LS :");
-							send_to_socket(csocket, ":irc.example.com 001 chanhuil :Welcome to the Internet Relay Network, chanhuil");
-							send_to_socket(csocket, ":irc.example.com 002 chanhuil :Your host is irc.example.com, running version working-in-progress");
-							send_to_socket(csocket, ":irc.example.com 003 chanhuil :This server was created in Christmas");
-							send_to_socket(csocket, ":irc.example.com 004 chanhuil :irc.example.com working-in-progress o o");
-							send_to_socket(csocket, ":irc.example.com 372 chanhuil :-   _____  __     .__                ");
-							send_to_socket(csocket, ":irc.example.com 372 chanhuil :- _/ ____\\/  |_   |__|______   ____  ");
-							send_to_socket(csocket, ":irc.example.com 372 chanhuil :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
-							send_to_socket(csocket, ":irc.example.com 372 chanhuil :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
-							send_to_socket(csocket, ":irc.example.com 372 chanhuil :-  |__|   |__|____|__||__|    \\___  >");
-							send_to_socket(csocket, ":irc.example.com 372 chanhuil :-           /_____/               \\/ ");
-							send_to_socket(csocket, ":irc.example.com 376 chanhuil :- Welcome!");
+							Parser par(msgs[i]);
+
+							// printParser(par);
+
+							if (par.getCommand() == "CAP")
+							{
+								if (par.getParams()[0].substr(0, 2) == "LS")
+								{
+									send_to_socket(csocket, "CAP * LS :");
+									send_to_socket(csocket, ":localhost 001 chanhuil :Welcome to the ft_irc, chanhuil");
+									send_to_socket(csocket, ":localhost 002 chanhuil :Your host is localhost, running version working-in-progress");
+									send_to_socket(csocket, ":localhost 003 chanhuil :This server was created in Christmas");
+									send_to_socket(csocket, ":localhost 004 chanhuil :localhost working-in-progress o o");
+									send_to_socket(csocket, ":localhost 372 chanhuil :-   _____  __     .__                ");
+									send_to_socket(csocket, ":localhost 372 chanhuil :- _/ ____\\/  |_   |__|______   ____  ");
+									send_to_socket(csocket, ":localhost 372 chanhuil :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
+									send_to_socket(csocket, ":localhost 372 chanhuil :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
+									send_to_socket(csocket, ":localhost 372 chanhuil :-  |__|   |__|____|__||__|    \\___  >");
+									send_to_socket(csocket, ":localhost 372 chanhuil :-           /_____/               \\/ ");
+									send_to_socket(csocket, ":localhost 376 chanhuil :- Welcome!");
+								}
+							}
+							else if (par.getCommand() == "PING")
+							{
+								send_to_socket(csocket, "PONG " + par.getParams()[0]);
+							}
+							else if (par.getCommand() == "JOIN")
+							{
+								send_to_socket(csocket, ":localhost JOIN #ft :chanhuil has joined " + par.getParams()[0]);
+							}
 
 						}
-						// else if (Parser(msg, " ").getVector()[0] == "PING")
-						else if (par.getCommand() == "PING")
-						{
-							send_to_socket(csocket, "PONG " + par.getParams()[0]);
-						}
-
-						// for (int j=0;j<_c.size();j++)
-						// {
-						// 	std::stringstream ss;
-						// 	ss << _c[i - 1].get_fd();
-						// 	std::string num;
-						// 	ss >> num;
-						// 	std::string temp(num + ": " + buf + "\n");
-							
-						// 	if (i - 1 != j)
-						// 		send(_c[j].get_fd(), temp.c_str(), temp.length(), 0);
-						// }
 					}
 				}
 			}

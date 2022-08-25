@@ -75,12 +75,12 @@ private:
                 case TRAILING:
                     _v[i].first.erase(_v[i].first.begin());
                     break ;
-                // default:
-                //     if(!checkStr(_v[i].first, isChstring))
-                //     {
-                //         std::string errmsg = _v[i].first + " : Wrong Format!!";
-                //         throw std::logic_error(errmsg.c_str());
-                //     }
+                default:
+                    if(!checkStr(_v[i].first, isChstring))
+                    {
+                        std::string errmsg = _v[i].first + " : Wrong Format!!";
+                        throw std::logic_error(errmsg.c_str());
+                    }
             }
         }
     }
