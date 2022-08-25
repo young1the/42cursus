@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/24 16:27:52 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/25 15:26:12 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <unistd.h>
 
 #include "Client.hpp"
+#include "Parser.hpp"
 
 class Server
 {
@@ -139,12 +140,12 @@ public:
 					{
 						/** 512 = 510 + '\r''\n'
 						*/
-						char buf[1024];
+						char buf[513];
 						int rret;
 						int csocket = fds[i].fd;
 
-						memset(buf, 0,1024);
-						rret = recv(csocket, buf, 1024, 0);
+						memset(buf, 0, 513);
+						rret = recv(csocket, buf, 513, 0);
 						if (rret == 0)
 						{
 							std::cout << csocket << " - disconnected!\n";
@@ -154,21 +155,40 @@ public:
 						}
 						std::cout << csocket << " :\n" << buf;
 
-						std::string msg(buf);
+						GetClientByFd(csocket)._temp += std::string(buf);
+						
+						if (!strchr(GetClientByFd(csocket)._temp.c_str(), '\n'))
+						{
+							continue;
+						}
 
-						if (msg.substr(0, 6) == "CAP LS")
+						std::string msg = GetClientByFd(csocket)._temp.erase(GetClientByFd(csocket)._temp.length() - 1);
+						GetClientByFd(csocket)._temp = "";
+						Parser par(msg);
+						
+						std::cout << "Command was : |" << par.getCommand() << "|\n";
+						std::cout << "Param 1 was : |" << par.getParams()[0] << "|\n";
+
+						if (par.getCommand() == "CAP" && par.getParams()[0].substr(0, 2) == "LS")
 						{
 							send_to_socket(csocket, "CAP * LS :");
 							send_to_socket(csocket, ":irc.example.com 001 chanhuil :Welcome to the Internet Relay Network, chanhuil");
 							send_to_socket(csocket, ":irc.example.com 002 chanhuil :Your host is irc.example.com, running version working-in-progress");
 							send_to_socket(csocket, ":irc.example.com 003 chanhuil :This server was created in Christmas");
 							send_to_socket(csocket, ":irc.example.com 004 chanhuil :irc.example.com working-in-progress o o");
-							send_to_socket(csocket, ":irc.example.com 372 chanhuil :- Welcome!");
+							send_to_socket(csocket, ":irc.example.com 372 chanhuil :-   _____  __     .__                ");
+							send_to_socket(csocket, ":irc.example.com 372 chanhuil :- _/ ____\\/  |_   |__|______   ____  ");
+							send_to_socket(csocket, ":irc.example.com 372 chanhuil :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
+							send_to_socket(csocket, ":irc.example.com 372 chanhuil :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
+							send_to_socket(csocket, ":irc.example.com 372 chanhuil :-  |__|   |__|____|__||__|    \\___  >");
+							send_to_socket(csocket, ":irc.example.com 372 chanhuil :-           /_____/               \\/ ");
+							send_to_socket(csocket, ":irc.example.com 376 chanhuil :- Welcome!");
 
 						}
-						else if (!strstr(split(msg," ")[0]),"PING")
+						// else if (Parser(msg, " ").getVector()[0] == "PING")
+						else if (par.getCommand() == "PING")
 						{
-							send_to_socket(csocket, "PONG " + split(msg," ")[1]);
+							send_to_socket(csocket, "PONG " + par.getParams()[0]);
 						}
 
 						// for (int j=0;j<_c.size();j++)

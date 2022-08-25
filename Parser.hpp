@@ -39,7 +39,7 @@ private:
 
     void setType()
     {
-        int i = 0;
+        size_t i = 0;
         if (_v.empty())
             throw std::logic_error("Wrong Format!");
         if (_v[i].first[0] == ':')
@@ -60,14 +60,14 @@ private:
 
     void checkVector()
     {
-        for (int i = 0; i < _v.size(); ++i)
+        for (size_t i = 0; i < _v.size(); ++i)
         {
             switch (_v[i].second)
             {
                 case PREFIX:
                     _v[i].first.erase(_v[i].first.begin());
                 case COMMAND:
-                    if(!checkStr(_v[i].first, isalpha))
+                    if(!checkStr(_v[i].first, isalnum))
                         throw std::logic_error("Wrong Format!!");
                     break ;
                 case PARAMS:
@@ -81,7 +81,7 @@ private:
 
     bool checkStr(const std::string & str, int (*f)(int))
     {
-        for (int i = 0; i < str.size(); ++i)
+        for (size_t i = 0; i < str.size(); ++i)
         {
             if (!f(str[i]))
                 return false;
@@ -141,11 +141,42 @@ public:
 
     void printVector() const
     {
-        for (int i = 0; i < _v.size(); ++i)
+        for (size_t i = 0; i < _v.size(); ++i)
         {
             std::cout << _v[i].first << " : " << _v[i].second << std::endl;
         }
     }
+
+	std::string getCommand()
+	{
+		for (size_t i = 0; i < _v.size(); ++i)
+		{
+			if (_v[i].second == COMMAND)
+				return _v[i].first;
+		}
+		return "";
+	}
+
+	std::vector<std::string> getParams()
+	{
+		std::vector<std::string> p;
+		for (size_t i = 0; i < _v.size(); ++i)
+		{
+			if (_v[i].second == PARAMS)
+				p.push_back(_v[i].first);
+		}
+		return p;
+	}
+
+	std::string getTrail()
+	{
+		for (size_t i = 0; i < _v.size(); ++i)
+		{
+			if (_v[i].second == TRAILING)
+				return _v[i].first;
+		}
+		return "";
+	}
 
 };
 

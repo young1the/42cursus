@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 16:29:31 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/22 17:08:04 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/25 14:50:27 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ private:
 			return false;
 		return true;
 	}
+
+	void send_to_socket(int fd, std::string str)
+	{
+		send(fd, str.c_str(), str.length(), 0);
+		send(fd, "\n", 1, 0);
+	}
 	
 public:
 
@@ -42,7 +48,17 @@ public:
 	}
 	~Channel();
 
-	void send_to_other_client(Client sender, std::string msg);
+	void send_to_other_client(Client sender, std::string msg)
+	{
+		for (std::vector<Client>::iterator it=_c.begin();it!=_c.end();it++)
+		{
+			if (*it != sender)
+			{
+				send_to_socket(it->get_fd(), msg);
+			}
+		}
+	}
+
 	void kick(Client oper, Client usr)
 	{
 		// if (is_op(oper))
