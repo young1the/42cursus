@@ -66,27 +66,23 @@ private:
             {
                 case PREFIX:
                     _v[i].first.erase(_v[i].first.begin());
-                case COMMAND:
-                    if(!checkStr(_v[i].first, isalnum))
-                        throw std::logic_error("Wrong Format!!");
-                    break ;
-                case PARAMS:
+                    if(!checkStr(_v[i].first, isChstring))
+                    {
+                        std::string errmsg = _v[i].first + " : Wrong Format!!";
+                        throw std::logic_error(errmsg.c_str());
+                    }
                     break ;
                 case TRAILING:
                     _v[i].first.erase(_v[i].first.begin());
                     break ;
+                // default:
+                //     if(!checkStr(_v[i].first, isChstring))
+                //     {
+                //         std::string errmsg = _v[i].first + " : Wrong Format!!";
+                //         throw std::logic_error(errmsg.c_str());
+                //     }
             }
         }
-    }
-
-    bool checkStr(const std::string & str, int (*f)(int))
-    {
-        for (size_t i = 0; i < str.size(); ++i)
-        {
-            if (!f(str[i]))
-                return false;
-        }
-        return true;
     }
 
 public:
@@ -135,6 +131,24 @@ public:
             _v.push_back(std::make_pair(substring, NONE));
     }
 
+    Parser(const std::string & str, const std::string & delimeter)
+    {
+        unsigned long prev_index = 0;
+        unsigned long deli_index = str.find(delimeter);
+        unsigned long deli_len = delimeter.size();
+        while (deli_index != std::string::npos)
+        {
+            std::string substring = str.substr(prev_index, deli_index - prev_index);
+            if (substring != "")
+                _v.push_back(std::make_pair(substring, NONE));
+            prev_index = deli_index + deli_len;
+            deli_index = str.find(delimeter, prev_index);
+        }
+        std::string substring = str.substr(prev_index, deli_index - prev_index);
+        if (substring != "")
+            _v.push_back(std::make_pair(substring, NONE));
+    }
+
     ~Parser();
  
     const Vector & getVector() {return _v;}
@@ -143,7 +157,7 @@ public:
     {
         for (size_t i = 0; i < _v.size(); ++i)
         {
-            std::cout << _v[i].first << " : " << _v[i].second << std::endl;
+            std::cout <<"|"<< _v[i].first<<"|" << " : " << _v[i].second << std::endl;
         }
     }
 
@@ -177,6 +191,24 @@ public:
 		}
 		return "";
 	}
+
+    static bool checkStr(const std::string & str, int (*f)(int))
+    {
+        for (size_t i = 0; i < str.size(); ++i)
+        {
+            if (!f(str[i]))
+                return false;
+        }
+        return true;
+    }
+
+    static int isChstring(int c)
+    {
+        // 7: Bell, 0: NUL
+        if (c == ' ' || c == '\r' || c == '\n' || c == ',' || c == 7 || c == 0)
+            return false;
+        return true;
+    }
 
 };
 
