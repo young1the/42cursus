@@ -2,8 +2,10 @@
 
 int main()
 {
-    std::string str = "Hello World Young";
-    Parser p(str, ' ');
-    p.printV();
-    std::cout << p.getVector()[0] << std::endl;;
+    // std::string str1 = "Hello World Young";
+    // std::string str2 = ":Hello World Young";
+    std::string str1 = ":Hello World Young :hello uni";
+
+    Parser p1(str1);
+    p1.printVector();
 }
