@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/25 16:08:41 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/25 16:54:49 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ private:
 	{
 		for (std::vector<Client>::iterator it = _c.begin();it != _c.end(); it++)
 		{
-			if (it->get_fd() == fd)
+			if (it->_fd == fd)
 			{
 				return (*it);
 			}
@@ -56,7 +56,7 @@ private:
 
 		for (unsigned long i=1;i<c.size() + 1;i++)
 		{
-			temp[i].fd = c[i-1].get_fd();
+			temp[i].fd = c[i-1]._fd;
 			temp[i].events = POLLIN | POLLPRI;
 			temp[i].revents = 0;
 		}
@@ -169,7 +169,7 @@ public:
 						if (rret == 0)
 						{
 							std::cout << csocket << " - disconnected!\n";
-							close(_c[i - 1].get_fd());
+							close(_c[i - 1]._fd);
 							_c.erase(_c.begin() + i - 1);
 							break;
 						}
@@ -193,9 +193,12 @@ public:
 
 							if (par.getCommand() == "CAP")
 							{
-								if (par.getParams()[0].substr(0, 2) == "LS")
+								if (par.getParams()[0] == "LS")
 								{
 									send_to_socket(csocket, "CAP * LS :");
+								}
+								if (par.getParams()[0] == "END")
+								{
 									send_to_socket(csocket, ":localhost 001 chanhuil :Welcome to the ft_irc, chanhuil");
 									send_to_socket(csocket, ":localhost 002 chanhuil :Your host is localhost, running version working-in-progress");
 									send_to_socket(csocket, ":localhost 003 chanhuil :This server was created in Christmas");
@@ -209,15 +212,36 @@ public:
 									send_to_socket(csocket, ":localhost 376 chanhuil :- Welcome!");
 								}
 							}
+							else if (par.getCommand() == "PASS")
+							{
+							}
+							else if (par.getCommand() == "NICK")
+							{
+								GetClientByFd(csocket)._name = par.getParams()[0];
+							}
+							else if (par.getCommand() == "USER")
+							{
+							}
+							else if (par.getCommand() == "MODE")
+							{
+							}
+							else if (par.getCommand() == "JOIN")
+							{
+								send_to_socket(csocket, ":localhost JOIN #ft : chanhuil has joined " + par.getParams()[0]);
+							}
+							else if (par.getCommand() == "PART")
+							{
+							}
+							else if (par.getCommand() == "PRIVMSG")
+							{
+							}
 							else if (par.getCommand() == "PING")
 							{
 								send_to_socket(csocket, "PONG " + par.getParams()[0]);
 							}
-							else if (par.getCommand() == "JOIN")
+							else if (par.getCommand() == "QUIT")
 							{
-								send_to_socket(csocket, ":localhost JOIN #ft :chanhuil has joined " + par.getParams()[0]);
 							}
-
 						}
 					}
 				}

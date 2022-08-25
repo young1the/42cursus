@@ -60,29 +60,29 @@ private:
 
     void checkVector()
     {
-        for (size_t i = 0; i < _v.size(); ++i)
-        {
-            switch (_v[i].second)
-            {
-                case PREFIX:
-                    _v[i].first.erase(_v[i].first.begin());
-                    if(!checkStr(_v[i].first, isChstring))
-                    {
-                        std::string errmsg = _v[i].first + " : Wrong Format!!";
-                        throw std::logic_error(errmsg.c_str());
-                    }
-                    break ;
-                case TRAILING:
-                    _v[i].first.erase(_v[i].first.begin());
-                    break ;
-                default:
-                    if(!checkStr(_v[i].first, isChstring))
-                    {
-                        std::string errmsg = _v[i].first + " : Wrong Format!!";
-                        throw std::logic_error(errmsg.c_str());
-                    }
-            }
-        }
+        // for (size_t i = 0; i < _v.size(); ++i)
+        // {
+        //     switch (_v[i].second)
+        //     {
+        //         case PREFIX:
+        //             _v[i].first.erase(_v[i].first.begin());
+        //             if(!checkStr(_v[i].first, isChstring))
+        //             {
+        //                 std::string errmsg = _v[i].first + " : Wrong Format!!";
+        //                 throw std::logic_error(errmsg.c_str());
+        //             }
+        //             break ;
+        //         case TRAILING:
+        //             _v[i].first.erase(_v[i].first.begin());
+        //             break ;
+        //         default:
+        //             if(!checkStr(_v[i].first, isChstring))
+        //             {
+        //                 std::string errmsg = _v[i].first + " : Wrong Format!!";
+        //                 throw std::logic_error(errmsg.c_str());
+        //             }
+        //     }
+        // }
     }
 
 public:

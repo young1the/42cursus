@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:52:12 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/25 15:17:06 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/25 16:45:05 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ class Client
 {
 private:
 	/** nickname having a maximum length of nine (9) characters */
+	
+public:
 	std::string _nick;
 	std::string	_name;
 	int			_fd;
 	std::string _mode;
-	
-public:
 	std::string _temp;
 
 	Client()
@@ -44,6 +44,11 @@ public:
 	std::string get_prefix()
 	{
 		return _nick + "!" + _name + "@localhost";
+	}
+
+	void set_name(std::string n)
+	{
+		_name = n;
 	}
 
 	
