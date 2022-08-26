@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/25 16:54:49 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/26 15:14:21 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <vector>
 #include <poll.h>
 #include <unistd.h>
+#include <algorithm>
 
 #include "Client.hpp"
 #include "Parser.hpp"
@@ -153,6 +154,18 @@ public:
 						throw std::logic_error("connection failed");
 					}
 					_c.push_back(Client(csocket));
+
+					send_to_socket(csocket, ":localhost 001 chanhuil :Welcome to the ft_irc, chanhuil");
+					send_to_socket(csocket, ":localhost 002 chanhuil :Your host is localhost, running version working-in-progress");
+					send_to_socket(csocket, ":localhost 003 chanhuil :This server was created in Christmas");
+					send_to_socket(csocket, ":localhost 004 chanhuil :localhost working-in-progress o o");
+					send_to_socket(csocket, ":localhost 372 chanhuil :-   _____  __     .__                ");
+					send_to_socket(csocket, ":localhost 372 chanhuil :- _/ ____\\/  |_   |__|______   ____  ");
+					send_to_socket(csocket, ":localhost 372 chanhuil :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
+					send_to_socket(csocket, ":localhost 372 chanhuil :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
+					send_to_socket(csocket, ":localhost 372 chanhuil :-  |__|   |__|____|__||__|    \\___  >");
+					send_to_socket(csocket, ":localhost 372 chanhuil :-           /_____/               \\/ ");
+					send_to_socket(csocket, ":localhost 376 chanhuil :- Welcome!");
 				}
 				for (unsigned long i=1;i<_c.size() + 1;i++)
 				{
@@ -175,15 +188,16 @@ public:
 						}
 						std::cout << csocket << " :\n" << buf;
 
-						GetClientByFd(csocket)._temp += std::string(buf);
-						
-						if (!strstr(GetClientByFd(csocket)._temp.c_str(), "\n"))
+						Client &c = GetClientByFd(csocket);
+
+						c._temp += std::string(buf);
+						if (!strstr(c._temp.c_str(), "\n"))
 						{
 							continue;
 						}
 
-						std::vector<std::string> msgs = GetMSG(Parser(GetClientByFd(csocket)._temp, "\r\n").getVector());
-						GetClientByFd(csocket)._temp = "";
+						std::vector<std::string> msgs = GetMSG(Parser(c._temp, "\r\n").getVector());
+						c._temp = "";
 						
 						for (size_t i=0;i<msgs.size();i++)
 						{
@@ -191,36 +205,19 @@ public:
 
 							// printParser(par);
 
-							if (par.getCommand() == "CAP")
-							{
-								if (par.getParams()[0] == "LS")
-								{
-									send_to_socket(csocket, "CAP * LS :");
-								}
-								if (par.getParams()[0] == "END")
-								{
-									send_to_socket(csocket, ":localhost 001 chanhuil :Welcome to the ft_irc, chanhuil");
-									send_to_socket(csocket, ":localhost 002 chanhuil :Your host is localhost, running version working-in-progress");
-									send_to_socket(csocket, ":localhost 003 chanhuil :This server was created in Christmas");
-									send_to_socket(csocket, ":localhost 004 chanhuil :localhost working-in-progress o o");
-									send_to_socket(csocket, ":localhost 372 chanhuil :-   _____  __     .__                ");
-									send_to_socket(csocket, ":localhost 372 chanhuil :- _/ ____\\/  |_   |__|______   ____  ");
-									send_to_socket(csocket, ":localhost 372 chanhuil :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
-									send_to_socket(csocket, ":localhost 372 chanhuil :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
-									send_to_socket(csocket, ":localhost 372 chanhuil :-  |__|   |__|____|__||__|    \\___  >");
-									send_to_socket(csocket, ":localhost 372 chanhuil :-           /_____/               \\/ ");
-									send_to_socket(csocket, ":localhost 376 chanhuil :- Welcome!");
-								}
-							}
-							else if (par.getCommand() == "PASS")
+							if (par.getCommand() == "PASS")
 							{
 							}
 							else if (par.getCommand() == "NICK")
 							{
-								GetClientByFd(csocket)._name = par.getParams()[0];
+								std::cout << "NICK IS >>>>" << c._nick << "\n";
+								send_to_socket(csocket, ":" + c._nick + " NICK " + par.getParams()[0]);
+								c._nick = par.getParams()[0];
+								std::cout << "NICK IS >>>>" << c._nick << "\n";
 							}
 							else if (par.getCommand() == "USER")
 							{
+								
 							}
 							else if (par.getCommand() == "MODE")
 							{
@@ -231,11 +228,13 @@ public:
 								// confirmation and is then sent the channel's topic (using RPL_TOPIC) and
 								// the list of users who are on the channel (using RPL_NAMREPLY), which
 								// MUST include the user joining.
-								send_to_socket(csocket, ":localhost JOIN #ft : chanhuil has joined " + par.getParams()[0]);
+								// send_to_socket(csocket, ":chanhuil JOIN " + par.getParams()[0] + " :chanhuil has joined " + par.getParams()[0]);
+								send_to_socket(csocket, ":" + c._nick + "!" + c._name + "@localhost JOIN " + par.getParams()[0] + " :Someone has joined!");
 							}
 							else if (par.getCommand() == "PART")
 							{
-
+								send_to_socket(csocket, c.get_prefix() + " PART " + par.getParams()[0]);
+								// send_to_socket(csocket, c.get_prefix() + " PART " + par.getParams()[0] + par.getTrail());
 							}
 							else if (par.getCommand() == "PRIVMSG")
 							{
@@ -247,7 +246,10 @@ public:
 							else if (par.getCommand() == "QUIT")
 							{
 								// A client session is terminated with a quit message.  The server
-   								// acknowledges this by sending an ERROR message to the client.
+   								// acknowledges this by sending an ERROR message to the client.]
+								close(csocket);
+								_c.erase(find(_c.begin(), _c.end(), c));
+								break;
 							}
 						}
 					}
@@ -256,4 +258,15 @@ public:
 			delete[] fds;
 		}
 	}
-};
+
+	~Server()
+	{
+		std::vector<Client>::iterator it = _c.begin();
+		for (; it != _c.end(); ++it)
+		{
+			close(it->_fd);
+		}
+		close(_ssocket);
+		std::cout << "Server Closed" << std::endl;
+	}
+}; // class end

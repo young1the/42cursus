@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:52:12 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/25 16:45:05 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/26 15:04:39 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,9 @@ public:
 		std::cout << _fd << ": Welcome!" << std::endl;
 	}
 
-	int get_fd()
-	{
-		return _fd;
-	}
-
 	std::string get_prefix()
 	{
-		return _nick + "!" + _name + "@localhost";
-	}
-
-	void set_name(std::string n)
-	{
-		_name = n;
+		return ":" + _nick + "!" + _name + "@localhost";
 	}
 
 	

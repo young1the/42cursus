@@ -6,13 +6,20 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:13:00 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/24 14:12:21 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/26 14:29:02 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-// void sighandler;
+void sighandler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		std::cout << "\n";
+		exit(0);
+	}
+}
 
 int main(int argc, char** argv)
 {
@@ -22,6 +29,14 @@ int main(int argc, char** argv)
 		return (1);
 	}
 	Server s(argv[1], argv[2]);
-	s.initialize();
-	s.loop();
+	try
+	{
+		s.initialize();
+		s.loop();
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	
 }
