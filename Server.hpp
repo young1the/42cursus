@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/26 15:14:21 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/26 17:26:15 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,15 @@ private:
 	int 					_ssocket;
 	struct sockaddr_in		_address;
 	std::string				_password;
+	int						_g;
 
 	std::vector<Client>		_c;
-	std::vector<Channel>	_chan;
+	std::vector<Channel>	_ch;
 
+	std::string GiveName()
+	{
+		return ("Guest" + std::to_string(_g++));
+	}
 
 	Client& GetClientByFd(int fd)
 	{
@@ -74,6 +79,18 @@ private:
 				return *it;
 		}
 		throw std::logic_error("No Client Found");
+		return *it;
+	}
+
+	Channel& GetChannelByName(const std::string & name)
+	{
+		std::vector<Channel>::iterator it = _ch.begin();
+		for (; it != _ch.end(); ++it)
+		{
+			if (name == it->get_name())
+				return *it;
+		}
+		throw std::logic_error("No Channel Found");
 		return *it;
 	}
 
@@ -134,7 +151,7 @@ private:
 	
 public:
 	Server(const std::string & port, const std::string & password)
-	: _password(password)
+	: _password(password), _g(1)
 	{
 		std::stringstream ss;
 		ss << port;
@@ -196,18 +213,6 @@ public:
 						throw std::logic_error("connection failed");
 					}
 					_c.push_back(Client(csocket));
-
-					send_to_socket(csocket, ":localhost 001 chanhuil :Welcome to the ft_irc, chanhuil");
-					send_to_socket(csocket, ":localhost 002 chanhuil :Your host is localhost, running version working-in-progress");
-					send_to_socket(csocket, ":localhost 003 chanhuil :This server was created in Christmas");
-					send_to_socket(csocket, ":localhost 004 chanhuil :localhost working-in-progress o o");
-					send_to_socket(csocket, ":localhost 372 chanhuil :-   _____  __     .__                ");
-					send_to_socket(csocket, ":localhost 372 chanhuil :- _/ ____\\/  |_   |__|______   ____  ");
-					send_to_socket(csocket, ":localhost 372 chanhuil :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
-					send_to_socket(csocket, ":localhost 372 chanhuil :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
-					send_to_socket(csocket, ":localhost 372 chanhuil :-  |__|   |__|____|__||__|    \\___  >");
-					send_to_socket(csocket, ":localhost 372 chanhuil :-           /_____/               \\/ ");
-					send_to_socket(csocket, ":localhost 376 chanhuil :- Welcome!");
 				}
 				for (unsigned long i=1;i<_c.size() + 1;i++)
 				{
@@ -252,18 +257,47 @@ public:
 							}
 							else if (par.getCommand() == "NICK")
 							{
-								std::cout << "NICK IS >>>>" << c._nick << "\n";
-								send_to_socket(csocket, ":" + c._nick + " NICK " + par.getParams()[0]);
-								c._nick = par.getParams()[0];
-								std::cout << "NICK IS >>>>" << c._nick << "\n";
+								if (par.getParams().size() < 1)
+								{
+									// 431 ERR_NONICKNAMEGIVEN;
+									send_to_socket(csocket, "431");
+								}
+								//format
+								else if (!isUniqueNick(par.getParams()[0]))
+								{
+									// if (c._nick == "Anonymous")
+									// {
+									// 	c._nick = GiveName();
+									// }
+									// 433 ERR_NICKNAMEINUSE;
+									send_to_socket(csocket, "433 " + GiveName());
+								}
+								else
+								{
+									send_to_socket(csocket, ":" + c._nick + " NICK " + par.getParams()[0]);
+									c._nick = par.getParams()[0];
+								}
 							}
 							else if (par.getCommand() == "USER")
 							{
-								
+								// c._name = par.getParams()[1];
+
+
+								send_to_socket(csocket, c.get_prefix() + " 001 " + c._nick + " :Welcome to the ft_irc, " + c._nick);
+								send_to_socket(csocket, c.get_prefix() + " 002 " + c._nick + " :Your host is localhost, running version working-in-progress");
+								send_to_socket(csocket, c.get_prefix() + " 003 " + c._nick + " :This server was created in Feburary 30th");
+								send_to_socket(csocket, c.get_prefix() + " 004 " + c._nick + " :localhost working-in-progress o o");
+								send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :-   _____  __     .__                ");
+								send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :- _/ ____\\/  |_   |__|______   ____  ");
+								send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
+								send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
+								send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :-  |__|   |__|____|__||__|    \\___  >");
+								send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :-           /_____/               \\/ ");
+								send_to_socket(csocket, c.get_prefix() + " 376 " + c._nick + " :- Welcome!");
 							}
-							else if (par.getCommand() == "MODE")
-							{
-							}
+							// else if (par.getCommand() == "MODE")
+							// {
+							// }
 							else if (par.getCommand() == "JOIN")
 							{
 								// If a JOIN is successful, the user receives a JOIN message as
@@ -272,6 +306,16 @@ public:
 								// MUST include the user joining.
 								// send_to_socket(csocket, ":chanhuil JOIN " + par.getParams()[0] + " :chanhuil has joined " + par.getParams()[0]);
 								send_to_socket(csocket, ":" + c._nick + "!" + c._name + "@localhost JOIN " + par.getParams()[0] + " :Someone has joined!");
+								try
+								{
+									GetChannelByName(par.getParams()[0]).addUser(c);
+								}
+								catch(const std::exception& e)
+								{
+									_ch.push_back(Channel(par.getParams()[0], c));
+								}
+								
+
 							}
 							else if (par.getCommand() == "PART")
 							{
@@ -280,6 +324,7 @@ public:
 							}
 							else if (par.getCommand() == "PRIVMSG")
 							{
+								GetChannelByName(par.getParams()[0]).send_to_other_client(c, c.get_prefix() + " PRIVMSG " + GetChannelByName(par.getParams()[0]).get_name() + " " + par.getTrail());
 							}
 							else if (par.getCommand() == "PING")
 							{

@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 16:29:31 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/25 14:50:27 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/26 16:59:59 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ private:
 	
 public:
 
-	Channel(Client first)
-		: message(std::pair<Client, std::string>())
+	Channel(std::string name, Client& first)
+		: _name(name)
 	{
+		_c.push_back(first);
 		_op.push_back(first);
 	}
 	~Channel(){}
@@ -60,6 +61,16 @@ public:
 				send_to_socket(it->_fd, msg);
 			}
 		}
+	}
+
+	const std::string& get_name() const
+	{
+		return _name;
+	}
+
+	void addUser(Client& c)
+	{
+		_c.push_back(c);
 	}
 
 	// void kick(Client oper, Client usr)
