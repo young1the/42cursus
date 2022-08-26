@@ -227,10 +227,15 @@ public:
 							}
 							else if (par.getCommand() == "JOIN")
 							{
+								// If a JOIN is successful, the user receives a JOIN message as
+								// confirmation and is then sent the channel's topic (using RPL_TOPIC) and
+								// the list of users who are on the channel (using RPL_NAMREPLY), which
+								// MUST include the user joining.
 								send_to_socket(csocket, ":localhost JOIN #ft : chanhuil has joined " + par.getParams()[0]);
 							}
 							else if (par.getCommand() == "PART")
 							{
+
 							}
 							else if (par.getCommand() == "PRIVMSG")
 							{
@@ -241,6 +246,8 @@ public:
 							}
 							else if (par.getCommand() == "QUIT")
 							{
+								// A client session is terminated with a quit message.  The server
+   								// acknowledges this by sending an ERROR message to the client.
 							}
 						}
 					}
