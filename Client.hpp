@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef CLINET_HPP
+#define CLINET_HPP
+
 #include <iostream>
 
 class Client
@@ -54,3 +57,5 @@ public:
 		return !(*this == c);
 	}
 };
+
+#endif

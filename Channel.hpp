@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef CHANNEL_HPP
+#define CHANNEL_HPP
+
 #include "Server.hpp"
 #include <utility>
 
@@ -23,7 +26,7 @@ private:
 	std::vector<Client> _c;
 	std::vector<Client> _op; // chop, chanop : KICK, MODE, INVITE, TOPIC
 	std::pair<Client, std::string> message;
-	int _type;
+	// int _type;
 
 	bool is_op(Client c)
 	{
@@ -46,7 +49,7 @@ public:
 	{
 		_op.push_back(first);
 	}
-	~Channel();
+	~Channel(){}
 
 	void send_to_other_client(Client sender, std::string msg)
 	{
@@ -54,20 +57,22 @@ public:
 		{
 			if (*it != sender)
 			{
-				send_to_socket(it->get_fd(), msg);
+				send_to_socket(it->_fd, msg);
 			}
 		}
 	}
 
-	void kick(Client oper, Client usr)
-	{
-		// if (is_op(oper))
-		// {
-		// 	msg;
-		// 	return ;
-		// }
-		// previllege
-		// _c.find(usr).erase();
-		// send(usr, asdasd);
-	}
+	// void kick(Client oper, Client usr)
+	// {
+	// 	if (is_op(oper))
+	// 	{
+	// 		msg;
+	// 		return ;
+	// 	}
+	// 	previllege
+	// 	_c.find(usr).erase();
+	// 	send(usr, asdasd);
+	// }
 };
+
+#endif

@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef SERVER_HPP
+#define SERVER_HPP
+
 #include <iostream>
 #include <sstream>
 #include <sys/socket.h>
@@ -25,15 +28,17 @@
 
 #include "Client.hpp"
 #include "Parser.hpp"
+#include "Channel.hpp"
 
 class Server
 {
 private:
-	int 				_ssocket;
-	struct sockaddr_in	_address;
-	std::string			_password;
+	int 					_ssocket;
+	struct sockaddr_in		_address;
+	std::string				_password;
 
-	std::vector<Client> _c;
+	std::vector<Client>		_c;
+	std::vector<Channel>	_chan;
 
 
 	Client& GetClientByFd(int fd)
@@ -46,6 +51,43 @@ private:
 			}
 		}
 		throw std::logic_error("Couldn't find a Client");
+	}
+
+	std::string toLowerStr(const std::string & input)
+	{
+		std::string ret = input;
+		for (size_t i = 0; i < ret.size(); ++i)
+		{
+			ret[i] = std::tolower(ret[i]);
+		}
+		return ret;
+	}
+
+	Client& GetClientByNick(const std::string & input)
+	{
+		std::string temp_input = toLowerStr(input);
+		std::vector<Client>::iterator it = _c.begin();
+		for (; it != _c.end(); ++it)
+		{
+			std::string temp_nick = toLowerStr(it->_nick);
+			if (temp_input == temp_nick)
+				return *it;
+		}
+		throw std::logic_error("No Client Found");
+		return *it;
+	}
+
+	bool isUniqueNick(const std::string & input)
+	{
+		try
+		{
+			GetClientByNick(input);
+			return false;
+		}
+		catch (const std::exception & e)
+		{
+			return true;
+		}
 	}
 
 	struct pollfd *getfds(int s, std::vector<Client> c)
@@ -270,3 +312,5 @@ public:
 		std::cout << "Server Closed" << std::endl;
 	}
 }; // class end
+
+#endif
