@@ -150,6 +150,66 @@ private:
 	}
 	
 public:
+
+    enum COMMANDS
+    {
+        PASS = 0,
+        NICK,
+        USER,
+        JOIN,
+        PART,
+        PRIVMSG,
+        PING,
+        QUIT,
+        KICK,
+        TOPIC,
+    };
+
+	int getCommandType(std::string command)
+	{
+		if (command == "PASS")
+		{
+			return PASS;
+		}
+		if (command == "NICK")
+		{
+			return NICK;
+		}
+		if (command == "USER")
+		{
+			return USER;
+		}
+		if (command == "JOIN")
+		{
+			return JOIN;
+		}
+		if (command == "PART")
+		{
+			return PART;
+		}
+		if (command == "PRIVMSG")
+		{
+			return PRIVMSG;
+		}
+		if (command == "PING")
+		{
+			return PING;
+		}
+		if (command == "QUIT")
+		{
+			return QUIT;
+		}
+		if (command == "KICK")
+		{
+			return KICK;
+		}
+		if (command == "TOPIC")
+		{
+			return TOPIC;
+		}
+		return -1;
+	}
+
 	Server(const std::string & port, const std::string & password)
 	: _password(password), _g(1)
 	{
@@ -244,208 +304,237 @@ public:
 							{
 								continue;
 							}
-
 							std::vector<std::string> msgs = GetMSG(Parser(c._temp, "\r\n").getVector());
 							c._temp = "";
-							
-							for (size_t i=0;i<msgs.size();i++)
-							{
-								Parser par(msgs[i]);
-
-								// printParser(par);
-								if (par.getCommand() == "PASS")
-								{
-									if (par.getParams().size() < 1)
-									{
-										send_to_socket(csocket, "461");
-									}
-									else if (_password == "" | par.getParams()[0] == _password)
-									{
-										c._regist = true;
-									}
-									else
-									{
-										send_to_socket(csocket, "ERROR :Wrong Password!");
-										close(csocket);
-										_c.erase(find(_c.begin(), _c.end(), c));
-										break ;
-									}
-								}
-								else if (par.getCommand() == "NICK")
-								{
-									if (par.getParams().size() < 1)
-									{
-										// 431 ERR_NONICKNAMEGIVEN;
-										send_to_socket(csocket, "431");
-									}
-									//format
-									else if (!isUniqueNick(par.getParams()[0]))
-									{
-										// 433 ERR_NICKNAMEINUSE;
-										std::cout << c.get_prefix() + " 433 NICK " + par.getParams()[0] << "\n";
-										send_to_socket(csocket, c.get_prefix() + " 433 NICK " + par.getParams()[0]);
-									}
-									else
-									{
-										send_to_socket(csocket, ":" + c._nick + " NICK " + par.getParams()[0]);
-										c._nick = par.getParams()[0];
-									}
-								}
-								else if (par.getCommand() == "USER")
-								{
-									c._name = par.getParams()[0];
-									if (_password != "" && c._regist == false)
-									{
-										send_to_socket(csocket, "ERROR :No password inputted");
-										close(csocket);
-										_c.erase(find(_c.begin(), _c.end(), c));
-										break ;
-									}
-
-									send_to_socket(csocket, c.get_prefix() + " 001 " + c._nick + " :Welcome to the ft_irc, " + c._nick);
-									send_to_socket(csocket, c.get_prefix() + " 002 " + c._nick + " :Your host is localhost, running version working-in-progress");
-									send_to_socket(csocket, c.get_prefix() + " 003 " + c._nick + " :This server was created in Feburary 30th");
-									send_to_socket(csocket, c.get_prefix() + " 004 " + c._nick + " :localhost working-in-progress o o");
-									send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :-   _____  __     .__                ");
-									send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :- _/ ____\\/  |_   |__|______   ____  ");
-									send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
-									send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
-									send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :-  |__|   |__|____|__||__|    \\___  >");
-									send_to_socket(csocket, c.get_prefix() + " 372 " + c._nick + " :-           /_____/               \\/ ");
-									send_to_socket(csocket, c.get_prefix() + " 376 " + c._nick + " :- Welcome!");
-								}
-								// else if (par.getCommand() == "MODE")
-								// {
-								// }
-								else if (par.getCommand() == "JOIN")
-								{
-									// If a JOIN is successful, the user receives a JOIN message as
-									// confirmation and is then sent the channel's topic (using RPL_TOPIC) and
-									// the list of users who are on the channel (using RPL_NAMREPLY), which
-									// MUST include the user joining.
-									// send_to_socket(csocket, ":chanhuil JOIN " + par.getParams()[0] + " :chanhuil has joined " + par.getParams()[0]);
-									send_to_socket(csocket, c.get_prefix() + " JOIN " + par.getParams()[0] + " :Someone has joined!");
-									try
-									{
-										GetChannelByName(par.getParams()[0]).addUser(c);
-									}
-									catch(const std::exception& e)
-									{
-										_ch.push_back(Channel(par.getParams()[0], c));
-									}
-								}
-								else if (par.getCommand() == "PART")
-								{
-									send_to_socket(csocket, c.get_prefix() + " PART " + par.getParams()[0]);
-									GetChannelByName(par.getParams()[0]).removeUser(GetClientByFd(csocket));
-									// send_to_socket(csocket, c.get_prefix() + " PART " + par.getParams()[0] + par.getTrail());
-								}
-								else if (par.getCommand() == "PRIVMSG")
-								{
-									if (par.getParams()[0][0] == '#' || par.getParams()[0][0] == '&')
-										GetChannelByName(par.getParams()[0]).send_to_other_client(c, c.get_prefix() + " PRIVMSG " + GetChannelByName(par.getParams()[0]).get_name() + " " + par.getTrail());
-									else
-										send_to_socket(GetClientByNick(par.getParams()[0])._fd, c.get_prefix() + " PRIVMSG " + par.getParams()[0] + " " + par.getTrail());
-								}
-								else if (par.getCommand() == "PING")
-								{
-									send_to_socket(csocket, "PONG " + par.getParams()[0]);
-								}
-								else if (par.getCommand() == "QUIT")
-								{
-									// A client session is terminated with a quit message.  The server
-									// acknowledges this by sending an ERROR message to the client.
-									close(csocket);
-									_c.erase(find(_c.begin(), _c.end(), c));
-									break;
-								}
-								else if (par.getCommand() == "KICK")
-								{
-									if (par.getParams().size() < 2)
-									{
-										send_to_socket(csocket, "461");
-									}
-									else
-									{
-										try
-										{
-											GetClientByNick(par.getParams()[1]);
-										}
-										catch(const std::exception& e)
-										{
-											send_to_socket(csocket, "441");
-											continue;
-										}
-										
-										try
-										{
-											std::string err = GetChannelByName(par.getParams()[0]).kick(c, GetClientByNick(par.getParams()[1]));
-											if (err != "")
-											{
-												send_to_socket(csocket, err);
-											}
-											else
-											{
-												send_to_socket(csocket, c.get_prefix() + " KICK " + par.getParams()[0] + " " + par.getParams()[1] + " :" + par.getTrail());
-												send_to_socket(GetClientByNick(par.getParams()[1])._fd, c.get_prefix() + " KICK " + par.getParams()[0] + " " + par.getParams()[1] + " :" + par.getTrail());
-											}
-										}
-										catch(const std::exception& e)
-										{
-											send_to_socket(csocket, "403");
-										}
-									}
-								}
-								else if (par.getCommand() == "TOPIC")
-								{
-									if (par.getParams().size() < 1)
-									{
-										send_to_socket(csocket, "461");
-									}
-									else
-									{
-										try
-										{
-											if (par.getTrail() == "")
-											{
-												if (GetChannelByName(par.getParams()[0]).getTopic() == "")
-													send_to_socket(csocket, c.get_prefix() + " 331 " + par.getParams()[0] + " :No topic is set");
-												else
-													send_to_socket(csocket, c.get_prefix() + " 332 " + par.getParams()[0] + " :" + GetChannelByName(par.getParams()[0]).getTopic());
-											}
-											else
-											{
-												std::string err = GetChannelByName(par.getParams()[0]).setTopic(c, par.getTrail());
-												if (err != "")
-												{
-													send_to_socket(csocket, err);
-												}
-												else
-												{
-													send_to_socket(csocket, c.get_prefix() + " TOPIC " + par.getParams()[0] + " :" + par.getTrail());
-													GetChannelByName(par.getParams()[0]).send_to_other_client(c, c.get_prefix() + " TOPIC " + par.getParams()[0] + " :" + par.getTrail());
-												}
-											}
-										}
-										catch(const std::exception& e)
-										{
-											send_to_socket(csocket, "403");
-										}
-									}
-								}
-							}
+							handleMSG(msgs, c);
 						}
 						catch(const std::exception& e)
 						{
 							std::cerr << e.what() << "\n";
 							continue;
 						}
-						
+					}
+				}	// visiting fds
+			}	// poll end
+			delete[] fds;
+		}
+	}
+
+	void handleMSG(std::vector<std::string> msgs, Client & c)
+	{
+		for (size_t i = 0; i < msgs.size(); ++i)
+		{
+			Parser par(msgs[i]);
+			int ret = 0;
+
+			switch (getCommandType(par.getCommand()))
+			{
+				case (PASS) : ret = doPass(par, c);
+				break ;
+				case (NICK) : doNick(par, c);
+				break ;
+				case (USER) : ret = doUser(par, c);
+				break ;
+				case (JOIN) : doJoin(par, c); // topic msg
+				break ;
+				case (PART) : doPart(par, c);
+				break ;
+				case (PRIVMSG) : doPrivmsg(par, c);
+				break ;
+				case (PING) : doPing(par, c);
+				break ;
+				case (QUIT) : doQuit(par, c);
+				break ;
+				case (KICK) : doKick(par, c);
+				break ;
+				case (TOPIC) : doTopic(par, c);
+				break ;
+			}
+			if (ret != 0)
+				return ;
+		}
+	}
+
+	int doPass(Parser & par, Client & c)
+	{
+		if (par.getParams().size() < 1)
+		{
+			send_to_socket(c._fd, "461");
+		}
+		else if (_password == "" | par.getParams()[0] == _password)
+		{
+			c._regist = true;
+		}
+		else
+		{
+			send_to_socket(c._fd, "ERROR :Wrong Password!");
+			close(c._fd);
+			_c.erase(find(_c.begin(), _c.end(), c));
+			return (1);
+		}
+		return (0);
+	}
+
+	void doNick(Parser & par, Client & c)
+	{
+		if (par.getParams().size() < 1)
+		{
+			// 431 ERR_NONICKNAMEGIVEN;
+			send_to_socket(c._fd, "431");
+		}
+		//format
+		else if (!isUniqueNick(par.getParams()[0]))
+		{
+			// 433 ERR_NICKNAMEINUSE;
+			send_to_socket(c._fd, c.get_prefix() + " 433 NICK " + par.getParams()[0]);
+		}
+		else
+		{
+			send_to_socket(c._fd, ":" + c._nick + " NICK " + par.getParams()[0]);
+			c._nick = par.getParams()[0];
+		}
+	}
+
+	int doUser(Parser & par, Client & c)
+	{
+		c._name = par.getParams()[0];
+		if (_password != "" && c._regist == false)
+		{
+			send_to_socket(c._fd, "ERROR :No password inputted");
+			close(c._fd);
+			_c.erase(find(_c.begin(), _c.end(), c));
+			return (1);
+		}
+		send_to_socket(c._fd, c.get_prefix() + " 001 " + c._nick + " :Welcome to the ft_irc, " + c._nick);
+		send_to_socket(c._fd, c.get_prefix() + " 002 " + c._nick + " :Your host is localhost, running version working-in-progress");
+		send_to_socket(c._fd, c.get_prefix() + " 003 " + c._nick + " :This server was created in Feburary 30th");
+		send_to_socket(c._fd, c.get_prefix() + " 004 " + c._nick + " :localhost working-in-progress o o");
+		send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :-   _____  __     .__                ");
+		send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :- _/ ____\\/  |_   |__|______   ____  ");
+		send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
+		send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :-  |  |   |  |    |  ||  | \\/\\  \\___ ");
+		send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :-  |__|   |__|____|__||__|    \\___  >");
+		send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :-           /_____/               \\/ ");
+		send_to_socket(c._fd, c.get_prefix() + " 376 " + c._nick + " :- Welcome!");
+		return (0);
+	}
+
+	void doJoin(Parser & par, Client & c)
+	{
+		send_to_socket(c._fd, c.get_prefix() + " JOIN " + par.getParams()[0] + " :Someone has joined!");
+		try
+		{
+			GetChannelByName(par.getParams()[0]).addUser(c);
+		}
+		catch(const std::exception& e)
+		{
+			_ch.push_back(Channel(par.getParams()[0], c));
+		}
+	}
+
+	void doPart(Parser & par, Client & c)
+	{
+		send_to_socket(c._fd, c.get_prefix() + " PART " + par.getParams()[0]);
+		GetChannelByName(par.getParams()[0]).removeUser(GetClientByFd(c._fd));
+		// send_to_socket(c._fd, c.get_prefix() + " PART " + par.getParams()[0] + par.getTrail());
+
+	}
+
+	void doPrivmsg(Parser & par, Client & c)
+	{
+		if (par.getParams()[0][0] == '#' || par.getParams()[0][0] == '&')
+			GetChannelByName(par.getParams()[0]).send_to_other_client(c, c.get_prefix() + " PRIVMSG " + GetChannelByName(par.getParams()[0]).get_name() + " " + par.getTrail());
+		else
+			send_to_socket(GetClientByNick(par.getParams()[0])._fd, c.get_prefix() + " PRIVMSG " + par.getParams()[0] + " " + par.getTrail());
+	}
+
+	void doPing(Parser & par, Client & c)
+	{
+		send_to_socket(c._fd, "PONG " + par.getParams()[0]);
+	}
+
+	void doQuit(Parser & par, Client & c)
+	{
+		(void)par;
+		// A client session is terminated with a quit message.  The server
+		// acknowledges this by sending an ERROR message to the client.
+		close(c._fd);
+		_c.erase(find(_c.begin(), _c.end(), c));
+	}
+
+	void doKick(Parser & par, Client & c)
+	{
+		if (par.getParams().size() < 2)
+		{
+			send_to_socket(c._fd, "461");
+		}
+		else
+		{
+			try
+			{
+				GetClientByNick(par.getParams()[1]);
+			}
+			catch(const std::exception& e)
+			{
+				send_to_socket(c._fd, "441");
+			}			
+			try
+			{
+				std::string err = GetChannelByName(par.getParams()[0]).kick(c, GetClientByNick(par.getParams()[1]));
+				if (err != "")
+				{
+					send_to_socket(c._fd, err);
+				}
+				else
+				{
+					send_to_socket(c._fd, c.get_prefix() + " KICK " + par.getParams()[0] + " " + par.getParams()[1] + " :" + par.getTrail());
+					send_to_socket(GetClientByNick(par.getParams()[1])._fd, c.get_prefix() + " KICK " + par.getParams()[0] + " " + par.getParams()[1] + " :" + par.getTrail());
+				}
+			}
+			catch(const std::exception& e)
+			{
+				send_to_socket(c._fd, "403");
+			}
+		}
+	}
+
+	void doTopic(Parser & par, Client & c)
+	{
+		if (par.getParams().size() < 1)
+		{
+			send_to_socket(c._fd, "461");
+		}
+		else
+		{
+			try
+			{
+				if (par.getTrail() == "")
+				{
+					if (GetChannelByName(par.getParams()[0]).getTopic() == "")
+						send_to_socket(c._fd, c.get_prefix() + " 331 " + par.getParams()[0] + " :No topic is set");
+					else
+						send_to_socket(c._fd, c.get_prefix() + " 332 " + par.getParams()[0] + " :" + GetChannelByName(par.getParams()[0]).getTopic());
+				}
+				else
+				{
+					std::string err = GetChannelByName(par.getParams()[0]).setTopic(c, par.getTrail());
+					if (err != "")
+					{
+						send_to_socket(c._fd, err);
+					}
+					else
+					{
+						send_to_socket(c._fd, c.get_prefix() + " TOPIC " + par.getParams()[0] + " :" + par.getTrail());
+						GetChannelByName(par.getParams()[0]).send_to_other_client(c, c.get_prefix() + " TOPIC " + par.getParams()[0] + " :" + par.getTrail());
 					}
 				}
 			}
-			delete[] fds;
+			catch(const std::exception& e)
+			{
+				send_to_socket(c._fd, "403");
+			}
 		}
+
 	}
 
 	~Server()
