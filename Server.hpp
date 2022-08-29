@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/29 15:52:57 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/29 17:40:21 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,21 @@ public:
 								// printParser(par);
 								if (par.getCommand() == "PASS")
 								{
+									if (par.getParams().size() < 1)
+									{
+										send_to_socket(csocket, "461");
+									}
+									else if (_password == "" | par.getParams()[0] == _password)
+									{
+										c._regist = true;
+									}
+									else
+									{
+										send_to_socket(csocket, "ERROR :Wrong Password!");
+										close(csocket);
+										_c.erase(find(_c.begin(), _c.end(), c));
+										break ;
+									}
 								}
 								else if (par.getCommand() == "NICK")
 								{
@@ -278,7 +293,14 @@ public:
 								}
 								else if (par.getCommand() == "USER")
 								{
-									// c._name = par.getParams()[0];
+									c._name = par.getParams()[0];
+									if (_password != "" && c._regist == false)
+									{
+										send_to_socket(csocket, "ERROR :No password inputted");
+										close(csocket);
+										_c.erase(find(_c.begin(), _c.end(), c));
+										break ;
+									}
 
 									send_to_socket(csocket, c.get_prefix() + " 001 " + c._nick + " :Welcome to the ft_irc, " + c._nick);
 									send_to_socket(csocket, c.get_prefix() + " 002 " + c._nick + " :Your host is localhost, running version working-in-progress");
@@ -311,8 +333,6 @@ public:
 									{
 										_ch.push_back(Channel(par.getParams()[0], c));
 									}
-									
-
 								}
 								else if (par.getCommand() == "PART")
 								{
@@ -338,6 +358,80 @@ public:
 									close(csocket);
 									_c.erase(find(_c.begin(), _c.end(), c));
 									break;
+								}
+								else if (par.getCommand() == "KICK")
+								{
+									if (par.getParams().size() < 2)
+									{
+										send_to_socket(csocket, "461");
+									}
+									else
+									{
+										try
+										{
+											GetClientByNick(par.getParams()[1]);
+										}
+										catch(const std::exception& e)
+										{
+											send_to_socket(csocket, "441");
+											continue;
+										}
+										
+										try
+										{
+											std::string err = GetChannelByName(par.getParams()[0]).kick(c, GetClientByNick(par.getParams()[1]));
+											if (err != "")
+											{
+												send_to_socket(csocket, err);
+											}
+											else
+											{
+												send_to_socket(csocket, c.get_prefix() + " KICK " + par.getParams()[0] + " " + par.getParams()[1] + " :" + par.getTrail());
+												send_to_socket(GetClientByNick(par.getParams()[1])._fd, c.get_prefix() + " KICK " + par.getParams()[0] + " " + par.getParams()[1] + " :" + par.getTrail());
+											}
+										}
+										catch(const std::exception& e)
+										{
+											send_to_socket(csocket, "403");
+										}
+									}
+								}
+								else if (par.getCommand() == "TOPIC")
+								{
+									if (par.getParams().size() < 1)
+									{
+										send_to_socket(csocket, "461");
+									}
+									else
+									{
+										try
+										{
+											if (par.getTrail() == "")
+											{
+												if (GetChannelByName(par.getParams()[0]).getTopic() == "")
+													send_to_socket(csocket, c.get_prefix() + " 331 " + par.getParams()[0] + " :No topic is set");
+												else
+													send_to_socket(csocket, c.get_prefix() + " 332 " + par.getParams()[0] + " :" + GetChannelByName(par.getParams()[0]).getTopic());
+											}
+											else
+											{
+												std::string err = GetChannelByName(par.getParams()[0]).setTopic(c, par.getTrail());
+												if (err != "")
+												{
+													send_to_socket(csocket, err);
+												}
+												else
+												{
+													send_to_socket(csocket, c.get_prefix() + " TOPIC " + par.getParams()[0] + " :" + par.getTrail());
+													GetChannelByName(par.getParams()[0]).send_to_other_client(c, c.get_prefix() + " TOPIC " + par.getParams()[0] + " :" + par.getTrail());
+												}
+											}
+										}
+										catch(const std::exception& e)
+										{
+											send_to_socket(csocket, "403");
+										}
+									}
 								}
 							}
 						}

@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:52:12 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/29 14:13:02 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/29 16:10:45 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ public:
 	int			_fd;
 	std::string _mode;
 	std::string _temp;
+	bool		_regist;
 
 	Client()
-		: _nick("Anonymous"), _name("Anonymous"), _fd(-1), _mode(""), _temp("")
+		: _nick("Anonymous"), _name("Anonymous"), _fd(-1), _mode(""), _temp(""), _regist(false)
 	{}
 	Client(int fd)
-		: _nick("Anonymous"), _name("Anonymous"), _fd(fd), _mode(""), _temp("")
+		: _nick("Anonymous"), _name("Anonymous"), _fd(fd), _mode(""), _temp(""), _regist(false)
 	{}
 	
 	std::string get_prefix()
