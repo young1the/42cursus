@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 16:29:31 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/26 16:59:59 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/29 14:04:49 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ public:
 	void addUser(Client& c)
 	{
 		_c.push_back(c);
+	}
+
+	void removeUser(Client& c)
+	{
+		_c.erase(find(_c.begin(), _c.end(), c));
 	}
 
 	// void kick(Client oper, Client usr)

@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:52:12 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/26 15:04:39 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/29 14:13:02 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,11 @@ public:
 	Client(int fd)
 		: _nick("Anonymous"), _name("Anonymous"), _fd(fd), _mode(""), _temp("")
 	{}
-
-	void clientout()
-	{
-		std::cout << _fd << ": Welcome!" << std::endl;
-	}
-
+	
 	std::string get_prefix()
 	{
 		return ":" + _nick + "!" + _name + "@localhost";
 	}
-
-	
-	
 
 	bool operator==(const Client& c)
 	{
