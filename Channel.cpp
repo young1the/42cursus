@@ -3,6 +3,7 @@
 Channel::Channel(std::string name, Client& first)
 	: _name(name), _topic("")
 {
+	_name.erase(_name.find('\n'), 1);
 	_c.push_back(first);
 	_op.push_back(first);
 }
@@ -105,4 +106,14 @@ std::string Channel::kick(Client oper, Client usr)
 	}
 	_c.erase(find(_c.begin(), _c.end(), usr));
 	return "";
+}
+
+bool Channel::operator == (const Channel& ch)
+{
+	return (_name == ch._name);
+}
+
+bool Channel::operator != (const Channel& ch)
+{
+	return !(*this == ch);
 }

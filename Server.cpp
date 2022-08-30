@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:16 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/30 15:45:12 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:27:53 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ struct pollfd * Server::getfds(int s, std::vector<Client> c)
 
 void Server::send_to_socket(int fd, std::string str)
 {
-	send(fd, str.c_str(), str.length(), 0);
-	send(fd, "\n", 1, 0);
+	send(fd, str.c_str(), str.length(), MSG_DONTWAIT);
+	send(fd, "\n", 1, MSG_DONTWAIT);
 }
 
 std::vector<std::string> Server::GetMSG(std::vector<std::pair<std::string,int> > v)
@@ -107,7 +107,10 @@ std::vector<std::string> Server::GetMSG(std::vector<std::pair<std::string,int> >
 	std::vector<std::string> temp;
 	for (size_t i=0;i<v.size();i++)
 	{
-		temp.push_back(v.at(i).first);
+		if (v.at(i).first.find('\n') == std::string::npos)
+			temp.push_back(v.at(i).first);
+		else
+			temp.push_back(v.at(i).first.erase(v.at(i).first.find('\n'), 1));
 	}
 	return temp;
 }
@@ -163,6 +166,10 @@ int Server::getCommandType(std::string command)
 	if (command == "TOPIC")
 	{
 		return TOPIC;
+	}
+	if (command == "NOTICE")
+	{
+		return NOTICE;
 	}
 	return -1;
 }
@@ -221,6 +228,7 @@ void Server::loop()
 				{
 					throw std::logic_error("connection failed");
 				}
+				fcntl(csocket, F_SETFL, O_NONBLOCK);
 				_c.push_back(Client(csocket));
 			}
 			for (unsigned long i=1;i<_c.size() + 1;i++)
@@ -294,6 +302,8 @@ void Server::handleMSG(std::vector<std::string> msgs, Client & c)
 			break ;
 			case (TOPIC) : doTopic(par, c);
 			break ;
+			case(NOTICE) : doNotice(par, c);
+			break ;
 		}
 		if (ret != 0)
 			return ;
@@ -351,9 +361,9 @@ int Server::doUser(Parser & par, Client & c)
 		return (1);
 	}
 	send_to_socket(c._fd, c.get_prefix() + " 001 " + c._nick + " :Welcome to the ft_irc, " + c._nick);
-	send_to_socket(c._fd, c.get_prefix() + " 002 " + c._nick + " :Your host is localhost, running version working-in-progress");
-	send_to_socket(c._fd, c.get_prefix() + " 003 " + c._nick + " :This server was created in Feburary 30th");
-	send_to_socket(c._fd, c.get_prefix() + " 004 " + c._nick + " :localhost working-in-progress o o");
+	send_to_socket(c._fd, c.get_prefix() + " 002 " + c._nick + " :Your host is fortytwitch, running version 1.0");
+	send_to_socket(c._fd, c.get_prefix() + " 003 " + c._nick + " :This server was created in August 30th");
+	send_to_socket(c._fd, c.get_prefix() + " 004 " + c._nick + " :fortytwitch 1.0 o o");
 	send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :-   _____  __     .__                ");
 	send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :- _/ ____\\/  |_   |__|______   ____  ");
 	send_to_socket(c._fd, c.get_prefix() + " 372 " + c._nick + " :- \\   __\\\\   __\\  |  \\_  __ \\_/ ___\\ ");
@@ -394,6 +404,8 @@ void Server::doPart(Parser & par, Client & c)
 	send_to_socket(c._fd, c.get_prefix() + " PART " + par.getParams()[0]);
 	GetChannelByName(par.getParams()[0]).removeUser(GetClientByFd(c._fd));
 	// send_to_socket(c._fd, c.get_prefix() + " PART " + par.getParams()[0] + par.getTrail());
+	if (GetChannelByName(par.getParams()[0]).get_users().size() == 0)
+		_ch.erase(find(_ch.begin(), _ch.end(), GetChannelByName(par.getParams()[0])));
 }
 
 void Server::doPrivmsg(Parser & par, Client & c)
@@ -491,6 +503,12 @@ void Server::doTopic(Parser & par, Client & c)
 		}
 	}
 }
+
+void Server::doNotice(Parser & par, Client & c)
+{
+	send_to_socket(GetClientByNick(par.getParams()[0])._fd, c.get_prefix() + " NOTICE " + par.getParams()[0] + " " + par.getTrail());
+}
+
 
 Server::~Server()
 {

@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 16:29:31 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/30 15:25:08 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:05:15 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ public:
 
 	std::string getTopic();
 
+	bool operator == (const Channel& ch);
+	
+	bool operator != (const Channel& ch);
 };
 
 #endif

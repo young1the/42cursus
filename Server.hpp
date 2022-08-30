@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/30 15:36:42 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:27:10 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <poll.h>
 #include <unistd.h>
 #include <algorithm>
+#include <fcntl.h>
 
 #include "Client.hpp"
 #include "Parser.hpp"
@@ -77,6 +78,7 @@ public:
         QUIT,
         KICK,
         TOPIC,
+		NOTICE,
     };
 
 	int getCommandType(std::string command);
@@ -108,6 +110,8 @@ public:
 	void doKick(Parser & par, Client & c);
 
 	void doTopic(Parser & par, Client & c);
+
+	void doNotice(Parser & par, Client & c);
 
 	~Server();
 
