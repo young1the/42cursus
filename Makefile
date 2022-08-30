@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME		= ft_irc
-SRCS		= main.cpp
+SRCS		= Client.cpp Channel.cpp Parser.cpp main.cpp 
 OBJS		= ${SRCS:.cpp=.o}
 
 CC			= c++

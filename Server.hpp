@@ -30,6 +30,8 @@
 #include "Parser.hpp"
 #include "Channel.hpp"
 
+class Channel;
+
 class Server
 {
 private:
@@ -424,7 +426,10 @@ public:
 		send_to_socket(c._fd, c.get_prefix() + " JOIN " + par.getParams()[0] + " :Someone has joined!");
 		try
 		{
-			GetChannelByName(par.getParams()[0]).addUser(c);
+			Channel & chan = GetChannelByName(par.getParams()[0]);
+			chan.addUser(c);
+			if (chan.getTopic() != "")
+				send_to_socket(c._fd, "332 :" + chan.getTopic());
 		}
 		catch(const std::exception& e)
 		{
@@ -547,6 +552,7 @@ public:
 		close(_ssocket);
 		std::cout << "Server Closed" << std::endl;
 	}
+
 }; // class end
 
 #endif

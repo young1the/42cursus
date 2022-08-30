@@ -17,10 +17,10 @@
 
 class Client
 {
-private:
-	/** nickname having a maximum length of nine (9) characters */
-	
+
 public:
+
+	/** nickname having a maximum length of nine (9) characters */
 	std::string _nick;
 	std::string	_name;
 	int			_fd;
@@ -28,27 +28,18 @@ public:
 	std::string _temp;
 	bool		_regist;
 
-	Client()
-		: _nick("Anonymous"), _name("Anonymous"), _fd(-1), _mode(""), _temp(""), _regist(false)
-	{}
-	Client(int fd)
-		: _nick("Anonymous"), _name("Anonymous"), _fd(fd), _mode(""), _temp(""), _regist(false)
-	{}
-	
-	std::string get_prefix()
-	{
-		return ":" + _nick + "!" + _name + "@localhost";
-	}
+	Client();
 
-	bool operator==(const Client& c)
-	{
-		return (_fd == c._fd);
-	}
+	Client(int fd);
 
-	bool operator!=(const Client& c)
-	{
-		return !(*this == c);
-	}
+	~Client();
+
+	std::string get_prefix();
+
+	bool operator==(const Client& c);
+
+	bool operator!=(const Client& c);
+
 };
 
 #endif

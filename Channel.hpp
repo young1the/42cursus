@@ -13,8 +13,11 @@
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 
-#include "Server.hpp"
+#include <vector>
+#include <sys/socket.h>
 #include <utility>
+
+#include "Client.hpp"
 
 class Channel
 {
@@ -29,100 +32,32 @@ private:
 	std::string _topic;
 	// int _type;
 
-	bool is_joined(Client c)
-	{
-		std::vector<Client>::iterator temp = find(_c.begin(), _c.end(), c);
-		if (temp == _c.end())
-			return false;
-		return true;
-	}
+	bool is_joined(Client c);
 
-	bool is_op(Client c)
-	{
-		std::vector<Client>::iterator temp = find(_op.begin(), _op.end(), c);
-		if (temp == _op.end())
-			return false;
-		return true;
-	}
+	bool is_op(Client c);
 
-	void send_to_socket(int fd, std::string str)
-	{
-		send(fd, str.c_str(), str.length(), 0);
-		send(fd, "\n", 1, 0);
-	}
+	void send_to_socket(int fd, std::string str);
 	
 public:
 
-	Channel(std::string name, Client& first)
-		: _name(name), _topic("")
-	{
-		_c.push_back(first);
-		_op.push_back(first);
-	}
-	~Channel(){}
+	Channel(std::string name, Client& first);
 
-	void send_to_other_client(Client sender, std::string msg)
-	{
-		for (std::vector<Client>::iterator it=_c.begin();it!=_c.end();it++)
-		{
-			if (*it != sender)
-			{
-				send_to_socket(it->_fd, msg);
-			}
-		}
-	}
+	~Channel();
 
-	const std::string& get_name() const
-	{
-		return _name;
-	}
+	void send_to_other_client(Client sender, std::string msg);
 
-	void addUser(Client& c)
-	{
-		_c.push_back(c);
-	}
+	const std::string& get_name() const;
 
-	void removeUser(Client& c)
-	{
-		_c.erase(find(_c.begin(), _c.end(), c));
-	}
+	void addUser(Client& c);
 
-	std::string kick(Client oper, Client usr)
-	{
-		if (!is_joined(oper))
-		{
-			return "442";
-		}
-		if (!is_op(oper))
-		{
-			return "482";
-		}
-		if (!is_joined(usr))
-		{
-			return "441";
-		}
-		_c.erase(find(_c.begin(), _c.end(), usr));
-		return "";
-	}
+	void removeUser(Client& c);
 
-	std::string setTopic(Client oper, std::string t)
-	{
-		if (!is_joined(oper))
-		{
-			return "442";
-		}
-		if (!is_op(oper))
-		{
-			return "482";
-		}
-		_topic = t;
-		return "";
-	}
+	std::string kick(Client oper, Client usr);
 
-	std::string getTopic()
-	{
-		return _topic;
-	}
+	std::string setTopic(Client oper, std::string t);
+
+	std::string getTopic();
+
 };
 
 #endif
