@@ -14,6 +14,19 @@ const std::string& Channel::get_name() const
 	return _name;
 }
 
+std::vector<std::string> Channel::get_users()
+{
+	std::vector<std::string> names;
+	for (size_t i=0;i<_c.size();i++)
+	{
+		if (is_op(_c[i]))
+			names.push_back("@" + _c[i]._nick);
+		else
+			names.push_back(_c[i]._nick);
+	}
+	return names;
+}
+
 std::string Channel::setTopic(Client oper, std::string t)
 {
 	if (!is_joined(oper))

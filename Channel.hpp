@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 16:29:31 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/29 17:33:00 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/30 15:25:08 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ public:
 	void send_to_other_client(Client sender, std::string msg);
 
 	const std::string& get_name() const;
+
+	std::vector<std::string> get_users();
 
 	void addUser(Client& c);
 
