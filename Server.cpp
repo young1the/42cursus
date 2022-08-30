@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:16 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/30 17:27:53 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:25:07 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int Server::getCommandType(std::string command)
 }
 
 Server::Server(const std::string & port, const std::string & password)
-: _password(password), _g(1)
+: _password(password), _g(1), _r("TinyBot")
 {
 	std::stringstream ss;
 	ss << port;
@@ -411,7 +411,14 @@ void Server::doPart(Parser & par, Client & c)
 void Server::doPrivmsg(Parser & par, Client & c)
 {
 	if (par.getParams()[0][0] == '#' || par.getParams()[0][0] == '&')
+	{
 		GetChannelByName(par.getParams()[0]).send_to_other_client(c, c.get_prefix() + " PRIVMSG " + GetChannelByName(par.getParams()[0]).get_name() + " " + par.getTrail());
+		if (par.getTrail().size() > 1 && par.getTrail()[1] ==  '!')
+		{
+			std::cout << "dice command inputted\n";
+			GetChannelByName(par.getParams()[0]).send_to_other_client(_r, _r.get_prefix() + " PRIVMSG " + GetChannelByName(par.getParams()[0]).get_name() + " " + _r.doRoboticThing(c._nick, par.getTrail()));
+		}
+	}
 	else
 		send_to_socket(GetClientByNick(par.getParams()[0])._fd, c.get_prefix() + " PRIVMSG " + par.getParams()[0] + " " + par.getTrail());
 }

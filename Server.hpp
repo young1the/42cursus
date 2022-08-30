@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:03 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/30 17:27:10 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:17:27 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 #include "Client.hpp"
 #include "Parser.hpp"
 #include "Channel.hpp"
+#include "Robot.hpp"
 
 class Channel;
 
@@ -43,6 +44,8 @@ private:
 
 	std::vector<Client>		_c;
 	std::vector<Channel>	_ch;
+	Robot					_r;
+
 
 	std::string GiveName();
 

@@ -1,3 +1,6 @@
+#ifndef PARSER_HPP
+#define PARSER_HPP
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -63,3 +66,5 @@ public:
 
     static int isChstring(int c);
 };
+
+#endif

@@ -3,7 +3,6 @@
 Channel::Channel(std::string name, Client& first)
 	: _name(name), _topic("")
 {
-	_name.erase(_name.find('\n'), 1);
 	_c.push_back(first);
 	_op.push_back(first);
 }
