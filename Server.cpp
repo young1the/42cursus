@@ -430,11 +430,27 @@ void Server::doPing(Parser & par, Client & c)
 
 void Server::doQuit(Parser & par, Client & c)
 {
-	(void)par;
 	// A client session is terminated with a quit message.  The server
 	// acknowledges this by sending an ERROR message to the client.
-	close(c._fd);
+	for (size_t i = 0; i < _ch.size(); ++i)
+	{
+		try
+		{
+			_ch[i].removeUser(c);
+			send_to_socket(c._fd, c.get_prefix() + " PART " + _ch[i].get_name());
+			if (_ch[i].get_users().size() == 0)
+			{
+				std::cout << _ch[i].get_name() << " Channel closed" << std::endl;
+				_ch.erase(_ch.begin() + i);
+			}
+		}
+		catch (const std::exception & e)
+		{
+			std::cout <<  e.what() << std::endl;
+		}
+	}
 	_c.erase(find(_c.begin(), _c.end(), c));
+	close(c._fd);
 }
 
 void Server::doKick(Parser & par, Client & c)

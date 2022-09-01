@@ -86,6 +86,10 @@ void Channel::addUser(Client& c)
 
 void Channel::removeUser(Client& c)
 {
+	if (find(_c.begin(), _c.end(), c) == _c.end())
+	{
+		throw std::logic_error("No User found");
+	}
 	_c.erase(find(_c.begin(), _c.end(), c));
 }
 
