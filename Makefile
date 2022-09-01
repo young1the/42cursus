@@ -6,12 +6,12 @@
 #    By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/24 14:11:08 by chanhuil          #+#    #+#              #
-#    Updated: 2022/08/30 15:34:59 by chanhuil         ###   ########.fr        #
+#    Updated: 2022/09/01 13:17:48 by chanhuil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ft_irc
-SRCS		= Client.cpp Channel.cpp Parser.cpp Server.cpp main.cpp 
+SRCS		= Client.cpp Channel.cpp Parser.cpp Robot.cpp Server.cpp main.cpp 
 OBJS		= ${SRCS:.cpp=.o}
 
 CC			= c++
