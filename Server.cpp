@@ -6,7 +6,7 @@
 /*   By: chanhuil <chanhuil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 14:16:16 by chanhuil          #+#    #+#             */
-/*   Updated: 2022/08/30 18:25:07 by chanhuil         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:51:36 by chanhuil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,6 +432,7 @@ void Server::doQuit(Parser & par, Client & c)
 {
 	// A client session is terminated with a quit message.  The server
 	// acknowledges this by sending an ERROR message to the client.
+	(void)par;
 	for (size_t i = 0; i < _ch.size(); ++i)
 	{
 		try
