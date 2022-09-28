@@ -1,0 +1,67 @@
+version: "3.9"
+
+networks:
+
+  n_inception:
+    driver: bridge
+
+volumes:
+
+  v_mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/young-ch/data/mariadb
+
+  v_wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/young-ch/data/wordpress
+
+services:
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    build:
+      context: ./requirements/mariadb
+      args:
+        - DB_NAME=${DB_NAME}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    networks:
+      - n_inception
+    volumes:
+      - v_mariadb:/var/lib/mysql
+    restart: always
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    build: ./requirements/wordpress
+    networks:
+      - n_inception
+    volumes:
+      - v_wordpress:/var/www/wordpress
+    env_file: .env
+    depends_on:
+      - mariadb
+    restart: always
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    build: ./requirements/nginx
+    ports:
+      - "443:443"
+    networks:
+      - n_inception
+    volumes:
+      - v_wordpress:/var/www/wordpress
+    depends_on:
+      - wordpress
+    restart: always
