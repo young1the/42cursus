@@ -10,7 +10,7 @@ My projects, Started in December 2020
 - push_swap - sort data on a stack, with specific rules
 - minitalk - small data exchanging using UNIX signals
 - Philosophers - basics of threading a process
-- Born2beroot - setting up own operating system in VirtualBox
+- Born2beroot(lost) - setting up own operating system in VirtualBox
 - minishell - creating simple shell (bash like)
 - cub3d(team) - 3D game project (Wolfenstein 3D) using Raycasting
 - CPP Modules - exercising C++
